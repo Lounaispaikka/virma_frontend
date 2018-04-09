@@ -1,0 +1,149 @@
+.modal-content {
+  border-radius: 0px;
+}
+
+.createModalBody {
+  height: 100%;
+}
+
+.createModalBody a {
+  color: white;
+  font-family: Arial;
+  font-size: 14px;
+  background-color: #839aaf;
+}
+
+.createModalBodyTab {
+  margin-top: 10px;
+  overflow-y: auto;
+  height: 60vh;
+}
+
+.manageFeaturesModalBody {
+  padding: 15px 15px 0 15px;
+}
+
+.manageFeaturesModalBody a {
+  color: white;
+  font-family: Arial;
+  font-size: 14px;
+  background-color: #839aaf;
+}
+
+.pagination {
+  margin-bottom: 10px;
+}
+
+.dropdown-menu a {
+  background-color: white !important;
+}
+
+.approveFeaturesModalBody a {
+  color: white;
+  font-family: Arial;
+  font-size: 14px;
+  background-color: #839aaf;
+}
+
+.infoModalBody {
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: "Helvetica";
+  font-size: 12px;
+  text-align: justify;
+  line-height: 16px;
+  padding: 10px 20px 10px 15px;
+}
+
+.infoModalBody b {
+  line-height: 30px;
+  font-size: 13px;
+}
+
+.alertModal {
+  background-color: #d9534f;
+  color: white;
+  border-radius: 5px;
+}
+
+.addNewUserModal {
+  top: 15px;
+}
+
+.alertMsg {
+  text-align: center;
+  font-weight: bold;
+}
+
+.successAlert {
+  background-color: #5cb85c;
+  width: 300px;
+  color: white;
+  z-index: 1000;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.successMsg {
+  text-align: center;
+  font-weight: bold;
+}
+
+.errorAlert {
+  background-color: #d9534f;
+  width: 300px;
+  color: white;
+  z-index: 1000;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.errorMsg {
+  text-align: center;
+  font-weight: bold;
+}
+
+.formErrorAlert {
+  background-color: #d9534f;
+  width: 400px;
+  color: white;
+  z-index: 1000;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  margin-top: -50px;
+  margin-right: -200px;
+}
+
+.formErrorMsg {
+  text-align: center;
+  font-weight: bold;
+}
+
+.td-columnn-even {
+  background-color: #ffffff;
+}
+
+.td-column-odd {
+  background-color: #f2f2f2;
+}
+
+.react-bs-table {
+  border-radius: 0px !important;
+}
+
+.react-bs-container-body {
+  overflow-y: auto !important;
+  height: 40vh !important;
+}
+
+.react-bs-table-tool-bar {
+  margin-bottom: 10px !important;
+}
+
+#toolInfoLogo {
+  width: 100%;
+  height: 100%;
+}

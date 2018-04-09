@@ -1,0 +1,106 @@
+/* These are for the datepicker inside the form to make it bigger */
+
+.react-datepicker {
+  font-size: 0.8em !important;
+}
+.react-datepicker__header {
+  padding-top: 0.8em !important;
+}
+.react-datepicker__month {
+  margin: 0.4em 1em !important;
+}
+.react-datepicker__day-name, .react-datepicker__day {
+  width: 1.9em !important;
+  line-height: 1.9em !important;
+  margin: 0.166em !important;
+}
+.react-datepicker__current-month {
+  font-size: 1em !important;
+}
+.react-datepicker__navigation {
+  top: 0.7em !important;
+  line-height: 1.7em !important;
+  border: 0.45em solid transparent !important;
+}
+.react-datepicker__navigation--previous {
+  border-right-color: #ccc !important;
+  left: 1em !important;
+  background-color: #f0f0f0 !important;
+}
+.react-datepicker__navigation--next {
+  border-left-color: #ccc !important;
+  right: 1em !important;
+  background-color: #f0f0f0 !important;
+}
+
+.tags {
+  margin-top: 8px;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.tag {
+  padding: 8px;
+  margin-right: 3px;
+  border: 1px solid #627F9A;
+  background-color: #627F9A;
+  border-radius: 0px;
+  color: white;
+}
+
+.tag-close {
+  cursor: pointer;
+  color: white;
+}
+
+/* .createModalBodyTab input {
+  width: calc(100% - 5px) !important;
+}
+
+.createModalBodyTab select {
+  width: calc(100% - 5px) !important;
+} */
+
+.checkbox-form {
+  margin-bottom: 12px;
+}
+
+.checkbox-form label {
+  display: block;
+}
+
+.checkbox-form input {
+  vertical-align: bottom;
+  position: relative;
+  top: -3px;
+}
+
+.controlCheckbox label {
+  font-weight: bold;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+.help-block {
+  font-size: 12px;
+}
+
+label {
+  font-size: 13px !important;
+}
+
+input {
+  border-radius: 0px !important;
+  outline: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+select {
+  border-radius: 0px !important;
+  outline: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,57 @@
+.edit {
+  position: absolute;
+  right: 20px;
+  top: 11px;
+  width: 550px;
+  height: 62px;
+  z-index: 1000;
+}
+
+.layerSwitcher {
+  position: absolute;
+  left: 50px;
+  top: 11px;
+  width: 285px;
+  height: 34px;
+  z-index: 1000;
+}
+
+.stopAddingButton {
+  position: absolute;
+  left: 499px;
+  top: 12px;
+  width: 135px;
+  height: 34px;
+  z-index: 1000;
+}
+
+.stopEditButton {
+  position: absolute;
+  left: 322px;
+  top: 12px;
+  width: 175px;
+  height: 34px;
+  z-index: 1000;
+}
+
+.featurePopup {
+  width: 350px;
+  overflow-x: auto;
+}
+
+.featurePopup ul {
+  padding-left: 20px;
+}
+
+.featurePopup hr {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.featurePopupButton {
+  padding-top: 5px;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0px !important;
+}

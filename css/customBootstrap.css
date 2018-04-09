@@ -1,0 +1,200 @@
+#primary {
+  color: white;
+  background-color: #627F9A;
+  border-color: #627F9A;
+}
+
+#square-button-primary {
+  border-radius: 0px;
+  color: white;
+  background-color: #627F9A;
+  border-color: #627F9A;
+}
+
+#square-button-primary-active {
+  border-radius: 0px;
+  color: white;
+  background-color: #da5c58;
+  border-color: #da5c58;
+}
+
+#square-button-warning {
+  border-radius: 0px;
+  color: white;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+#square-button-danger {
+  border-radius: 0px;
+  color: white;
+  background-color: #da5c58;
+  border-color: #da5c58;
+}
+
+#square-button-success {
+  border-radius: 0px;
+}
+
+#square-button-default {
+  border-radius: 0px;
+}
+
+#square-button-table-primary {
+  border-radius: 0px;
+  color: white;
+  background-color: #627F9A;
+  border-color: #627F9A;
+  margin-right: 5px;
+}
+
+#square-button-table-warning {
+  border-radius: 0px;
+  color: white;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+  margin-right: 5px;
+}
+
+#square-button-table-warning-without-margin {
+  border-radius: 0px;
+  color: white;
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+}
+
+#square-button-table-danger {
+  border-radius: 0px;
+  color: white;
+  background-color: #da5c58;
+  border-color: #da5c58;
+  margin-right: 5px;
+}
+
+.btn-circle {
+  width: 20px;
+  height: 20px;
+  padding: 3px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 0.7;
+}
+
+.btn-block {
+  margin-top: 3px !important;
+}
+
+.panel-group {
+  border-radius: 0px !important;
+  margin-bottom: 0px;
+}
+
+.panel {
+  margin-bottom: 3px !important;
+  border-radius: 0px !important;
+}
+
+.panel-heading {
+  padding: 5px 0 5px 5px;
+  border-radius: 0px !important;
+  height: 30px;
+}
+
+.panel-title {
+  font-size: 14px;
+}
+
+.panel-body {
+  padding: 5px;
+}
+
+.layerGroupIsAdmin {
+  height: auto;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.layerGroupNotAdmin {
+  height: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.panel-panel-on {
+  background-color: #8dc33c;
+  color: white;
+}
+
+.panel-panel-off {
+  background-color: #627F9A;
+  color: white;
+}
+
+#panel-header-active {
+  background-color: red;
+}
+
+#square-button-layer-switcher-all-on {
+  border-radius: 0px;
+  background-color: #719c30;
+  border-color: #719c30;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+#square-button-layer-switcher-all-off {
+  border-radius: 0px;
+  background-color: #839aaf;
+  border-color: #839aaf;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+#square-button-layer-switcher-on {
+  margin-top: 0px !important;
+  margin-bottom: 2px !important;
+  border-radius: 0px;
+  background-color: #719c30;
+  border-color: #719c30;
+  text-align: left;
+}
+
+#square-button-layer-switcher-off {
+  margin-top: 0px !important;
+  margin-bottom: 2px !important;
+  border-radius: 0px;
+  background-color: #b1bfcd;
+  border-color: #b1bfcd;
+  text-align: left;
+}
+
+/* Remove the annoying bootstrap blue highlight onClick */
+button:focus {
+  outline: 0;
+}
+
+.btn:focus {
+  outline: none !important;
+  box-shadow: none;
+}
+
+.btn:active {
+  outline: none !important;
+  box-shadow: none;
+}
+
+/* Remove panel-header link style */
+.panel-heading a:hover {
+  text-decoration: none;
+}
+
+.panel-heading a:-webkit-any-link {
+  text-decoration: none;
+}
+
+#menu-glyphicon {
+  float: right;
+  right: 5px;
+  top: 3px;
+}

@@ -1,0 +1,19 @@
+#tooltip-bottom > .tooltip-inner {
+  background-color: #606060;
+  color: white;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-family: "Arial";
+  max-width: 300px;
+  border-radius: 0px;
+  padding: 10px;
+}
+
+#tooltip-bottom > .tooltip-arrow {
+  border-top: 5px solid #606060;
+}
+
+.tooltip-content hr {
+  padding: 0;
+  margin: 10px;
+}

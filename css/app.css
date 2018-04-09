@@ -1,0 +1,9 @@
+/* Fix the problem that the sidebarContainer can be too small */
+
+.mapContainer {
+
+}
+
+.sidebarContainer {
+  min-width: 325px;
+}

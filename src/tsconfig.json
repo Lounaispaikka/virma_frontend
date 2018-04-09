@@ -1,0 +1,20 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"declaration": true,
+		"experimentalDecorators": true,
+		"lib": [ "dom", "es5", "es6", "es2015.promise", "es2015.collection" ],
+		"module": "system",
+		"moduleResolution": "node",
+		"noImplicitAny": false,
+		"noImplicitThis": false,
+		"outDir": "../dist",
+		"removeComments": false,
+		"sourceMap": true,
+		"strictNullChecks": false,
+		"target": "es5",
+		"jsx": "react"
+	}
+}

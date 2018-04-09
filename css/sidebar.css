@@ -1,0 +1,66 @@
+.sidebar {
+  position: relative;
+  margin: 0;
+  padding: 0 5px 0 5px;
+  min-height: 100%;
+  width: 100%;
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#logo_img_virma {
+  width: 290px;
+  height: 100px;
+  margin-left: 15px;
+}
+
+.bottom-imgs {
+  position: absolute;
+  width: 100%;
+  max-height: calc(43px + 65px);
+  bottom: 0px;
+  z-index: 0;
+}
+
+#logo_img_eu {
+  position: relative;
+  width: 260px;
+  height: 43px;
+  z-index: 0;
+}
+
+#logo_img_ely {
+  position: relative;
+  width: 185px;
+  height: 65px;
+  z-index: 0;
+}
+
+.login {
+  min-height: 65px;
+}
+
+.addFeatures {
+  min-height: 65px;
+}
+
+.layerSelector {
+  position: absolute;
+  top: 286px;
+  width: calc(100% - 10px);
+  background-color: #fff;
+  max-height: calc(100vh - 318px);
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.layerSelectorAdmin {
+  position: absolute;
+  top: 421px;
+  width: calc(100% - 10px);
+  background-color: #fff;
+  max-height: calc(100vh - 453px);
+  overflow-y: auto;
+  z-index: 1;
+}
