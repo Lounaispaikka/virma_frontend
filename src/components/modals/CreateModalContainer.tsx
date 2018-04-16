@@ -117,7 +117,7 @@ export class CreateModalContainer extends React.Component<any, any> {
                 timestamp: moment().format('YYYY-MM-DD'),
                 sh_es_date: moment().format('YYYY-MM-DD'),
                 publicinfo: 'F',
-                no_address: 'F',
+                no_address: 'T',
                 updater_id: updater_id
               }
             });
@@ -136,7 +136,7 @@ export class CreateModalContainer extends React.Component<any, any> {
               timestamp: moment().format('YYYY-MM-DD'),
               sh_es_date: moment().format('YYYY-MM-DD'),
               publicinfo: 'F',
-              no_address: 'F',
+              no_address: 'T',
               updater_id: updater_id
             }
           });
@@ -154,7 +154,7 @@ export class CreateModalContainer extends React.Component<any, any> {
               timestamp: moment().format('YYYY-MM-DD'),
               sh_es_date: moment().format('YYYY-MM-DD'),
               publicinfo: 'F',
-              no_address: 'F',
+              no_address: 'T',
               updater_id: updater_id
             }
           });

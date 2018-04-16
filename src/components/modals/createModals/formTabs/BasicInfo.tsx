@@ -19,12 +19,12 @@ export class BasicInfo extends React.Component<any, any> {
 
   handleCheckbox(e) {
     this.setState({ showAddress: !this.state.showAddress });
-    e.target.value = !this.state.showAddress ? 'T' : 'F';
+    e.target.value = this.state.showAddress ? 'F' : 'T';
 
     this.props.formConfig.forEach(item => {
       if (e.target.id === 'no_address') {
-        this.props.formConfig.find(conf => conf.attr === 'address').formError = !this.state.showAddress ? true : false;
-        this.props.formConfig.find(conf => conf.attr === 'address').canBeUndefined = !this.state.showAddress ? false : true;
+        this.props.formConfig.find(conf => conf.attr === 'address').formError = this.state.showAddress ? true : false;
+        this.props.formConfig.find(conf => conf.attr === 'address').canBeUndefined = this.state.showAddress ? false : true;
       }
     });
 
@@ -40,13 +40,13 @@ export class BasicInfo extends React.Component<any, any> {
   }
 
   render() {
-    const { formConfig, parentState, handleFormChange, layers, sortTabContent } = this.props
+    const { formConfig, parentState, handleFormChange, layers, sortTabContent } = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
-          if (!this.state.showAddress && info.attr === 'address') {
+          if (this.state.showAddress && info.attr === 'address') {
             return null;
           }
 

@@ -101,7 +101,7 @@ const areaConfig = [
   },
   {
     attr: 'no_address',
-    desc: 'Osoitteen julkisuus - Publicitet av adressen',
+    desc: 'Ei osoitetta - Publicitet av adressen',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
