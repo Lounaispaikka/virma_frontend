@@ -147,6 +147,63 @@ mapproxy-util serve-develop -b 0.0.0.0 mapproxy.yaml
 mapproxy-seed -f mapproxy.yaml -s seed.yaml --progress-file .mapproxy_seed_progress
 ```
 
+mapproxy.yaml
+```
+caches:
+ TaustakarttaCache:
+  grids: [JHS180]
+  bulk_meta_tiles: true
+  sources: [TaustakarttaSource]
+  cache:
+   type: sqlite
+   directory: /opt/mapproxy/Taustakartta
+
+layers:
+ - name: Taustakartta
+   sources: [TaustakarttaCache]
+   title: Taustakartta
+
+grids:
+ JHS180:
+  bbox: [-548576, 6291456, 1548576, 8388608]
+  bbox_srs: EPSG:3067
+  res: [8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25]
+  origin: sw
+  srs: EPSG:3067
+
+services:
+ wmts:
+  md:
+   abstract: Valonia
+   contact:
+    country: Finland
+    organization: Valonia
+   title: Valonia
+
+sources:
+ TaustakarttaSource:
+  coverage:
+   bbox: [14.3349, 58.9984, 34.6744, 70.4674]
+   bbox_srs: EPSG:4326
+  req:
+   layers: taustakartta_11,taustakartta_10,taustakartta_09,taustakartta_08,taustakartta_07,taustakartta_06,taustakartta_05,taustakartta_04,taustakartta_03,taustakartta_02,taustakartta_01
+   transparent: true
+   url: http://tiles.kartat.kapsi.fi/taustakartta?
+  supported_srs: ['EPSG:3067', 'EPSG:4326']
+  type: wms
+
+```
+
+seed.yaml
+```
+seeds:
+ Taustakartta:
+  caches: [TaustakarttaCache]
+  grids: [JHS180]
+  levels:
+   to: 10
+```
+
 ### Install Frontend
 - Install as instructed above. If you are using nginx configure it to it.
 
