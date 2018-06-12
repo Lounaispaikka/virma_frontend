@@ -9,6 +9,8 @@ Project uses System.js module loader which is used for importing JavaScript to t
 
 Frontend is made primarily with React framework with mobx state management. Other used frameworks are Leaflet & React-bootstrap.
 
+In order to run both backend and frontend Node.js needs to installed.
+
 ## Installing
 Basic instructions for installing backend & frontend are explained here.
 
@@ -61,10 +63,226 @@ Building application on Windows needs different running scripts than in Linux (P
 Deployment instructions are based on the current deployment. Different technologies can be used. When moving new bundle to the server, it is also necessary to move static assets seperately (css, .jpg, .json files).
 
 ### Ubuntu 16.04
-- Default configuration. Remember to open ports for (Sendmail, Nginx & PostgreSQL)
+- Default configuration.
+- Remember to open ports for (Sendmail, Nginx & PostgreSQL)
+  - e.g. 22, 443, 80, 5432
 
 ### PostgreSQL + PostGIS
-- Default installation.
+- Default installation
+- Add the following tables (e.g. points and points_approval are identical tables)
+  - These can be added with command-line using psql or for example with pgAdmin
+
+##### points & points_approval (points_approval is identical with different table name)
+```
+CREATE SEQUENCE public.points_gid_seq;
+ALTER SEQUENCE public.points_gid_seq OWNER TO postgres;
+
+CREATE TABLE public.points (
+    gid integer DEFAULT nextval('public.points_gid_seq'::regclass) NOT NULL,
+    class1_fi character varying(254),
+    class1_se character varying(254),
+    class1_en character varying(254),
+    class2_fi character varying(254),
+    class2_se character varying(254),
+    class2_en character varying(254),
+    name_fi character varying(254),
+    name_se character varying(254),
+    name_en character varying(254),
+    address character varying(254),
+    municipali character varying(254),
+    subregion character varying(254),
+    region character varying(254),
+    info_fi character varying(254),
+    info_se character varying(254),
+    info_en character varying(254),
+    chall_clas character varying(254),
+    accessibil character varying(254),
+    equipment character varying(254),
+    www_fi character varying(254),
+    www_se character varying(254),
+    www_en character varying(254),
+    telephone character varying(254),
+    email character varying(254),
+    ownerclass character varying(254),
+    owner character varying(254),
+    upkeeper character varying(254),
+    upkeepinfo character varying(254),
+    upkeepclas character varying(254),
+    shapeestim character varying(254),
+    sh_es_date date,
+    sh_es_pers character varying(254),
+    updater_id character varying(254),
+    x_eureffin numeric,
+    y_eureffin numeric,
+    "timestamp" date,
+    zip character varying(254),
+    munici_nro character varying(254),
+    subreg_nro character varying(254),
+    region_nro character varying(254),
+    special character varying(254),
+    no_address character varying(1),
+    publicinfo character varying(1),
+    geom public.geometry(Point,3067)
+);
+
+ALTER TABLE public.points OWNER TO postgres;
+ALTER TABLE ONLY public.points ADD CONSTRAINT points_copy_pkey PRIMARY KEY (gid);
+CREATE INDEX points_geom_idx ON public.points USING gist (geom);
+```
+
+##### routes & routes_approval (routes_approval is identical with different table name)
+```
+CREATE SEQUENCE public.routes_gid_seq;
+ALTER SEQUENCE public.routes_gid_seq OWNER TO postgres;
+
+CREATE TABLE public.routes (
+    gid integer DEFAULT nextval('public.routes_gid_seq'::regclass) NOT NULL,
+    class1_fi character varying(254),
+    class1_se character varying(254),
+    class1_en character varying(254),
+    class2_fi character varying(254),
+    class2_se character varying(254),
+    class2_en character varying(254),
+    name_fi character varying(254),
+    name_se character varying(254),
+    name_en character varying(254),
+    municipali character varying(254),
+    subregion character varying(254),
+    region character varying(254),
+    info_fi character varying(254),
+    info_se character varying(254),
+    info_en character varying(254),
+    chall_clas character varying(254),
+    length_m character varying(254),
+    accessibil character varying(254),
+    www_fi character varying(254),
+    www_se character varying(254),
+    www_en character varying(254),
+    email character varying(254),
+    telephone character varying(254),
+    upkeeper character varying(254),
+    upkeepinfo character varying(254),
+    upkeepclas character varying(254),
+    shapeestim character varying(254),
+    sh_es_date date,
+    sh_es_pers character varying(254),
+    "timestamp" date,
+    updater_id character varying(254),
+    special character varying(254),
+    munici_nro character varying(254),
+    subreg_nro character varying(254),
+    region_nro character varying(254),
+    publicinfo character varying(1),
+    geom public.geometry(MultiLineString,3067)
+);
+
+ALTER TABLE public.routes OWNER TO postgres;
+ALTER TABLE ONLY public.routes ADD CONSTRAINT routes_copy_pkey PRIMARY KEY (gid);
+CREATE INDEX routes_geom_idx ON public.routes USING gist (geom);
+```
+
+##### areas & areas_approval (areas_approval is identical with different table name)
+```
+CREATE SEQUENCE public.areas_gid_seq;
+ALTER SEQUENCE public.areas_gid_seq OWNER TO postgres;
+
+CREATE TABLE public.areas (
+    gid integer DEFAULT nextval('public.areas_gid_seq'::regclass) NOT NULL,
+    class1_fi character varying(254),
+    class2_fi character varying(254),
+    name_fi character varying(254),
+    municipali character varying(254),
+    info_fi character varying(254),
+    class1_se character varying(254),
+    class1_en character varying(254),
+    class2_se character varying(254),
+    class2_en character varying(254),
+    name_se character varying(254),
+    name_en character varying(254),
+    address character varying(254),
+    subregion character varying(254),
+    region character varying(254),
+    info_se character varying(254),
+    info_en character varying(254),
+    accessibil character varying(254),
+    equipment character varying(254),
+    www_fi character varying(254),
+    www_se character varying(254),
+    www_en character varying(254),
+    telephone character varying(254),
+    email character varying(254),
+    ownerclass character varying(254),
+    owner character varying(254),
+    upkeeper character varying(254),
+    upkeepinfo character varying(254),
+    upkeepclas character varying(254),
+    shapeestim character varying(254),
+    sh_es_date date,
+    sh_es_pers character varying(254),
+    updater_id character varying(254),
+    "timestamp" date,
+    zip character varying(254),
+    munici_nro character varying(254),
+    subreg_nro character varying(254),
+    region_nro character varying(254),
+    no_address character varying(1),
+    publicinfo character varying(1),
+    special character varying(254),
+    geom public.geometry(MultiPolygon,3067)
+);
+
+ALTER TABLE public.areas OWNER TO postgres;
+ALTER TABLE ONLY public.areas ADD CONSTRAINT areas_pkey PRIMARY KEY (gid);
+CREATE INDEX areas_geom_idx ON public.areas USING gist (geom);
+```
+
+##### users
+```
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    username character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    email character varying(255),
+    admin boolean DEFAULT false,
+    organization text,
+    updater_id text,
+    "resetPasswordToken" text,
+    "resetPasswordExpires" timestamp without time zone,
+    "failedLoginAttempts" integer DEFAULT 0,
+    "failedLoginTime" timestamp without time zone
+);
+
+ALTER TABLE public.users OWNER TO postgres;
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+ALTER TABLE ONLY public.users ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+```
+
+##### logs
+```
+CREATE SEQUENCE public.logs_id_seq;
+ALTER SEQUENCE public.logs_id_seq OWNER TO postgres;
+
+CREATE TABLE public.logs (
+    id integer DEFAULT nextval('public.logs_id_seq'::regclass) NOT NULL,
+    operation text NOT NULL,
+    target_name text,
+    target_table text,
+    "timestamp" timestamp without time zone,
+    executor text
+);
+
+ALTER TABLE public.logs OWNER TO postgres;
+ALTER TABLE ONLY public.logs ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
+```
 
 ### Nginx
 ```
