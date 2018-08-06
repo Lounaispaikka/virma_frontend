@@ -264,6 +264,21 @@ ALTER TABLE public.users_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+# Initially it is preferrable to create at least one super user for the application. This can be done for example running psql command on the server command-line or using pgAdmin.
+
+# psql (command-line)
+$ sudo -i -u postgres (prompts for password)
+$ psql
+$ \c <db_name>
+$ run following command
+
+# pgAdmin (application)
+1. On connected db -> right click -> Query Tool...
+2. Paste following command and press run
+
+INSERT INTO public.users(username, password, email, admin, organization, updater_id)
+VALUES ('<username>', '<password>', '<email>', true, '<organization>', '<updater_id>'); 
 ```
 
 ##### logs
