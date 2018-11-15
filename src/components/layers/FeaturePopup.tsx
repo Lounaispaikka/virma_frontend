@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Popup } from 'react-leaflet';
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import validator from 'validator';
 
 declare const L: any; // Some hack that works for including L & L.draw

@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { data, login } from '../../../model/store';
+import { login } from '../../../model/store';
 import { appUrls } from '../../../config';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
@@ -87,8 +87,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       if (this.state.modifiedPoints.length !== 0) {
         this.state.modifiedPoints.forEach(point => {
           this.sendApiCall('POST', point, appUrls.alterUpdaterPoint).then(response => response.json())
-            .then(response => {
-              console.log(response);
+            .then(() => {
               this.setState({ modifiedPoints: [] });
             }).catch(e => console.log(e));
         });
@@ -97,8 +96,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       if (this.state.modifiedLines.length !== 0) {
         this.state.modifiedLines.forEach(line => {
           this.sendApiCall('POST', line, appUrls.alterUpdaterLine).then(response => response.json())
-            .then(response => {
-              console.log(response);
+            .then(() => {
               this.setState({ modifiedLines: [] });
             }).catch(e => console.log(e));
         });
@@ -107,8 +105,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       if (this.state.modifiedAreas.length !== 0) {
         this.state.modifiedAreas.forEach(area => {
           this.sendApiCall('POST', area, appUrls.alterUpdaterArea).then(response => response.json())
-            .then(response => {
-              console.log(response);
+            .then(() => {
               this.setState({ modifiedAreas: [] });
             }).catch(e => console.log(e));
         });

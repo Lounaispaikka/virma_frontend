@@ -1,42 +1,34 @@
-import 'core-js/fn/object/assign';
 import React from 'react';
-
-import { AppLayout } from './AppLayout';
-import { ReactWidget } from './ReactWidget';
-import { DockLayout } from '@phosphor/widgets';
+import ReactDOM from 'react-dom';
 
 import { LeafletMap } from './components/LeafletMap';
 import { Sidebar } from './components/Sidebar';
 
 import '../css/app.css!';
 
+const renderApp = () => (
+  <div className={'appContainer'}>
+    <div className={'sidebarContainer'}>
+      <Sidebar />
+    </div>
+    <div className={'mapContainer'}>
+      <LeafletMap />
+    </div>
+  </div>
+);
+
 export class App {
   constructor() {
-    const map = new ReactWidget(<LeafletMap />);
-    const sidebar = new ReactWidget(<Sidebar />);
+    const node = document.createElement('div');    
+    node.id = 'root';
 
-    map.addClass('mapContainer');
-    sidebar.addClass('sidebarContainer');
+    document.body.appendChild(node);
 
-    this.layout.mainArea.addWidget(
-      map,
-      { placement: 'backdrop' }
+    ReactDOM.render(
+      renderApp(),
+      document.getElementById('root')
     );
-
-    this.layout.dockPanel.addWidget(
-      sidebar,
-      { mode: 'split-left', ref: this.layout.mainArea }
-    );
-
-    const layout = this.layout.dockPanel.saveLayout();
-    const sizes: number[] = (layout.main as DockLayout.ISplitAreaConfig).sizes;
-
-    sizes[0] = 0.01;
-    sizes[1] = 0.8;
-    this.layout.dockPanel.restoreLayout(layout);
   }
-
-  layout = new AppLayout(document.body);
 }
 
 new App();

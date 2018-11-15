@@ -1,14 +1,3 @@
-.sidebar {
-  position: relative;
-  margin: 0;
-  padding: 0 5px 0 5px;
-  min-height: 100%;
-  width: 100%;
-  background-color: #fff;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 #logo_img_virma {
   width: 290px;
   height: 100px;

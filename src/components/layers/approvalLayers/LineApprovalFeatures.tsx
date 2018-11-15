@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { Polyline } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
-
-import { layer } from '../../../model/store';
 
 @observer
 export class LineApprovalFeatures extends React.Component<any, any> {

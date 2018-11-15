@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Modal, ButtonToolbar, Button, Form, FormGroup, FormControl, ControlLabel, Checkbox } from 'react-bootstrap';
+import { Modal, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { data, login } from '../../../model/store';
+import { login } from '../../../model/store';
 import { appUrls } from '../../../config';
 
 import { ToggleEditor } from './editors/ToggleEditor';
@@ -77,7 +77,7 @@ export class ManageUsersModal extends React.Component<any, any> {
 
   updateUsers() {
     this.state.users.forEach(user => {
-      this.sendApiCall('POST', user, appUrls.updateUser).then(response => response.json()).catch(e => console.log(e));
+      this.sendApiCall('POST', user, appUrls.updateUser).catch(e => console.log(e));
     });
   }
 
@@ -89,10 +89,7 @@ export class ManageUsersModal extends React.Component<any, any> {
 
     this.setState({ users: newUsers });
 
-    this.sendApiCall('POST', username, appUrls.removeUser).then(response => response.json())
-      .then(response => {
-        console.log(response);
-      }).catch(e => console.log(e));
+    this.sendApiCall('POST', username, appUrls.removeUser).catch(e => console.log(e));
   }
 
   handleRowSelect(row, isSelected, event, key) {
@@ -121,10 +118,7 @@ export class ManageUsersModal extends React.Component<any, any> {
     });
 
     // Add user to db
-    this.sendApiCall('POST', user, appUrls.addUser).then(response => response.json())
-      .then(response => {
-        console.log(response);
-      }).catch(e => console.log(e));
+    this.sendApiCall('POST', user, appUrls.addUser).catch(e => console.log(e));
   }
 
   deleteButton = (removeRowEvent) => {

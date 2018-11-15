@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { Button } from 'react-bootstrap';
 import base64 from 'base-64';
@@ -81,6 +81,7 @@ export class Login extends React.Component<any, any> {
       headers: headers,
       credentials: 'include'
     };
+
     fetch(appUrls.initLogin, queryOptions)
       .then(response => response.json())
       .then(this.processLogin)

@@ -4,8 +4,6 @@ import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 
-import { layer } from '../../../model/store';
-
 @observer
 export class PointApprovalFeatures extends React.Component<any, any> {
   render() {

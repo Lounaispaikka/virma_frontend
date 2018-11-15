@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, DropdownButton, MenuItem, ButtonGroup, Button, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
+import { Modal, Button, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 import { form } from '../../../../model/store';
 

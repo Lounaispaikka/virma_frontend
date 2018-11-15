@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { data, login, form } from '../../../model/store';
+import { login, form } from '../../../model/store';
 import { appUrls } from '../../../config';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
@@ -92,8 +92,6 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
 
       fetch(addUrl, options).then(response => response.json())
         .then((response) => {
-          console.log(response);
-
           // 2. Remove the feature from the approval table
           options = {
             method: 'POST',
@@ -105,7 +103,6 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
           fetch(removeUrl, options).then(response => response.json())
             .then((response) => {
               this.removeFeatureFromState(type, feature);
-              console.log(response);
             }).catch(e => console.log(e));
         }).catch(e => console.log(e));
     } else {
@@ -120,7 +117,6 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
       fetch(removeUrl, options).then(response => response.json())
         .then((response) => {
           this.removeFeatureFromState(type, feature);
-          console.log(response);
         }).catch(e => console.log(e));
     }
   }

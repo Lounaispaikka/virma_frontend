@@ -416,7 +416,7 @@ const toolInfoContent = `
 
   <b>Yhteistyökumppanit</b>
 
-  <img id="toolInfoLogo" src="../../../vaakabanneri_logot.jpg"></img>
+  <img id="toolInfoLogo" src="./images/vaakabanneri_logot.jpg"></img>
 `;
 
 export { toolInfoContent };

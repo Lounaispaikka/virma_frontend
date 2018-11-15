@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Modal, Tabs, Tab, Button, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Fade, Alert } from 'react-bootstrap';
+import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-bootstrap';
 import validator from 'validator';
 
-import { login, form, modal, map } from '../../../model/store';
+import { map } from '../../../model/store';
 
 import { BasicInfo } from './formTabs/BasicInfo';
 import { OtherInfo } from './formTabs/OtherInfo';

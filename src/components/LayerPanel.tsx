@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
 import bUtils from 'react-bootstrap/lib/utils/bootstrapUtils';
 
-import { login, layer, map } from '../model/store';
+import { login, layer } from '../model/store';
 import '../../css/sidebar.css!';
 import '../../css/customBootstrap.css!';
 

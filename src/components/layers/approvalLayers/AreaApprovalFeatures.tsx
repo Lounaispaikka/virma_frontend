@@ -4,8 +4,6 @@ import { Polygon } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 
-import { layer } from '../../../model/store';
-
 @observer
 export class AreaApprovalFeatures extends React.Component<any, any> {
   render() {

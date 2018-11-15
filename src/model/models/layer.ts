@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action } from 'mobx';
 import { data } from '../store';
 
 import { pointLayers } from '../layerConfig/pointLayers';

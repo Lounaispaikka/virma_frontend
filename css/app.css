@@ -1,9 +1,29 @@
 /* Fix the problem that the sidebarContainer can be too small */
 
-.mapContainer {
+.appContainer {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
+.mapContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100% - 325px);
+  height: 100%;
 }
 
 .sidebarContainer {
-  min-width: 325px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 325px;
+  height: 100%;
+  padding: 5px;
+
+  background-color: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

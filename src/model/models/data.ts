@@ -5,9 +5,9 @@ import { login, modal } from '../store';
 import { appUrls } from '../../config';
 
 export default class Data {
-  @observable.shallow points = [];
-  @observable.shallow lines = [];
-  @observable.shallow areas = [];
+  @observable.shallow points: any = [];
+  @observable.shallow lines: any = [];
+  @observable.shallow areas: any = [];
 
   @observable.shallow pointsApproval = [];
   @observable.shallow linesApproval = [];
@@ -33,8 +33,7 @@ export default class Data {
     return fetch(url, options).then(response => response.json())
     .then(response => {
       resultArray.replace(resultArray.concat(response));
-    }).catch(error => {
-      console.log(error);
+    }).catch(() => {
       modal.showErrorAlert('Tasoja ei pystytty hakemaan.');
     });
   }

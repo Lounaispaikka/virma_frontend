@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { PanelGroup, Panel, ListGroupItem, Row, Col, Button } from 'react-bootstrap';
+import { PanelGroup, Button } from 'react-bootstrap';
 
 import { login, layer, map, modal, messages } from '../model/store';
 
@@ -39,9 +39,9 @@ export class Sidebar extends React.Component<any, any> {
     }
 
     return (
-      <div className={"sidebar"}>
+      <React.Fragment>
         <div className={"logo"}>
-          <img id={"logo_img_virma"} src="../../virma_logo.jpg"></img>
+          <img id={"logo_img_virma"} src="./images/virma_logo.jpg"></img>
         </div>
 
         <div className={"login"}>
@@ -123,10 +123,10 @@ export class Sidebar extends React.Component<any, any> {
         </div>
 
         <div className={"bottom-imgs"}>
-          <img id={"logo_img_ely"} src="../../ely_logo.jpg"></img>
-          <img id={"logo_img_eu"} src="../../eu_maaseutu_iso.jpg"></img>
+          <img id={"logo_img_ely"} src="./images/ely_logo.jpg"></img>
+          <img id={"logo_img_eu"} src="./images/eu_maaseutu_iso.jpg"></img>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

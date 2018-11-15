@@ -306,10 +306,7 @@ export class LeafletMap extends React.Component<any, any> {
       this.setState({ selectedFeature: { feature: null, featureDetails: null } });
 
       modal.showSuccessAlert(successMessage);
-    }).catch(error => {
-      console.log(error);
-      modal.showErrorAlert(failureMessage);
-    });
+    }).catch(() => modal.showErrorAlert(failureMessage));
   }
 
   startEditFeature(e) {
@@ -556,7 +553,7 @@ export class LeafletMap extends React.Component<any, any> {
   render() {
     // Dummy reactComponent is to trigger componentWillReact for mobx-react...
     return (
-      <div className="mapContainer">
+      <React.Fragment>
         <UtilModalContainer />
 
         {this.state.showCreateModal &&
@@ -630,7 +627,7 @@ export class LeafletMap extends React.Component<any, any> {
           <FeatureGroup><LineUserFeatures reitit={data.lineUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
           <FeatureGroup><PointUserFeatures pisteet={data.pointUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
         </Map>
-      </div>
+      </React.Fragment>
     );
   }
 }

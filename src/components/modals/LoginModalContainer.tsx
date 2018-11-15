@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 import LoginContent from './loginModalContent/LoginContent';
 import { RegisterContent } from './loginModalContent/RegisterContent';

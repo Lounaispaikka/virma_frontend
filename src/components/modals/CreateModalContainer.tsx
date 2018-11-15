@@ -1,11 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Modal, Tabs, Tab, Button, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import moment from 'moment';
 import isEqual from 'lodash/isEqual';
 import 'whatwg-fetch';
-
-declare const L: any; // Some hack that works for including L & L.draw
 
 import { layer, data, form, modal, login, map } from '../../model/store';
 import { CreateModalForm } from './createModals/CreateModalForm';
@@ -392,8 +389,7 @@ export class CreateModalContainer extends React.Component<any, any> {
       }
 
       modal.showSuccessAlert(message);
-    }).catch(error => {
-      console.log(error);
+    }).catch(() => {
       feature.remove();
       this.props.hideModal();
 

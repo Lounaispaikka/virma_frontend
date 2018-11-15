@@ -1,8 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { CircleMarker, Marker } from 'react-leaflet';
-
-declare const L: any; // Some hack that works for including L & L.draw
+import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { CircleMarker, Marker } from 'react-leaflet';
+import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormGroup, Row, Col, ControlLabel, Checkbox } from 'react-bootstrap';
 
 import { form } from '../../../../model/store';
 import { TooltipWithContent } from './Tooltip';
