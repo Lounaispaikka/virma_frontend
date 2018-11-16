@@ -14,8 +14,6 @@ import '../../css/customBootstrap.css!';
 export class Sidebar extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-
-    this.state = {};
   }
 
   render() {

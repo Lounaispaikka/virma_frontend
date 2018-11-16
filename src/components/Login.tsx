@@ -122,8 +122,7 @@ export class Login extends React.Component<any, any> {
     fetch(appUrls.login, queryOptions)
       .then(response => response.json())
       .then(this.processLogin)
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         this.setState({
           displayErrorLoginUsername: true,
           displayErrorRegisterPassword: true,

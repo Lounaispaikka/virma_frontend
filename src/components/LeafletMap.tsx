@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Map, FeatureGroup } from 'react-leaflet';
+import { Map, FeatureGroup, ScaleControl } from 'react-leaflet';
 import { Projection, CRS } from 'charto-leaflet';
 import { ButtonToolbar, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 import 'leaflet-draw';
@@ -626,6 +626,7 @@ export class LeafletMap extends React.Component<any, any> {
           <FeatureGroup><AreaUserFeatures alueet={data.areaUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
           <FeatureGroup><LineUserFeatures reitit={data.lineUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
           <FeatureGroup><PointUserFeatures pisteet={data.pointUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
+          <ScaleControl />
         </Map>
       </React.Fragment>
     );
