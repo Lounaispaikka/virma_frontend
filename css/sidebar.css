@@ -1,14 +1,85 @@
-#logo_img_virma {
-  width: 290px;
-  height: 100px;
-  margin-left: 15px;
+.sidebar-header {
+  font-size: 18px;
+  padding: 5px 0;
 }
 
-.bottom-imgs {
-  position: absolute;
+.sidebar-header-login {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 18px;
+  padding: 5px 0;
+}
+
+.sidebar-logo {
+  order: 1;
   width: 100%;
-  max-height: calc(43px + 65px);
-  bottom: 0px;
+}
+
+.sidebar-login {
+  padding: 5px 0;
+  order: 2;
+  width: 100%;
+}
+
+#info-button {
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  font-weight: bold;
+  border-radius: 50%;
+  color: white;
+  background-color: #627F9A;
+  border-color: #627F9A;
+}
+
+.sidebar-login-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sidebar-suggestion {
+  padding: 5px 0;
+  order: 3;
+  width: 100%;
+}
+
+.sidebar-admintools {
+  order: 4;
+  width: 100%;
+}
+
+.sidebar-layerselector {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0;
+  order: 5;
+  flex: 1;
+}
+
+.layerselector-wrapper {
+  overflow: auto;
+}
+
+.layerSelectorAdmin {
+  padding-top: 5px;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.layerSelector {
+  padding-top: 5px;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.sidebar-footer-images {
+  display: flex;
+  flex-direction: column;
+  order: 6;
+  width: 100%;
+  flex: 0 0 110px;
   z-index: 0;
 }
 
@@ -24,32 +95,4 @@
   width: 185px;
   height: 65px;
   z-index: 0;
-}
-
-.login {
-  min-height: 65px;
-}
-
-.addFeatures {
-  min-height: 65px;
-}
-
-.layerSelector {
-  position: absolute;
-  top: 286px;
-  width: calc(100% - 10px);
-  background-color: #fff;
-  max-height: calc(100vh - 318px);
-  overflow-y: auto;
-  z-index: 1;
-}
-
-.layerSelectorAdmin {
-  position: absolute;
-  top: 421px;
-  width: calc(100% - 10px);
-  background-color: #fff;
-  max-height: calc(100vh - 453px);
-  overflow-y: auto;
-  z-index: 1;
 }

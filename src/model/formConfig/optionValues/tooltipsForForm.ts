@@ -39,10 +39,6 @@ const tooltipsForForm = {
     'Käytä muotoa etunimi.sukunimi@domain.fi',
     'Bruka formen förnamn.tillnamn@domain.fi'
   ],
-  updater_id: [
-    'Luo tietojen päivittäjän tunniste.',
-    'Skapa identifikation för uppdateraren av informationen.'
-  ],
   ownerclass: [
     `Omistajaluokka kertoo kohteen maapohjan omistajatahon/ -tahot. Kohteen maapohjan vuokrannut taho ei ole omistaja. Omistajaluokkatieto voidaan julkaista avoimena tietona,
     sillä se ei loukkaa maanomistajan yksityisyydensuojaa. Omistajaluokaksi voi valita yhden tai useamman listan vaihtoehtoisista luokista.`,

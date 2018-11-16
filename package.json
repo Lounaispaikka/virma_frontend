@@ -52,7 +52,7 @@
     "react-bootstrap-table": "^4.3.1",
     "react-datepicker": "^0.61.0",
     "react-dom": "^16.2.0",
-    "react-leaflet": "^1.8.0",
+    "react-leaflet": "^1.9.1",
     "systemjs": "^0.20.19",
     "systemjs-plugin-css": "^0.1.36",
     "systemjs-plugin-json": "^0.3.0",

@@ -75,7 +75,7 @@ export class OtherInfo extends React.Component<any, any> {
               );
             }
 
-            if (info.attr === 'x_eureffin' || info.attr === 'y_eureffin') {
+            if (info.attr === 'x_eureffin' || info.attr === 'y_eureffin' || info.attr === 'updater_id') {
               return (
                 <ControlText
                   key={idx}
