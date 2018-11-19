@@ -4,7 +4,6 @@ import { FormGroup, ControlLabel, FormControl, ButtonToolbar, Button } from 'rea
 import '../../../../css/customBootstrap.css!';
 import '../../../../css/form.css!';
 
-
 const LoginContent = ({
   login,
   loginDisabled,

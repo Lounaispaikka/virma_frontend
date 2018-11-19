@@ -5,13 +5,15 @@ import ControlSelectClasses from '../formUtils/ControlSelectClasses';
 import ControlText from '../formUtils/ControlText';
 import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 
+import { NO_ADDRESS, ADDRESS } from '../../../../config/constants';
+
 @observer
 export class BasicInfo extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showAddress: this.props.parentState['no_address'] === 'T' ? true : false
+      showAddress: this.props.parentState[NO_ADDRESS] === 'T' ? true : false
     };
 
     this.handleCheckbox = this.handleCheckbox.bind(this);
@@ -22,9 +24,9 @@ export class BasicInfo extends React.Component<any, any> {
     e.target.value = this.state.showAddress ? 'F' : 'T';
 
     this.props.formConfig.forEach(() => {
-      if (e.target.id === 'no_address') {
-        this.props.formConfig.find(conf => conf.attr === 'address').formError = this.state.showAddress ? true : false;
-        this.props.formConfig.find(conf => conf.attr === 'address').canBeUndefined = this.state.showAddress ? false : true;
+      if (e.target.id === NO_ADDRESS) {
+        this.props.formConfig.find(conf => conf.attr === ADDRESS).formError = this.state.showAddress ? true : false;
+        this.props.formConfig.find(conf => conf.attr === ADDRESS).canBeUndefined = this.state.showAddress ? false : true;
       }
     });
 
@@ -46,7 +48,7 @@ export class BasicInfo extends React.Component<any, any> {
     return (
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
-          if (this.state.showAddress && info.attr === 'address') {
+          if (this.state.showAddress && info.attr === ADDRESS) {
             return null;
           }
 
@@ -79,7 +81,7 @@ export class BasicInfo extends React.Component<any, any> {
               }
             }
 
-            if (info.attr === 'no_address') {
+            if (info.attr === NO_ADDRESS) {
               return (
                 <ControlCheckbox
                   key={idx}

@@ -23,7 +23,6 @@ const ControlSelectUnique = ({ controlName, formName, stateValue, handleChange, 
           );
         })}
       </FormControl>
-
       {displayFormError && <HelpBlockContent formName={formName} value={stateValue} />}
     </FormGroup>
   );

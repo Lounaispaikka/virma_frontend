@@ -14,17 +14,11 @@ export class LoginModalContainer extends React.Component<any, any> {
 
   getLoginModalHeader() {
     if (this.props.showLoginModalState) {
-      return (
-        <b>Kirjaudu sisään</b>
-      );
+      return <b>{'Kirjaudu sisään'}</b>;
     } else if (this.props.showRegisterModalState) {
-      return (
-        <b>Luo tunnus</b>
-      );
+      return <b>{'Luo tunnus'}</b>;
     } else if (this.props.showForgotModalState) {
-      return (
-        <b>Palauta salasana</b>
-      );
+      return <b>{'Palauta salasana'}</b>;
     }
 
     return null;

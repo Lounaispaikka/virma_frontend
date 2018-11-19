@@ -5,6 +5,7 @@ import { CircleMarker } from 'react-leaflet';
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
+import { POINT } from '../../../config/constants';
 
 @observer
 export class PointUserFeatures extends React.Component<any, any> {
@@ -30,13 +31,12 @@ export class PointUserFeatures extends React.Component<any, any> {
                     fillOpacity={0.8}
                     onClick={(e) => setSelectedFeature(e.target, feature, 'pointFeatures')}
                   >
-                    <FeaturePopup featureInfo={feature} type={'point'} />
+                    <FeaturePopup featureInfo={feature} type={POINT} />
                   </CircleMarker>
                 );
               }
             }
           }
-
 
           return null;
         })}

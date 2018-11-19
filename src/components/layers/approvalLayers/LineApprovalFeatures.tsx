@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Polyline } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
+import { LINE_APPROVAL_FEATURES } from '../../../config/constants';
 
 @observer
 export class LineApprovalFeatures extends React.Component<any, any> {
@@ -18,7 +19,7 @@ export class LineApprovalFeatures extends React.Component<any, any> {
               positions={feature.geom.coordinates}
               color={"black"}
               weight={3}
-              onClick={(e) => setSelectedFeature(e.target, feature, 'lineApprovalFeatures')}
+              onClick={(e) => setSelectedFeature(e.target, feature, LINE_APPROVAL_FEATURES)}
             >
               <FeaturePopup featureInfo={feature} type={'approvedLine'} />
             </Polyline>

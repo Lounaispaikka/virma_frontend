@@ -1,22 +1,22 @@
 import { observable } from 'mobx';
 
-import { initialState } from '../formConfig/initialState';
+import { initialFormState } from '../../config/formConfig/initialFormState';
 
-import { pointConfig } from '../formConfig/tabContent/point';
-import { lineConfig } from '../formConfig/tabContent/line';
-import { areaConfig } from '../formConfig/tabContent/area';
+import { pointConfig } from '../../config/formConfig/tabContent/point';
+import { lineConfig } from '../../config/formConfig/tabContent/line';
+import { areaConfig } from '../../config/formConfig/tabContent/area';
 
-import { municipali } from '../formConfig/optionValues/municipali';
-import { region } from '../formConfig/optionValues/region';
-import { subregion } from '../formConfig/optionValues/subregion';
-import { organizations } from '../formConfig/optionValues/organizations';
-import { ownerclass } from '../formConfig/optionValues/ownerclass';
-import { upkeepclass } from '../formConfig/optionValues/upkeepclass';
-import { tooltipsForForm } from '../formConfig/optionValues/tooltipsForForm';
-import { helpBlockTexts } from '../formConfig/optionValues/helpBlockTexts';
+import { municipali } from '../../config/formConfig/optionValues/municipali';
+import { region } from '../../config/formConfig/optionValues/region';
+import { subregion } from '../../config/formConfig/optionValues/subregion';
+import { organizations } from '../../config/formConfig/optionValues/organizations';
+import { ownerclass } from '../../config/formConfig/optionValues/ownerclass';
+import { upkeepclass } from '../../config/formConfig/optionValues/upkeepclass';
+import { tooltipsForForm } from '../../config/formConfig/optionValues/tooltipsForForm';
+import { helpBlockTexts } from '../../config/formConfig/optionValues/helpBlockTexts';
 
 export default class Form {
-  @observable initialState = initialState;
+  @observable initialFormState = initialFormState;
 
   @observable pointFormConfig = pointConfig;
   @observable lineFormConfig = lineConfig;

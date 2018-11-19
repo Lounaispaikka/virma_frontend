@@ -11,6 +11,7 @@ import { login, data, layer, map, messages } from '../model/store';
 import { LoginModalContainer } from './modals/LoginModalContainer';
 import { appUrls } from '../config/config';
 import { getOptions, postAuthOptions, postOptions } from '../config/fetchConfig';
+import { APPROVAL } from '../config/constants';
 
 import '../../css/customBootstrap.css!';
 
@@ -247,7 +248,7 @@ export class Login extends React.Component<any, any> {
 
       map.mapReference.eachLayer(layer => {
         if (layer.options.props) {
-          if (layer.options.children.props.type.indexOf('approval') >= 0 ||
+          if (layer.options.children.props.type.indexOf(APPROVAL) >= 0 ||
             layer instanceof L.CircleMarker ||
             layer instanceof L.Polyline ||
             layer instanceof L.Polygon

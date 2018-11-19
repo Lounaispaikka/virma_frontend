@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { PanelGroup, Button } from 'react-bootstrap';
 
 import { login, layer, map, modal, messages } from '../model/store';
+import { POINT, LINESTRING, POLYGON, APPROVAL, ALL, RECREATIONAL_AREA, TOURIST_SERVICE_AREA, RECREATIONAL_ROUTE, TOURIST_ATTRACTION, RECREATIONAL_ATTRACTION, APPROVAL_FEATURES, ALL_FEATURES } from '../config/constants';
 
 import { Login } from './Login';
 import { LayerPanel } from './LayerPanel';
@@ -26,11 +27,11 @@ export class Sidebar extends React.Component<any, any> {
       featureButtonStyle = "square-button-primary-active";
     } else if (modal.showApproveModal) {
       approveButtonStyle = "square-button-primary-active";
-    } else if (map.buttonCreateOn && map.buttonCreateType === 'point') {
+    } else if (map.buttonCreateOn && map.buttonCreateType === POINT) {
       pointButtonStyle = "square-button-primary-active";
-    } else if (map.buttonCreateOn && map.buttonCreateType === 'line') {
+    } else if (map.buttonCreateOn && map.buttonCreateType === LINESTRING) {
       lineButtonStyle = "square-button-primary-active";
-    } else if (map.buttonCreateOn && map.buttonCreateType === 'polygon') {
+    } else if (map.buttonCreateOn && map.buttonCreateType === POLYGON) {
       polygonButtonStyle = "square-button-primary-active";
     }
 
@@ -59,15 +60,15 @@ export class Sidebar extends React.Component<any, any> {
               {'Ehdota kohteita'}
             </div>
             <div className={"sidebar-suggestion-buttons"}>
-              <Button id={pointButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, 'point')} disabled={map.toggleEditState || map.buttonCreateOn}>
+              <Button id={pointButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, POINT)} disabled={map.toggleEditState || map.buttonCreateOn}>
                 {'Pistekohde'}
               </Button>
               {' '}
-              <Button id={lineButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, 'line')} disabled={map.toggleEditState || map.buttonCreateOn}>
+              <Button id={lineButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, LINESTRING)} disabled={map.toggleEditState || map.buttonCreateOn}>
                 {'Viivakohde'}
               </Button>
               {' '}
-              <Button id={polygonButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, 'polygon')} disabled={map.toggleEditState || map.buttonCreateOn}>
+              <Button id={polygonButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, POLYGON)} disabled={map.toggleEditState || map.buttonCreateOn}>
                 {'Aluekohde'}
               </Button>
             </div>
@@ -102,16 +103,16 @@ export class Sidebar extends React.Component<any, any> {
               <div className={"layerSelectorAdmin"}>
                 <PanelGroup>
                     <LayerPanel
-                      type={'all'}
+                      type={ALL}
                       layers={layer.userLayers[0]}
                       layerName={'Omat kohteet'}
-                      layerType={'Kaikki'}
+                      layerType={ALL_FEATURES}
                     />
                     <LayerPanel
-                      type={'approval'}
+                      type={APPROVAL}
                       layers={layer.approvalLayers[0]}
                       layerName={'Hyväksytystä odottavat kohteet'}
-                      layerType={'Hyväksyttävät kohteet'}
+                      layerType={APPROVAL_FEATURES}
                     />
                 </PanelGroup>
               </div>
@@ -119,34 +120,34 @@ export class Sidebar extends React.Component<any, any> {
             <div className={"layerSelector"}>
               <PanelGroup>
                 <LayerPanel
-                  type={'point'}
+                  type={POINT}
                   layers={layer.pointLayers[0]}
                   layerName={'Virkistyskohteet'}
-                  layerType={'Virkistyskohde'}
+                  layerType={RECREATIONAL_ATTRACTION}
                 />
                 <LayerPanel
-                  type={'point'}
+                  type={POINT}
                   layers={layer.pointLayers[1]}
                   layerName={'Matkailukohteet'}
-                  layerType={'Matkailupalvelukohde'}
+                  layerType={TOURIST_ATTRACTION}
                 />
                 <LayerPanel
-                  type={'line'}
+                  type={LINESTRING}
                   layers={layer.lineLayers[0]}
                   layerName={'Virkistysreitit'}
-                  layerType={'Virkistysreitti'}
+                  layerType={RECREATIONAL_ROUTE}
                 />
                 <LayerPanel
-                  type={'polygon'}
+                  type={POLYGON}
                   layers={layer.areaLayers[0]}
                   layerName={'Virkistysalueet'}
-                  layerType={'Virkistysalue'}
+                  layerType={RECREATIONAL_AREA}
                 />
                 <LayerPanel
-                  type={'polygon'}
+                  type={POLYGON}
                   layers={layer.areaLayers[1]}
                   layerName={'Matkailupalvelualueet'}
-                  layerType={'Matkailupalvelualue'}
+                  layerType={TOURIST_SERVICE_AREA}
                 />
               </PanelGroup>
             </div>  

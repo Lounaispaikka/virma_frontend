@@ -6,6 +6,15 @@ import { login, form } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
 
+import {
+  POINT_APPROVAL_FEATURES,
+  LINE_APPROVAL_FEATURES,
+  AREA_APPROVAL_FEATURES,
+  MULTILINESTRING,
+  MULTIPOLYGON,
+  POINT_TYPE,
+} from '../../../config/constants';
+
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
@@ -120,13 +129,13 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
   }
 
   removeFeatureFromState(type, feature) {
-    if (type === 'Point') {
+    if (type === POINT_TYPE) {
       const newPoints = this.filterFeatureArray(this.state.approvePoints, feature.gid);
       this.setState({ approvePoints: newPoints });
-    } else if (type === 'MultiLineString') {
+    } else if (type === MULTILINESTRING) {
       const newLines = this.filterFeatureArray(this.state.approveLines, feature.gid);
       this.setState({ approveLines: newLines });
-    } else if (type === 'MultiPolygon') {
+    } else if (type === MULTIPOLYGON) {
       const newAreas = this.filterFeatureArray(this.state.approveAreas, feature.gid);
       this.setState({ approveAreas: newAreas });
     }
@@ -145,7 +154,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
         this.pointTable.state.selectedRowKeys.forEach(key => {
           this.state.approvePoints.forEach(point => {
             if (key === point.gid) {
-              this.sendApproval(form.pointFormConfig, 'Point', point, appUrls.createPoint, appUrls.removePoint, 'pointApprovalFeatures');
+              this.sendApproval(form.pointFormConfig, POINT_TYPE, point, appUrls.createPoint, appUrls.removePoint, POINT_APPROVAL_FEATURES);
             }
           });
         });
@@ -153,7 +162,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
         this.lineTable.state.selectedRowKeys.forEach(key => {
           this.state.approveLines.forEach(line => {
             if (key === line.gid) {
-              this.sendApproval(form.lineFormConfig, 'MultiLineString', line, appUrls.createLine, appUrls.removeLine, 'lineApprovalFeatures');
+              this.sendApproval(form.lineFormConfig, MULTILINESTRING, line, appUrls.createLine, appUrls.removeLine, LINE_APPROVAL_FEATURES);
             }
           });
         });
@@ -161,7 +170,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
         this.areaTable.state.selectedRowKeys.forEach(key => {
           this.state.approveAreas.forEach(area => {
             if (key === area.gid) {
-              this.sendApproval(form.areaFormConfig, 'MultiPolygon', area, appUrls.createArea, appUrls.removeArea, 'areaApprovalFeatures');
+              this.sendApproval(form.areaFormConfig, MULTIPOLYGON, area, appUrls.createArea, appUrls.removeArea, AREA_APPROVAL_FEATURES);
             }
           });
         });
@@ -176,10 +185,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
   }
 
   render() {
-    const {
-      showApproveFeaturesModal,
-      hideApproveFeaturesModal,
-    } = this.props;
+    const { showApproveFeaturesModal, hideApproveFeaturesModal } = this.props;
 
     const selectRowProp: any = {
       mode: "checkbox",

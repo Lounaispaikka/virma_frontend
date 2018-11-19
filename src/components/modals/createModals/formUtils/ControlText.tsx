@@ -7,7 +7,7 @@ import HelpBlockContent from './Helpblock';
 
 import '../../../../../css/form.css!';
 
-class ControlText extends React.Component<any, any> {
+export default class ControlText extends React.Component<any, any> {
   returnFormControl() {
     const { displayFormError, formName, controlName, stateValue, handleChange, readOnly, placeholder } = this.props;
 
@@ -46,5 +46,3 @@ class ControlText extends React.Component<any, any> {
     }
   }
 }
-
-export default ControlText;

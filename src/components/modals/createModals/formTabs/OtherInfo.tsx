@@ -6,6 +6,17 @@ import { ControlDate } from '../formUtils/ControlDate';
 
 import { form } from '../../../../model/store';
 
+import {
+  SH_ES_DATE,
+  TIMESTAMP,
+  MUNICIPALI,
+  SUBREGION,
+  REGION,
+  X_EUREFFIN,
+  Y_EUREFFIN,
+  UPDATER_ID,
+} from '../../../../config/constants';
+
 export class OtherInfo extends React.Component<any, any> {
   render() {
     const { formConfig, parentState, handleFormChange, sortTabContent } = this.props;
@@ -15,7 +26,7 @@ export class OtherInfo extends React.Component<any, any> {
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
           if (info.addedToForm && info.tab === 2) {
-            if (info.attr === 'sh_es_date') {
+            if (info.attr === SH_ES_DATE) {
               return (
                 <ControlDate
                   key={idx}
@@ -26,7 +37,7 @@ export class OtherInfo extends React.Component<any, any> {
                   disabled={false}
                 />
               );
-            } else if (info.attr === 'timestamp') {
+            } else if (info.attr === TIMESTAMP) {
               return (
                 <ControlDate
                   key={idx}
@@ -37,7 +48,7 @@ export class OtherInfo extends React.Component<any, any> {
                   disabled={true}
                 />
               );
-            } else if (info.attr === 'municipali') {
+            } else if (info.attr === MUNICIPALI) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -49,7 +60,7 @@ export class OtherInfo extends React.Component<any, any> {
                   displayFormError={info.formError}
                 />
               );
-            } else if (info.attr === 'subregion') {
+            } else if (info.attr === SUBREGION) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -61,7 +72,7 @@ export class OtherInfo extends React.Component<any, any> {
                   displayFormError={info.formError}
                 />
               );
-            } else if (info.attr === 'region') {
+            } else if (info.attr === REGION) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -75,7 +86,7 @@ export class OtherInfo extends React.Component<any, any> {
               );
             }
 
-            if (info.attr === 'x_eureffin' || info.attr === 'y_eureffin' || info.attr === 'updater_id') {
+            if (info.attr === X_EUREFFIN || info.attr === Y_EUREFFIN || info.attr === UPDATER_ID) {
               return (
                 <ControlText
                   key={idx}

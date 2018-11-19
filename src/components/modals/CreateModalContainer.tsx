@@ -10,6 +10,29 @@ import validateBorders from './validateBorders';
 
 import { appUrls } from '../../config/config';
 import { postOptions } from '../../config/fetchConfig';
+import {
+  LINESTRING,
+  POINT,
+  POLYGON,
+  POINT_FEATURES,
+  LINE_FEATURES,
+  AREA_FEATURES,
+  TIMESTAMP,
+  AREA,
+  APPROVAL,
+  CLASS1_FI,
+  CLASS2_FI,
+  NO_ADDRESS,
+  PUBLICINFO,
+  CREATE,
+  UPDATE,
+  DATE_FORMAT,
+  CIRCLE_MARKER,
+  POLYLINE,
+  POINT_APPROVAL_FEATURES,
+  LINE_APPROVAL_FEATURES,
+  AREA_APPROVAL_FEATURES,
+} from '../../config/constants';
 
 import '../../../css/modal.css!';
 
@@ -20,7 +43,7 @@ export class CreateModalContainer extends React.Component<any, any> {
 
     this.state = {
       featureInfoExists: false, // This for determine whether to use create or update as post method!
-      form: map.checkFormEditOn ? map.formState : form.initialState // This is for not reseting form state if modifing feature geometry
+      form: map.checkFormEditOn ? map.formState : form.initialFormState // This is for not reseting form state if modifing feature geometry
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -45,8 +68,8 @@ export class CreateModalContainer extends React.Component<any, any> {
             if (!featureDetails[prop]) {
               form[prop] = undefined;
             } else {
-              if (prop.indexOf('timestamp') >= 0) {
-                form[prop] = moment().format('YYYY-MM-DD'); // Always update the timestamp
+              if (prop.indexOf(TIMESTAMP) >= 0) {
+                form[prop] = moment().format(DATE_FORMAT); // Always update the timestamp
               } else {
                 form[prop] = featureDetails[prop];
               }
@@ -56,7 +79,7 @@ export class CreateModalContainer extends React.Component<any, any> {
           }
         }
       } else {
-        if (this.props.createType === 'circlemarker') {
+        if (this.props.createType === CIRCLE_MARKER) {
           this.setState({ form: { ...this.state.form,
             x_eureffin: this.props.feature.feature._latlng.lng,
             y_eureffin: this.props.feature.feature._latlng.lat
@@ -98,7 +121,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         const updater_id = login.updater_id === '' ? undefined : login.updater_id;
 
         // Sets the form initial values based on the selected feature
-        if (this.props.createType === 'circlemarker') {
+        if (this.props.createType === CIRCLE_MARKER) {
           if (this.props.feature.feature) { // If circle marker is new add its coordinates
             this.setState({
               form: { ...this.state.form,
@@ -112,15 +135,15 @@ export class CreateModalContainer extends React.Component<any, any> {
                 subreg_nro: borderValues.subregion_numbers.join(', '),
                 x_eureffin: this.props.feature.feature._latlng.lng,
                 y_eureffin: this.props.feature.feature._latlng.lat,
-                timestamp: moment().format('YYYY-MM-DD'),
-                sh_es_date: moment().format('YYYY-MM-DD'),
+                timestamp: moment().format(DATE_FORMAT),
+                sh_es_date: moment().format(DATE_FORMAT),
                 publicinfo: 'F',
-                no_address: 'T',
+                no_address: 'F',
                 updater_id: updater_id
               }
             });
           }
-        } else if (this.props.createType === 'polyline') {
+        } else if (this.props.createType === POLYLINE) {
           this.setState({
             form: { ...this.state.form,
               class1_fi: 'Virkistysreitti', class1_se: 'rekreationsrutt', class1_en: 'recreational route',
@@ -131,14 +154,14 @@ export class CreateModalContainer extends React.Component<any, any> {
               region_nro: borderValues.region_numbers.join(', '),
               subregion: borderValues.subregions.join(', '),
               subreg_nro: borderValues.subregion_numbers.join(', '),
-              timestamp: moment().format('YYYY-MM-DD'),
-              sh_es_date: moment().format('YYYY-MM-DD'),
+              timestamp: moment().format(DATE_FORMAT),
+              sh_es_date: moment().format(DATE_FORMAT),
               publicinfo: 'F',
-              no_address: 'T',
+              no_address: 'F',
               updater_id: updater_id
             }
           });
-        } else if (this.props.createType === 'polygon') {
+        } else if (this.props.createType === POLYGON) {
           this.setState({
             form: { ...this.state.form,
               class1_fi: 'Virkistysalue', class1_se: 'rekreationsområde', class1_en: 'recreational area',
@@ -149,17 +172,17 @@ export class CreateModalContainer extends React.Component<any, any> {
               region_nro: borderValues.region_numbers.join(', '),
               subregion: borderValues.subregions.join(', '),
               subreg_nro: borderValues.subregion_numbers.join(', '),
-              timestamp: moment().format('YYYY-MM-DD'),
-              sh_es_date: moment().format('YYYY-MM-DD'),
+              timestamp: moment().format(DATE_FORMAT),
+              sh_es_date: moment().format(DATE_FORMAT),
               publicinfo: 'F',
-              no_address: 'T',
+              no_address: 'F',
               updater_id: updater_id
             }
           });
         }
 
       } else {
-        if (this.props.createType === 'circlemarker') {
+        if (this.props.createType === CIRCLE_MARKER) {
           this.setState({ form: { ...this.state.form,
             x_eureffin: this.props.feature.feature._latlng.lng,
             y_eureffin: this.props.feature.feature._latlng.lat
@@ -191,21 +214,21 @@ export class CreateModalContainer extends React.Component<any, any> {
     let coordArray = [];
 
     // Get feature coordinates for feature equal check -> to see whether the feature coords have been edited
-    if (this.props.selectedLayer.indexOf('point') >= 0) {
+    if (this.props.selectedLayer.indexOf(POINT) >= 0) {
       coordArray = [feature.feature._latlng.lat, feature.feature._latlng.lng];
-    } else if (this.props.selectedLayer.indexOf('line') >= 0) {
+    } else if (this.props.selectedLayer.indexOf(LINESTRING) >= 0) {
       feature.feature._latlngs.forEach((coord, idx) => {
         coordArray.push([]);
-        coord.forEach((coord2, idx2) => {
+        coord.forEach((coord2) => {
           const coords = { lat: coord2.lat, lng: coord2.lng };
           coordArray[idx].push(Object.keys(coords).map(item => coords[item]));
         })
       });
-    } else if (this.props.selectedLayer.indexOf('area') >= 0) {
-      if (this.props.selectedLayer.toLowerCase().indexOf('approval') >= 0) { // Approval area coords don't have same ending and starting point
+    } else if (this.props.selectedLayer.indexOf(AREA) >= 0) {
+      if (this.props.selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) { // Approval area coords don't have same ending and starting point
         feature.feature._latlngs[0].forEach((coord, idx) => {
           coordArray.push([]);
-          coord.forEach((coord2, idx2) => {
+          coord.forEach((coord2) => {
             const coords = { lat: coord2.lat, lng: coord2.lng };
             coordArray[idx].push(Object.keys(coords).map(item => coords[item]));
           });
@@ -214,7 +237,7 @@ export class CreateModalContainer extends React.Component<any, any> {
       } else {
         feature.feature._latlngs[0].forEach((coord, idx) => {
           coordArray.push([]);
-          coord.forEach((coord2, idx2) => {
+          coord.forEach((coord2) => {
             const coords = { lat: coord2.lat, lng: coord2.lng };
             coordArray[idx].push(Object.keys(coords).map(item => coords[item]));
           });
@@ -226,20 +249,20 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
 
     if (!isEqual(this.state.form.geom.coordinates, coordArray)) {
-      if (this.props.selectedLayer.toLowerCase().indexOf('approval') >= 0) {
-        if (this.props.selectedLayer === 'pointApprovalFeatures') {
-          data.updateFeatures(feature.featureDetails, 'point', true);
-        } else if (this.props.selectedLayer === 'lineApprovalFeatures') {
-          data.updateFeatures(feature.featureDetails, 'line', true);
-        } else if (this.props.selectedLayer === 'areaApprovalFeatures') {
-          data.updateFeatures(feature.featureDetails, 'polygon', true);
+      if (this.props.selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) {
+        if (this.props.selectedLayer === POINT_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POINT, true);
+        } else if (this.props.selectedLayer === LINE_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, LINESTRING, true);
+        } else if (this.props.selectedLayer === AREA_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POLYGON, true);
         }
-      } else if (this.props.selectedLayer.toLowerCase().indexOf('point') >= 0) {
-        data.updateFeatures(feature.featureDetails, 'point', false);
-      } else if (this.props.selectedLayer.toLowerCase().indexOf('line') >= 0) {
-        data.updateFeatures(feature.featureDetails, 'line', false);
-      } else if (this.props.selectedLayer.toLowerCase().indexOf('area') >= 0) {
-        data.updateFeatures(feature.featureDetails, 'polygon', false);
+      } else if (this.props.selectedLayer.toLowerCase().indexOf(POINT) >= 0) {
+        data.updateFeatures(feature.featureDetails, POINT, false);
+      } else if (this.props.selectedLayer.toLowerCase().indexOf(LINESTRING) >= 0) {
+        data.updateFeatures(feature.featureDetails, LINESTRING, false);
+      } else if (this.props.selectedLayer.toLowerCase().indexOf(AREA) >= 0) {
+        data.updateFeatures(feature.featureDetails, POLYGON, false);
       }
     }
   }
@@ -248,7 +271,7 @@ export class CreateModalContainer extends React.Component<any, any> {
     const { id, value } = event.target;
 
     // Check if the form change occurs for class1 or class2. If it does change the values for se and en values accordingly
-    if (id === 'class1_fi') {
+    if (id === CLASS1_FI) {
       layer.map(layer => {
         if (layer.name_fi === value) {
           this.setState({
@@ -258,7 +281,7 @@ export class CreateModalContainer extends React.Component<any, any> {
           });
         }
       });
-    } else if (id === 'class2_fi') {
+    } else if (id === CLASS2_FI) {
       layer.map(layer => {
         if (layer.name_fi === value) {
           this.setState({
@@ -268,9 +291,9 @@ export class CreateModalContainer extends React.Component<any, any> {
           });
         }
       });
-    } else if (id === 'no_address') {
+    } else if (id === NO_ADDRESS) {
       this.setState({ form: { ...this.state.form, [id]: value } });
-    } else if (id === 'publicinfo') {
+    } else if (id === PUBLICINFO) {
       if (value === 'T') {
         this.setState({ form: { ...this.state.form, [id]: value } });
       } else {
@@ -289,21 +312,21 @@ export class CreateModalContainer extends React.Component<any, any> {
     let array: any = [];
     let geomFeature: any = null;
 
-    if (type === 'circlemarker') {
+    if (type === CIRCLE_MARKER) {
       const coords = [feature._latlng.lat, feature._latlng.lng];
       url = this.state.featureInfoExists ? appUrls.updatePoint : appUrls.createPoint;
 
       geomFeature = {
-        type: 'Point',
+        type: POINT,
         coordinates: coords,
         crs: { type: 'name', properties: { name: 'EPSG:3067' } }
       }
-    } else if (type ==='polyline') {
+    } else if (type === POLYLINE) {
       if (!this.state.featureInfoExists) {
         url = appUrls.createLine;
 
         array.push([]);
-        feature._latlngs.forEach((coord, idx) => {
+        feature._latlngs.forEach((coord) => {
           const coords = { lat: coord.lat, lng: coord.lng };
           array[0].push(Object.keys(coords).map(item => coords[item]));
         });
@@ -312,7 +335,7 @@ export class CreateModalContainer extends React.Component<any, any> {
 
         feature._latlngs.forEach((coord, idx) => {
           array.push([]);
-          coord.forEach((coord2, idx2) => {
+          coord.forEach((coord2) => {
             const coords = { lat: coord2.lat, lng: coord2.lng };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           })
@@ -324,13 +347,13 @@ export class CreateModalContainer extends React.Component<any, any> {
         coordinates: array,
         crs: { type: 'name', properties: { name: 'EPSG:3067' } }
       }
-    } else if (type === 'polygon') {
+    } else if (type === POLYGON) {
       if (!this.state.featureInfoExists) {
         url = appUrls.createArea
 
         feature._latlngs.forEach((coord, idx) => {
           array.push([]);
-          coord.forEach((coord2, idx2) => {
+          coord.forEach((coord2) => {
             const coords = { lat: coord2.lat, lng: coord2.lng };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           });
@@ -340,7 +363,7 @@ export class CreateModalContainer extends React.Component<any, any> {
 
         feature._latlngs[0].forEach((coord, idx) => {
           array.push([]);
-          coord.forEach((coord2, idx2) => {
+          coord.forEach((coord2) => {
             const coords = { lat: coord2.lat, lng: coord2.lng };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           });
@@ -355,19 +378,23 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
 
     if (!this.state.featureInfoExists) {
-      if (confirm('Haluatko varmasti lisätä kohteen?')) { this.sendDbPost(type, url, geomFeature, feature, 'CREATE'); }
+      if (confirm('Haluatko varmasti lisätä kohteen?')) {
+        this.sendDbPost(type, url, geomFeature, feature, CREATE);
+      }
     } else {
-      if (confirm('Haluatko varmasti päivittää kohteen tiedot?')) { this.sendDbPost(type, url, geomFeature, feature, 'UPDATE'); }
+      if (confirm('Haluatko varmasti päivittää kohteen tiedot?')) {
+        this.sendDbPost(type, url, geomFeature, feature, UPDATE);
+      }
     }
   }
 
   sendDbPost(type, url, featureGeom, feature, operation) {
     let bodyContent = {};
-    if (type === 'circlemarker') {
+    if (type === CIRCLE_MARKER) {
       form.pointFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
-    } else if (type === 'polyline') {
+    } else if (type === POLYLINE) {
       form.lineFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
-    } else if (type === 'polygon') {
+    } else if (type === POLYGON) {
       form.areaFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
     }
 
@@ -378,17 +405,17 @@ export class CreateModalContainer extends React.Component<any, any> {
     options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent });
 
     fetch(url, options).then(response => response.json()).then(() => {
-      this.updateFeaturesToMap(this.state.form, type, this.props.selectedLayer);
+      this.updateFeaturesToMap(type, this.props.selectedLayer);
       feature.remove();
       this.props.hideModal();
 
-      let message = operation === 'CREATE' ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
-      if (type === 'circlemarker') {
-        message = operation === 'CREATE' ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
-      } else if (type === 'polyline') {
-        message = operation === 'CREATE' ? 'Reitti lisätty onnistuneesti.' : 'Reitti päivitetty onnistuneesti.';
-      } else if (type === 'polygon') {
-        message = operation === 'CREATE' ? 'Alue lisätty onnistuneesti.' : 'Alue päivitetty onnistuneesti.';
+      let message = operation === CREATE ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
+      if (type === CIRCLE_MARKER) {
+        message = operation === CREATE ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
+      } else if (type === POLYLINE) {
+        message = operation === CREATE ? 'Reitti lisätty onnistuneesti.' : 'Reitti päivitetty onnistuneesti.';
+      } else if (type === POLYGON) {
+        message = operation === CREATE ? 'Alue lisätty onnistuneesti.' : 'Alue päivitetty onnistuneesti.';
       }
 
       modal.showSuccessAlert(message);
@@ -396,46 +423,46 @@ export class CreateModalContainer extends React.Component<any, any> {
       feature.remove();
       this.props.hideModal();
 
-      let message = operation === 'CREATE' ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
-      if (type === 'circlemarker') {
-        message = operation === 'CREATE' ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
-      } else if (type === 'polyline') {
-        message = operation === 'CREATE' ? 'Reitin lisäys epäonnistui.' : 'Reitin päivitys epäonnistui.';
-      } else if (type === 'polygon') {
-        message = operation === 'CREATE' ? 'Alueen lisäys epäonnistui.' : 'Alueen päivitys epäonnistui.';
+      let message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
+      if (type === CIRCLE_MARKER) {
+        message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
+      } else if (type === POLYLINE) {
+        message = operation === CREATE ? 'Reitin lisäys epäonnistui.' : 'Reitin päivitys epäonnistui.';
+      } else if (type === POLYGON) {
+        message = operation === CREATE ? 'Alueen lisäys epäonnistui.' : 'Alueen päivitys epäonnistui.';
       }
 
       modal.showErrorAlert(message);
     });
   }
 
-  updateFeaturesToMap(form, type, layerType) {
+  updateFeaturesToMap(type, layerType) {
     if (layerType.indexOf('newFeature') >= 0) { // create
-      if (this.props.createType === 'circlemarker') {
-        data.updateApprovalFeatures('Pistekohteet');
-        layer.approvalLayers[0].features.find(feature => feature.name_fi === 'Pistekohteet').selected = true;
-      } else if (this.props.createType === 'polyline') {
-        data.updateApprovalFeatures('Reittikohteet');
-        layer.approvalLayers[0].features.find(feature => feature.name_fi === 'Reittikohteet').selected = true;
-      } else if (this.props.createType === 'polygon') {
-        data.updateApprovalFeatures('Aluekohteet');
-        layer.approvalLayers[0].features.find(feature => feature.name_fi === 'Aluekohteet').selected = true;
+      if (this.props.createType === CIRCLE_MARKER) {
+        data.updateApprovalFeatures(POINT_FEATURES);
+        layer.approvalLayers[0].features.find(feature => feature.name_fi === POINT_FEATURES).selected = true;
+      } else if (this.props.createType === POLYLINE) {
+        data.updateApprovalFeatures(LINE_FEATURES);
+        layer.approvalLayers[0].features.find(feature => feature.name_fi === LINE_FEATURES).selected = true;
+      } else if (this.props.createType === POLYGON) {
+        data.updateApprovalFeatures(AREA_FEATURES);
+        layer.approvalLayers[0].features.find(feature => feature.name_fi === AREA_FEATURES).selected = true;
       }
     } else if (layerType.indexOf('ApprovalFeatures') >= 0) { // update
-      if (layerType === 'pointApprovalFeatures') {
-        data.updateFeatures(this.props.feature.featureDetails, 'point', true);
-      } else if (layerType === 'lineApprovalFeatures') {
-        data.updateFeatures(this.props.feature.featureDetails, 'line', true);
-      } else if (layerType === 'areaApprovalFeatures') {
-        data.updateFeatures(this.props.feature.featureDetails, 'polygon', true);
+      if (layerType === POINT_APPROVAL_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, POINT, true);
+      } else if (layerType === LINE_APPROVAL_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, true);
+      } else if (layerType === AREA_APPROVAL_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, POLYGON, true);
       }
     } else { // update
-      if (type === 'circlemarker') {
-        data.updateFeatures(this.props.feature.featureDetails, 'point', false);
-      } else if (type === 'polyline') {
-        data.updateFeatures(this.props.feature.featureDetails, 'line', false);
-      } else if (type === 'polygon') {
-        data.updateFeatures(this.props.feature.featureDetails, 'polygon', false);
+      if (type === CIRCLE_MARKER) {
+        data.updateFeatures(this.props.feature.featureDetails, POINT, false);
+      } else if (type === POLYLINE) {
+        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false);
+      } else if (type === POLYGON) {
+        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false);
       }
     }
   }
@@ -443,7 +470,7 @@ export class CreateModalContainer extends React.Component<any, any> {
   render() {
     const { showCreateModal, createType, hideModal, feature, unsetFeature, startEdit, removeNewTarget, removeTarget } = this.props;
 
-    if (createType === 'circlemarker') {
+    if (createType === CIRCLE_MARKER) {
       return (
         <CreateModalForm
           createType={createType}
@@ -464,7 +491,7 @@ export class CreateModalContainer extends React.Component<any, any> {
           resetFeatureCoords={this.resetFeatureCoords}
         />
       );
-    } else if (createType === 'polyline') {
+    } else if (createType === POLYLINE) {
       return (
         <CreateModalForm
           createType={createType}
@@ -485,7 +512,7 @@ export class CreateModalContainer extends React.Component<any, any> {
           resetFeatureCoords={this.resetFeatureCoords}
         />
       );
-    } else if (createType === 'polygon') {
+    } else if (createType === POLYGON) {
       return (
         <CreateModalForm
           createType={createType}

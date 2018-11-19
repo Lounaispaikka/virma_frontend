@@ -8,12 +8,20 @@ import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 
 import { form } from '../../../../model/store';
 
+import {
+  PUBLICINFO,
+  UPKEEPER,
+  UPKEEPINFO,
+  OWNERCLASS,
+  UPKEEPCLAS,
+} from '../../../../config/constants';
+
 export class ContactInfo extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      showPublic: this.props.parentState['publicinfo'] === 'T' ? true : false
+      showPublic: this.props.parentState[PUBLICINFO] === 'T' ? true : false
     };
 
     this.handleCheckbox = this.handleCheckbox.bind(this);
@@ -27,12 +35,12 @@ export class ContactInfo extends React.Component<any, any> {
     e.target.value = !showPublic ? 'T' : 'F';
 
     formConfig.forEach(() => {
-      if (e.target.id === 'publicinfo') {
-        formConfig.find(conf => conf.attr === 'upkeeper').formError = !showPublic ? true : false;
-        formConfig.find(conf => conf.attr === 'upkeeper').canBeUndefined = !showPublic ? false : true;
+      if (e.target.id === PUBLICINFO) {
+        formConfig.find(conf => conf.attr === UPKEEPER).formError = !showPublic ? true : false;
+        formConfig.find(conf => conf.attr === UPKEEPER).canBeUndefined = !showPublic ? false : true;
 
-        formConfig.find(conf => conf.attr === 'upkeepinfo').formError = !showPublic ? true : false;
-        formConfig.find(conf => conf.attr === 'upkeepinfo').canBeUndefined = !showPublic ? false : true;
+        formConfig.find(conf => conf.attr === UPKEEPINFO).formError = !showPublic ? true : false;
+        formConfig.find(conf => conf.attr === UPKEEPINFO).canBeUndefined = !showPublic ? false : true;
       }
     });
 
@@ -40,9 +48,9 @@ export class ContactInfo extends React.Component<any, any> {
   }
 
   getPublicInfoPlaceholders(showPublic, type) {
-    if (type === 'upkeeper') {
+    if (type === UPKEEPER) {
       return showPublic ? 'Tämän nimen saa julkaista' : 'Tätä nimeä ei saa julkaista';
-    } else if (type === 'upkeepinfo') {
+    } else if (type === UPKEEPINFO) {
       return showPublic ? 'Tämän yhteystiedon saa julkaista' : 'Tätä yhteystietoa ei saa julkaista';
     }
   }
@@ -57,7 +65,7 @@ export class ContactInfo extends React.Component<any, any> {
         {tabContent.map((info, idx) => {
           let disabled = false;
 
-          if (!this.state.showPublic && (info.attr === 'upkeeper' || info.attr === 'upkeepinfo')) {
+          if (!this.state.showPublic && (info.attr === UPKEEPER || info.attr === UPKEEPINFO)) {
             disabled = true;
           }
 
@@ -75,7 +83,7 @@ export class ContactInfo extends React.Component<any, any> {
               );
             }
 
-            if (info.attr === 'ownerclass') {
+            if (info.attr === OWNERCLASS) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -87,7 +95,7 @@ export class ContactInfo extends React.Component<any, any> {
                   displayFormError={info.formError}
                 />
               );
-            } else if (info.attr === 'upkeepclas') {
+            } else if (info.attr === UPKEEPCLAS) {
               return (
                 <ControlSelectUnique
                   key={idx}
@@ -99,7 +107,7 @@ export class ContactInfo extends React.Component<any, any> {
                   displayFormError={info.formError}
                 />
               );
-            } else if (info.attr === 'publicinfo') {
+            } else if (info.attr === PUBLICINFO) {
               return (
                 <ControlCheckbox
                   key={idx}

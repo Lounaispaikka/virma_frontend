@@ -1,5 +1,6 @@
+const host = 'http://localhost:8800';
 // const host = 'https://virma.lounaistieto.fi';
-const host = 'http://valonia.westeurope.cloudapp.azure.com';
+// const host = 'https://valonia.westeurope.cloudapp.azure.com';
 
 const taustakartta = `${host}/service?service=wmts&request=GetTile&version=1.0.0&tilematrixset=JHS180&tilematrix={z}&tilerow={y}&tilecol={x}&layer=Taustakartta&format=image/png&style=default`;
 
@@ -50,7 +51,7 @@ const appUrls = {
 };
 
 const mapUrls = {
-  taustakartta: 'https://tiles.kartat.kapsi.fi/mapcache/taustakartta_3067/{z}/{x}/{y}.png', // taustakartta,
+  taustakartta: 'https://tiles.kartat.kapsi.fi/taustakartta_3067/{z}/{x}/{y}.png', // taustakartta,
   peruskartta: 'http://tiles.kartat.kapsi.fi/peruskartta_3067/{z}/{x}/{y}.png', // 'https://tile1.kapsi.fi/peruskartta_3067/{z}/{x}/{y}.png',
   ortokuva: 'https://tiles.kartat.kapsi.fi/ortokuva_3067/{z}/{x}/{y}.png'
 };

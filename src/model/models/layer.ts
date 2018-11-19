@@ -1,11 +1,26 @@
 import { observable, action } from 'mobx';
 import { data } from '../store';
 
-import { pointLayers } from '../layerConfig/pointLayers';
-import { lineLayers } from '../layerConfig/lineLayers';
-import { areaLayers } from '../layerConfig/areaLayers';
-import { approvalLayers } from '../layerConfig/approvalLayers';
-import { userLayers } from '../layerConfig/userLayers';
+import { pointLayers } from '../../config/layerConfig/pointLayers';
+import { lineLayers } from '../../config/layerConfig/lineLayers';
+import { areaLayers } from '../../config/layerConfig/areaLayers';
+import { approvalLayers } from '../../config/layerConfig/approvalLayers';
+import { userLayers } from '../../config/layerConfig/userLayers';
+
+import {
+  ALL,
+  POINT,
+  LINESTRING,
+  POLYGON,
+  APPROVAL,
+  RECREATIONAL_ATTRACTION,
+  TOURIST_ATTRACTION,
+  RECREATIONAL_ROUTE,
+  RECREATIONAL_AREA,
+  TOURIST_SERVICE_AREA,
+  APPROVAL_FEATURES,
+  ALL_FEATURES,
+} from '../../config/constants';
 
 export default class Layer {
   @observable pointLayers = pointLayers;
@@ -18,19 +33,19 @@ export default class Layer {
   layerToggleAll(e, type, class1_fi) {
     e.preventDefault();
 
-    if (class1_fi === 'Virkistyskohde') {
+    if (class1_fi === RECREATIONAL_ATTRACTION) {
       this.layerToggleAllLoop(this.pointLayers[0], type, class1_fi);
-    } else if (class1_fi === 'Matkailupalvelukohde') {
+    } else if (class1_fi === TOURIST_ATTRACTION) {
       this.layerToggleAllLoop(this.pointLayers[1], type, class1_fi);
-    } else if (class1_fi === 'Virkistysreitti') {
+    } else if (class1_fi === RECREATIONAL_ROUTE) {
       this.layerToggleAllLoop(this.lineLayers[0], type, class1_fi);
-    } else if (class1_fi === 'Virkistysalue') {
+    } else if (class1_fi === RECREATIONAL_AREA) {
       this.layerToggleAllLoop(this.areaLayers[0], type, class1_fi);
-    } else if (class1_fi === 'Matkailupalvelualue') {
+    } else if (class1_fi === TOURIST_SERVICE_AREA) {
       this.layerToggleAllLoop(this.areaLayers[1], type, class1_fi);
-    } else if (class1_fi === 'Hyväksyttävät kohteet') {
+    } else if (class1_fi === APPROVAL_FEATURES) {
       this.layerToggleAllLoop(this.approvalLayers[0], type, class1_fi);
-    } else if (class1_fi === 'Kaikki') {
+    } else if (class1_fi === ALL_FEATURES) {
       this.layerToggleAllLoop(this.userLayers[0], type, class1_fi);
     }
   }
@@ -55,15 +70,15 @@ export default class Layer {
   toggleIndividualFeature(e, type, class1_fi, class2_fi) {
     e.preventDefault();
 
-    if (type === 'point') {
+    if (type === POINT) {
       this.toggleIndividualFeatureLoop(this.pointLayers, type, class1_fi, class2_fi);
-    } else if (type === 'line') {
+    } else if (type === LINESTRING) {
       this.toggleIndividualFeatureLoop(this.lineLayers, type, class1_fi, class2_fi);
-    } else if (type === 'polygon') {
+    } else if (type === POLYGON) {
       this.toggleIndividualFeatureLoop(this.areaLayers, type, class1_fi, class2_fi);
-    } else if (type === 'approval') {
+    } else if (type === APPROVAL) {
       this.toggleIndividualFeatureLoop(this.approvalLayers, type, class1_fi, class2_fi);
-    } else if (type === 'all') {
+    } else if (type === ALL) {
       this.toggleIndividualFeatureLoop(this.userLayers, type, class1_fi, class2_fi);
     }
   }

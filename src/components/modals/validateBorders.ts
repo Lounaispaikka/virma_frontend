@@ -1,6 +1,8 @@
 import turf from 'turf';
 import * as borders from '../../../kunta_maakunta_seutukunta.json!json';
 
+import { CIRCLE_MARKER, POLYLINE, POLYGON } from '../../config/constants';
+
 const propertyKeys = {
   'municipalities': 'k_nimi',
   'regions': 'mk_nimi',
@@ -21,12 +23,12 @@ export default function validateBorders(geometryType, feature, oldFeature = fals
     subregion_numbers: []
   };
 
-  if (geometryType === 'circlemarker') {
+  if (geometryType === CIRCLE_MARKER) {
     const coords = [feature._latlng.lng, feature._latlng.lat];
     const pointFeature = turf.point(coords);
 
     loopBorders(pointFeature, returnObject);
-  } else if (geometryType === 'polyline') {
+  } else if (geometryType === POLYLINE) {
     if (oldFeature) {
       feature._latlngs[0].forEach(coord => {
         const coords = { lat: coord.lng, lng: coord.lat };
@@ -41,11 +43,11 @@ export default function validateBorders(geometryType, feature, oldFeature = fals
 
     const lineFeature = turf.lineString(coordArray);
     loopBorders(lineFeature, returnObject);
-  } else if (geometryType === 'polygon') {
+  } else if (geometryType === POLYGON) {
     if (oldFeature) {
       feature._latlngs.forEach((coord, idx) => {
         coordArray.push([]);
-        coord[0].forEach((coord2, idx2) => {
+        coord[0].forEach((coord2) => {
           const coords = { lat: coord2.lng, lng: coord2.lat };
           coordArray[idx].push(Object.keys(coords).map(item => coords[item]));
         });

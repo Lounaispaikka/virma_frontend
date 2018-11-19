@@ -56,7 +56,6 @@ export class SelectEditor extends React.Component<any, any> {
           <Modal.Body>
             <FormGroup controlId={"organisaatio"}>
               <ControlLabel>{"Organisaatio"}</ControlLabel>
-
               <FormControl
                 componentClass={"select"}
                 className={"btn-block"}
@@ -74,7 +73,7 @@ export class SelectEditor extends React.Component<any, any> {
 
             {this.state.showNewOrganization &&
               <FormGroup controlId={"uusi_organisaatio"}>
-                <ControlLabel>Uuden organisaation nimi</ControlLabel>
+                <ControlLabel>{'Uuden organisaation nimi'}</ControlLabel>
                 <FormControl
                   type={"text"}
                   id={"uusi_organisaatio"}
@@ -84,11 +83,14 @@ export class SelectEditor extends React.Component<any, any> {
                 />
               </FormGroup>
             }
-
           </Modal.Body>
           <Modal.Footer>
-            <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={this.updateData}>Vahvista</Button>
-            <Button id={"square-button-warning"} bsSize={"small"} bsStyle={"warning"} onClick={this.close}>Peruuta</Button>
+            <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={this.updateData}>
+              {'Vahvista'}
+            </Button>
+            <Button id={"square-button-warning"} bsSize={"small"} bsStyle={"warning"} onClick={this.close}>
+              {'Peruuta'}
+            </Button>
           </Modal.Footer>
         </Modal>
       </div>

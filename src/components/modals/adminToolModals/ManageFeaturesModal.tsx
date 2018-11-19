@@ -5,6 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { login } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
+import { POINT } from '../../../config/constants';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
@@ -65,7 +66,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
   }
 
   onAfterSaveCell(row, cellName, cellValue) {
-    if (row.geom.type === 'Point') {
+    if (row.geom.type === POINT) {
       this.setState({ modifiedPoints: this.state.modifiedPoints.concat(row) });
     } else if (row.geom.type === 'MultiLineString') {
       this.setState({ modifiedLines: this.state.modifiedLines.concat(row) });

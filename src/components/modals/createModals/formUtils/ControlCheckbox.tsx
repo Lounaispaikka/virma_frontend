@@ -18,7 +18,7 @@ export class ControlCheckbox extends React.Component<any, any> {
   }
 
   render() {
-    const { controlName, formName, stateValue } = this.props;
+    const { formName } = this.props;
 
     if (form.tooltipsForForm[formName]) {
       return (

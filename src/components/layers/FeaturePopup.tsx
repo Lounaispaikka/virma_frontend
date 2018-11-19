@@ -7,6 +7,7 @@ import validator from 'validator';
 declare const L: any; // Some hack that works for including L & L.draw
 
 import { login, map } from '../../model/store';
+import { AREA, LINESTRING, POINT } from '../../config/constants';
 
 import '../../../css/mapFeature.css!';
 import '../../../css/customBootstrap.css!';
@@ -59,7 +60,7 @@ export class FeaturePopup extends React.Component<any, any> {
         <div className="featurePopup">
           <h4>{featureInfo.class1_fi}{' - '}{featureInfo.class2_fi}</h4>
 
-          {type.toLowerCase().indexOf('point') >= 0 &&
+          {type.toLowerCase().indexOf(POINT) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>
@@ -72,7 +73,7 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {type.toLowerCase().indexOf('line') >= 0 &&
+          {type.toLowerCase().indexOf(LINESTRING) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>
@@ -86,7 +87,7 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {type.toLowerCase().indexOf('area') >= 0 &&
+          {type.toLowerCase().indexOf(AREA) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>

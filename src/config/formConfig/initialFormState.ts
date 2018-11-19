@@ -1,4 +1,4 @@
-const initialState = {
+export const initialFormState = {
   gid: undefined,
   class1_fi: undefined,
   class1_se: undefined,
@@ -44,5 +44,3 @@ const initialState = {
   no_address: undefined,
   publicinfo: undefined
 }
-
-export { initialState };

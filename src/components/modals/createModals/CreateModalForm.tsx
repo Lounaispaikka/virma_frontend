@@ -4,6 +4,7 @@ import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-boot
 import validator from 'validator';
 
 import { map } from '../../../model/store';
+import { EMAIL, TELEPHONE, ZIP, UPKEEPCLAS, UNDEFINED, CIRCLE_MARKER, POLYLINE, POLYGON } from '../../../config/constants';
 
 import { BasicInfo } from './formTabs/BasicInfo';
 import { OtherInfo } from './formTabs/OtherInfo';
@@ -40,35 +41,35 @@ export class CreateModalForm extends React.Component<any, any> {
 
       // Check if field is added to form and it cannot be undefined -> some content needs to be there
       if (info.addedToForm && !info.canBeUndefined) {
-        if (content.indexOf('undefined') >= 0 || validator.isEmpty(content)) {
+        if (content.indexOf(UNDEFINED) >= 0 || validator.isEmpty(content)) {
           info.formError = true;
           return;
         }
       }
 
       // Validate every field that content needs to be in some specific form
-      if (info.addedToForm && content.length !== 0 && content.indexOf('undefined') === -1) {
-        if (info.attr.indexOf('email') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isEmail(content)) {
+      if (info.addedToForm && content.length !== 0 && content.indexOf(UNDEFINED) === -1) {
+        if (info.attr.indexOf(EMAIL) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isEmail(content)) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('telephone') >= 0) {
-          if (content.indexOf('undefined') >= 0 || content.indexOf('+358') < 0) { // || !validator.isMobilePhone(content, 'any') -> doesn't work for every number for some reason
+        } else if (info.attr.indexOf(TELEPHONE) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || content.indexOf('+358') < 0) { // || !validator.isMobilePhone(content, 'any') -> doesn't work for every number for some reason
             info.formError = true;
             return;
           }
         } else if (info.attr.indexOf('www') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isURL(content)) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isURL(content)) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('zip') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isNumeric(content) || !validator.isLength(content, { min: 5, max: 5 })) {
+        } else if (info.attr.indexOf(ZIP) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isNumeric(content) || !validator.isLength(content, { min: 5, max: 5 })) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('upkeepclas') >= 0) {
+        } else if (info.attr.indexOf(UPKEEPCLAS) >= 0) {
           if (content.indexOf('Valitse') >= 0) {
             info.formError = true;
             return;
@@ -112,15 +113,15 @@ export class CreateModalForm extends React.Component<any, any> {
   }
 
   getHeaderText() {
-    if (this.props.createType === 'circlemarker') {
+    if (this.props.createType === CIRCLE_MARKER) {
       if (this.props.feature.featureDetails) { return (<b>Muokkaa kohteen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden kohteen tiedot</b>);
-    } else if (this.props.createType === 'polyline') {
+      return <b>{'Lisää uuden kohteen tiedot'}</b>;
+    } else if (this.props.createType === POLYLINE) {
       if (this.props.feature.featureDetails) { return (<b>Muokkaa reitin "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden reitin tiedot</b>);
-    } else if (this.props.createType === 'polygon') {
+      return <b>{'Lisää uuden reitin tiedot'}</b>;
+    } else if (this.props.createType === POLYGON) {
       if (this.props.feature.featureDetails) { return (<b>Muokkaa alueen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden alueen tiedot</b>);
+      return <b>{'Lisää uuden alueen tiedot'}</b>;
     }
 
     return null;
@@ -164,7 +165,7 @@ export class CreateModalForm extends React.Component<any, any> {
             {this.state.showAlert && this.getAlert()}
             <Form>
               <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'createTabs'} bsStyle={"tabs"}>
-                <Tab eventKey={1} title="Perustiedot">
+                <Tab eventKey={1} title={"Perustiedot"}>
                   <BasicInfo
                     formConfig={formConfig}
                     parentState={parentState}
@@ -174,7 +175,7 @@ export class CreateModalForm extends React.Component<any, any> {
                   />
                 </Tab>
 
-                <Tab eventKey={2} title="Muut tiedot">
+                <Tab eventKey={2} title={"Muut tiedot"}>
                   <OtherInfo
                     formConfig={formConfig}
                     parentState={parentState}
@@ -183,7 +184,7 @@ export class CreateModalForm extends React.Component<any, any> {
                   />
                 </Tab>
 
-                <Tab eventKey={3} title="Yhteystiedot">
+                <Tab eventKey={3} title={"Yhteystiedot"}>
                   <ContactInfo
                     formConfig={formConfig}
                     parentState={parentState}
@@ -200,24 +201,24 @@ export class CreateModalForm extends React.Component<any, any> {
                 {this.getConfirmText()}
               </Button>
               <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { startEdit(feature); map.toggleFormEdit(true, parentState); }}>
-                Muokkaa sijaintia
+                {'Muokkaa sijaintia'}
               </Button>
 
               {feature.featureDetails &&
                 <Button id={"square-button-danger"} bsStyle={"danger"} onClick={() => { hideModal(); removeTarget(feature); }}>
-                  Poista kohde
+                  {'Poista kohde'}
                 </Button>
               }
 
               {feature.featureDetails &&
                 <Button id={"square-button-warning"} bsStyle={"warning"} onClick={() => { unsetFeature(); hideModal(); this.setState({ tabKey: 1 }); resetFeatureCoords(feature); }}>
-                  Peruuta
+                  {'Peruuta'}
                 </Button>
               }
 
               {!feature.featureDetails &&
                 <Button id={"square-button-danger"} bsStyle={"danger"} onClick={() => { hideModal(); removeNewTarget(feature); this.setState({ tabKey: 1 }); }}>
-                  Poista ehdotus
+                  {'Poista ehdotus'}
                 </Button>
               }
             </ButtonToolbar>

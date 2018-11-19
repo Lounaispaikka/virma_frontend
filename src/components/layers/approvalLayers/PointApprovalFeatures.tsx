@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
+import { POINT_APPROVAL_FEATURES } from '../../../config/constants';
 
 @observer
 export class PointApprovalFeatures extends React.Component<any, any> {
@@ -21,7 +22,7 @@ export class PointApprovalFeatures extends React.Component<any, any> {
               fillColor={"black"}
               weight={1.5}
               fillOpacity={1}
-              onClick={(e) => setSelectedFeature(e.target, feature, 'pointApprovalFeatures')}
+              onClick={(e) => setSelectedFeature(e.target, feature, POINT_APPROVAL_FEATURES)}
             >
               <FeaturePopup featureInfo={feature} type={'approvedPoint'} />
             </CircleMarker>

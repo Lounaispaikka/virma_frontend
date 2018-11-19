@@ -5,6 +5,7 @@ import { Polyline } from 'react-leaflet';
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
+import { LINESTRING } from '../../../config/constants';
 
 @observer
 export class LineUserFeatures extends React.Component<any, any> {
@@ -27,7 +28,7 @@ export class LineUserFeatures extends React.Component<any, any> {
                     color={color}
                     onClick={(e) => setSelectedFeature(e.target, feature, 'lineFeatures')}
                   >
-                    <FeaturePopup featureInfo={feature} type={'line'} />
+                    <FeaturePopup featureInfo={feature} type={LINESTRING} />
                   </Polyline>
                 );
               }
