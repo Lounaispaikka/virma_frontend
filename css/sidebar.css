@@ -12,6 +12,8 @@
 }
 
 .sidebar-logo {
+  display: flex;
+  justify-content: center;
   order: 1;
   width: 100%;
 }

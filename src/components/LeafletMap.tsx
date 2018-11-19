@@ -131,6 +131,9 @@ export class LeafletMap extends React.Component<any, any> {
     leafletMap.options.maxZoom = 15;
     leafletMap.options.minZoom = 3;
     leafletMap.options.crs = JHS180;
+    
+    leafletMap.zoomControl['_zoomInButton'].title = 'Lähennä';
+    leafletMap.zoomControl['_zoomOutButton'].title = 'Loitonna';
 
     // Disable keyboard interaction, since +, - are used for zooming (inteferes form)
     leafletMap.keyboard.disable();
