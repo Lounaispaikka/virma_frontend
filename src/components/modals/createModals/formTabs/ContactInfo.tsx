@@ -20,31 +20,45 @@ export class ContactInfo extends React.Component<any, any> {
   }
 
   handleCheckbox(e) {
-    this.setState({ showPublic: !this.state.showPublic });
-    e.target.value = !this.state.showPublic ? 'T' : 'F';
+    const { showPublic } = this.state;
+    const { handleFormChange, formConfig } = this.props;
 
-    this.props.formConfig.forEach(item => {
+    this.setState({ showPublic: !showPublic });
+    e.target.value = !showPublic ? 'T' : 'F';
+
+    formConfig.forEach(() => {
       if (e.target.id === 'publicinfo') {
-        this.props.formConfig.find(conf => conf.attr === 'upkeeper').formError = !this.state.showPublic ? true : false;
-        this.props.formConfig.find(conf => conf.attr === 'upkeeper').canBeUndefined = !this.state.showPublic ? false : true;
+        formConfig.find(conf => conf.attr === 'upkeeper').formError = !showPublic ? true : false;
+        formConfig.find(conf => conf.attr === 'upkeeper').canBeUndefined = !showPublic ? false : true;
 
-        this.props.formConfig.find(conf => conf.attr === 'upkeepinfo').formError = !this.state.showPublic ? true : false;
-        this.props.formConfig.find(conf => conf.attr === 'upkeepinfo').canBeUndefined = !this.state.showPublic ? false : true;
+        formConfig.find(conf => conf.attr === 'upkeepinfo').formError = !showPublic ? true : false;
+        formConfig.find(conf => conf.attr === 'upkeepinfo').canBeUndefined = !showPublic ? false : true;
       }
     });
 
-    this.props.handleFormChange(e);
+    handleFormChange(e);
+  }
+
+  getPublicInfoPlaceholders(showPublic, type) {
+    if (type === 'upkeeper') {
+      return showPublic ? 'Tämän nimen saa julkaista' : 'Tätä nimeä ei saa julkaista';
+    } else if (type === 'upkeepinfo') {
+      return showPublic ? 'Tämän yhteystiedon saa julkaista' : 'Tätä yhteystietoa ei saa julkaista';
+    }
   }
 
   render() {
+    const { showPublic } = this.state;
     const { formConfig, parentState, handleFormChange, sortTabContent} = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
+          let disabled = false;
+
           if (!this.state.showPublic && (info.attr === 'upkeeper' || info.attr === 'upkeepinfo')) {
-            return null;
+            disabled = true;
           }
 
           if (info.addedToForm && info.tab === 3) {
@@ -92,7 +106,7 @@ export class ContactInfo extends React.Component<any, any> {
                   controlName={info.desc}
                   formName={info.attr}
                   stateValue={parentState[info.attr]}
-                  checkboxValue={this.state.showPublic}
+                  checkboxValue={showPublic}
                   handleChange={this.handleCheckbox}
                 />
               );
@@ -103,10 +117,11 @@ export class ContactInfo extends React.Component<any, any> {
                 key={idx}
                 controlName={info.desc}
                 formName={info.attr}
-                readOnly={false}
+                readOnly={disabled}
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
+                placeholder={this.getPublicInfoPlaceholders(showPublic, info.attr)}
               />
             );
           }

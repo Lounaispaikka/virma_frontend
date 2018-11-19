@@ -3,7 +3,8 @@ import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 import { login, form } from '../../../model/store';
-import { appUrls } from '../../../config';
+import { appUrls } from '../../../config/config';
+import { postOptions } from '../../../config/fetchConfig';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
@@ -35,24 +36,20 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    const queryOptions: any = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin })
-    };
+    const options: any = postOptions;
+    options['body'] = JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin });
 
-    fetch(appUrls.pointApprovals, queryOptions).then(response => response.json())
+    fetch(appUrls.pointApprovals, options).then(response => response.json())
       .then((response) => {
         this.setState({ approvePoints: response, loading: false });
       }).catch(e => console.log(e));
 
-    fetch(appUrls.lineApprovals, queryOptions).then(response => response.json())
+    fetch(appUrls.lineApprovals, options).then(response => response.json())
       .then((response) => {
         this.setState({ approveLines: response, loading: false });
       }).catch(e => console.log(e));
 
-    fetch(appUrls.areaApprovals, queryOptions).then(response => response.json())
+    fetch(appUrls.areaApprovals, options).then(response => response.json())
       .then((response) => {
         this.setState({ approveAreas: response, loading: false });
       }).catch(e => console.log(e));
@@ -80,44 +77,26 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
 
   sendApproval(form, type, feature, addUrl, removeUrl, layerType) {
     const bodyContent = this.getPostBodyContent(form, feature, type, layerType);
+    const options: any = postOptions;
 
     if (this.state.approving) {
       // 1. Add the desired feature to the corresponding table
-      let options: any = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ user: login.loggedUser, body: bodyContent })
-      };
+      options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent }); 
 
       fetch(addUrl, options).then(response => response.json())
-        .then((response) => {
+        .then(() => {
           // 2. Remove the feature from the approval table
-          options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser })
-          };
+          options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser });
 
           fetch(removeUrl, options).then(response => response.json())
-            .then((response) => {
-              this.removeFeatureFromState(type, feature);
-            }).catch(e => console.log(e));
+            .then(() => this.removeFeatureFromState(type, feature)).catch(e => console.log(e));
         }).catch(e => console.log(e));
     } else {
       // Remove feature for approving table
-      let options: any = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser })
-      };
+      options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser }); 
 
       fetch(removeUrl, options).then(response => response.json())
-        .then((response) => {
-          this.removeFeatureFromState(type, feature);
-        }).catch(e => console.log(e));
+        .then(() => this.removeFeatureFromState(type, feature)).catch(e => console.log(e));
     }
   }
 

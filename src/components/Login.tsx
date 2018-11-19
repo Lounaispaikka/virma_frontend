@@ -9,15 +9,10 @@ declare const L: any; // Some hack that works for including L & L.draw
 
 import { login, data, layer, map, messages } from '../model/store';
 import { LoginModalContainer } from './modals/LoginModalContainer';
-import { appUrls } from '../config';
+import { appUrls } from '../config/config';
+import { getOptions, postAuthOptions, postOptions } from '../config/fetchConfig';
 
 import '../../css/customBootstrap.css!';
-
-const headers = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json',
-  'Cache': 'no-cache'
-};
 
 @observer
 export class Login extends React.Component<any, any> {
@@ -76,18 +71,12 @@ export class Login extends React.Component<any, any> {
   }
 
   componentWillMount() {
-    const queryOptions: any = {
-      method: 'GET',
-      headers: headers,
-      credentials: 'include'
-    };
+    const options: any = getOptions;
 
-    fetch(appUrls.initLogin, queryOptions)
+    fetch(appUrls.initLogin, options)
       .then(response => response.json())
       .then(this.processLogin)
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => console.log(error));
   }
 
   login(e) {
@@ -108,18 +97,10 @@ export class Login extends React.Component<any, any> {
       return null;
     }
 
-    const queryOptions: any = {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Cache': 'no-cache',
-        'Authorization': 'Basic ' +  base64.encode(this.state.username + ':' + this.state.password)
-      },
-      credentials: 'include'
-    };
+    const fetchOptions: any = postAuthOptions;
+    fetchOptions.headers['Authorization'] = `Basic ${base64.encode(this.state.username + ':' + this.state.password)}`;
 
-    fetch(appUrls.login, queryOptions)
+    fetch(appUrls.login, fetchOptions)
       .then(response => response.json())
       .then(this.processLogin)
       .catch(() => {
@@ -133,18 +114,12 @@ export class Login extends React.Component<any, any> {
 
   logout(e) {
     e.preventDefault();
-    const queryOptions: any = {
-      method: 'GET',
-      headers: headers,
-      credentials: 'include'
-    };
+    const options: any = getOptions;
 
-    fetch(appUrls.logout, queryOptions)
+    fetch(appUrls.logout, options)
       .then(response => response.json())
       .then(this.processLogout)
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => console.log(error));
   }
 
   register(e) {
@@ -182,24 +157,19 @@ export class Login extends React.Component<any, any> {
       return null;
     }
 
-    const queryOptions: any = {
-      method: 'POST',
-      headers: headers,
-      credentials: 'include',
-      body: JSON.stringify({
-        username: this.state.regUsername,
-        password: this.state.regPassword,
-        password2: this.state.regPassword2,
-        email: this.state.regEmail,
-        organization: this.state.regOrganization
-      })
-    };
+    const options: any = postOptions;
+    options.body = JSON.stringify({
+      username: this.state.regUsername,
+      password: this.state.regPassword,
+      password2: this.state.regPassword2,
+      email: this.state.regEmail,
+      organization: this.state.regOrganization
+    });
 
-    fetch(appUrls.register, queryOptions)
+    fetch(appUrls.register, options)
       .then(response => response.json())
       .then(this.processRegister)
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         this.setState({
           displayErrorRegister: true,
           errorTextRegister: messages.loginMessages.registerConnectionError
@@ -209,20 +179,14 @@ export class Login extends React.Component<any, any> {
 
   forgot(e) {
     e.preventDefault();
-    const queryOptions: any = {
-      method: 'POST',
-      headers: headers,
-      credentials: 'include',
-      body: JSON.stringify({
-        email: this.state.forgotEmail
-      })
-    };
 
-    fetch(appUrls.forgot, queryOptions)
+    const options: any = postOptions;
+    options.body = JSON.stringify({ email: this.state.forgotEmail });
+
+    fetch(appUrls.forgot, options)
       .then(response => response.json())
       .then(this.processForgot)
-      .catch(error => {
-        console.log(error);
+      .catch(() => {
         this.setState({
           displayErrorForgot: true,
           forgotTextLogin: messages.loginMessages.forgotConnectionError

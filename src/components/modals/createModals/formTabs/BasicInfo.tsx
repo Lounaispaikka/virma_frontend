@@ -21,7 +21,7 @@ export class BasicInfo extends React.Component<any, any> {
     this.setState({ showAddress: !this.state.showAddress });
     e.target.value = this.state.showAddress ? 'F' : 'T';
 
-    this.props.formConfig.forEach(item => {
+    this.props.formConfig.forEach(() => {
       if (e.target.id === 'no_address') {
         this.props.formConfig.find(conf => conf.attr === 'address').formError = this.state.showAddress ? true : false;
         this.props.formConfig.find(conf => conf.attr === 'address').canBeUndefined = this.state.showAddress ? false : true;
@@ -101,6 +101,7 @@ export class BasicInfo extends React.Component<any, any> {
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
+                placeholder={null}
               />
             );
           }

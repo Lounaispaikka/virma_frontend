@@ -17,12 +17,10 @@ export class Sidebar extends React.Component<any, any> {
   }
 
   render() {
-    let infoButtonStyle, userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
-    infoButtonStyle = userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
+    let userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
+    userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
 
-    if (modal.showInfo) {
-      infoButtonStyle = "square-button-primary-active";
-    } else if (modal.showUsersModal) {
+    if (modal.showUsersModal) {
       userButtonStyle = "square-button-primary-active";
     } else if (modal.showFeaturesModal) {
       featureButtonStyle = "square-button-primary-active";
@@ -101,22 +99,22 @@ export class Sidebar extends React.Component<any, any> {
           </div>
           <div className={"layerselector-wrapper"}>
             {login.isLoggedIn &&
-              <PanelGroup>
-                <div className={"layerSelectorAdmin"}>
-                  <LayerPanel
-                    type={'all'}
-                    layers={layer.userLayers[0]}
-                    layerName={'Omat kohteet'}
-                    layerType={'Kaikki'}
-                  />
-                  <LayerPanel
-                    type={'approval'}
-                    layers={layer.approvalLayers[0]}
-                    layerName={'Hyväksytystä odottavat kohteet'}
-                    layerType={'Hyväksyttävät kohteet'}
-                  />
-                </div>
-              </PanelGroup>
+              <div className={"layerSelectorAdmin"}>
+                <PanelGroup>
+                    <LayerPanel
+                      type={'all'}
+                      layers={layer.userLayers[0]}
+                      layerName={'Omat kohteet'}
+                      layerType={'Kaikki'}
+                    />
+                    <LayerPanel
+                      type={'approval'}
+                      layers={layer.approvalLayers[0]}
+                      layerName={'Hyväksytystä odottavat kohteet'}
+                      layerType={'Hyväksyttävät kohteet'}
+                    />
+                </PanelGroup>
+              </div>
             }
             <div className={"layerSelector"}>
               <PanelGroup>

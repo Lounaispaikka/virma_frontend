@@ -85,6 +85,7 @@ export class OtherInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   displayFormError={info.formError}
+                  placeholder={null}
                 />
               );
             }
@@ -98,6 +99,7 @@ export class OtherInfo extends React.Component<any, any> {
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
+                placeholder={null}
               />
             );
           }

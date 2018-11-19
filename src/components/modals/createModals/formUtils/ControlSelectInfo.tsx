@@ -3,7 +3,7 @@ import { FormGroup, ControlLabel, FormControl, Label } from 'react-bootstrap';
 
 import { form } from '../../../../model/store';
 import { TooltipWithContent } from './Tooltip';
-import { HelpBlockContent } from './Helpblock';
+import HelpBlockContent from './Helpblock';
 
 import '../../../../../css/form.css!';
 
@@ -47,7 +47,7 @@ export class ControlSelectInfo extends React.Component<any, any> {
   }
 
   returnFormControl() {
-    const { controlName, formName, stateValue, handleChange, optionValues, displayFormError } = this.props;
+    const { controlName, formName, stateValue, optionValues, displayFormError } = this.props;
 
     return (
       <FormGroup validationState={displayFormError ? 'error' : null} controlId={formName} bsSize={"small"}>
@@ -97,7 +97,7 @@ export class ControlSelectInfo extends React.Component<any, any> {
           </div>}
         </div>}
 
-        {displayFormError && <HelpBlockContent>{formName}</HelpBlockContent>}
+        {displayFormError && <HelpBlockContent formName={formName} value={stateValue} />}
       </FormGroup>
     );
   }

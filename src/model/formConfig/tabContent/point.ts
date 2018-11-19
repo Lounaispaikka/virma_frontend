@@ -387,7 +387,7 @@ const pointConfig = [
   },
   {
     attr: 'publicinfo',
-    desc: 'Yhteystietojen julkisuus - Kontaktuppgifternas offentlighet',
+    desc: 'Yhteystiedot julkisia – Kontaktuppgifter offentliga',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -417,7 +417,7 @@ const pointConfig = [
   },
   {
     attr: 'telephone',
-    desc: 'Ylläpitäjän puhelinnumero - Upprätthållarens telefonnummer',
+    desc: 'Kohdetta koskeva yleinen puhelinnumero – En allmän telefonnummer som gäller objektet',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -427,7 +427,7 @@ const pointConfig = [
   },
   {
     attr: 'email',
-    desc: 'Ylläpitäjän sähköposti - Upprätthållarens e-post',
+    desc: 'Kohdetta koskeva yleinen sähköposti – En allmän epost som gäller objektet',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,

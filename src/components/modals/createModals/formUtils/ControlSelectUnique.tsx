@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
-import { HelpBlockContent } from './Helpblock';
+import HelpBlockContent from './Helpblock';
 
 import '../../../../../css/form.css!';
 
@@ -24,7 +24,7 @@ const ControlSelectUnique = ({ controlName, formName, stateValue, handleChange, 
         })}
       </FormControl>
 
-      {displayFormError && <HelpBlockContent>{formName}</HelpBlockContent>}
+      {displayFormError && <HelpBlockContent formName={formName} value={stateValue} />}
     </FormGroup>
   );
 }

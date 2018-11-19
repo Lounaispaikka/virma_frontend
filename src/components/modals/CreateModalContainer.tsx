@@ -8,7 +8,8 @@ import { layer, data, form, modal, login, map } from '../../model/store';
 import { CreateModalForm } from './createModals/CreateModalForm';
 import validateBorders from './validateBorders';
 
-import { appUrls } from '../../config';
+import { appUrls } from '../../config/config';
+import { postOptions } from '../../config/fetchConfig';
 
 import '../../../css/modal.css!';
 
@@ -244,35 +245,41 @@ export class CreateModalContainer extends React.Component<any, any> {
   }
 
   handleChange(event, layer, newValue = null) {
+    const { id, value } = event.target;
+
     // Check if the form change occurs for class1 or class2. If it does change the values for se and en values accordingly
-    if (event.target.id === 'class1_fi') {
+    if (id === 'class1_fi') {
       layer.map(layer => {
-        if (layer.name_fi === event.target.value) {
+        if (layer.name_fi === value) {
           this.setState({
             form: { ...this.state.form,
-              class1_fi: event.target.value, class1_se: layer.name_se, class1_en: layer.name_en
+              class1_fi: value, class1_se: layer.name_se, class1_en: layer.name_en
             }
           });
         }
       });
-    } else if (event.target.id === 'class2_fi') {
+    } else if (id === 'class2_fi') {
       layer.map(layer => {
-        if (layer.name_fi === event.target.value) {
+        if (layer.name_fi === value) {
           this.setState({
             form: { ...this.state.form,
-              class2_fi: event.target.value, class2_se: layer.name_se, class2_en: layer.name_en
+              class2_fi: value, class2_se: layer.name_se, class2_en: layer.name_en
             }
           });
         }
       });
-    } else if (event.target.id === 'no_address') {
-      this.setState({ form: { ...this.state.form, [event.target.id]: event.target.value } });
-    } else if (event.target.id === 'publicinfo') {
-      this.setState({ form: { ...this.state.form, [event.target.id]: event.target.value } });
+    } else if (id === 'no_address') {
+      this.setState({ form: { ...this.state.form, [id]: value } });
+    } else if (id === 'publicinfo') {
+      if (value === 'T') {
+        this.setState({ form: { ...this.state.form, [id]: value } });
+      } else {
+        this.setState({ form: { ...this.state.form, [id]: value, upkeeper: '', upkeepinfo: '' }});
+      }
     } else {
       // If other form values were changed handle them normaly
       this.setState({
-        form: { ...this.state.form, [event.target.id]: newValue ? newValue: event.target.value }
+        form: { ...this.state.form, [id]: newValue ? newValue: value }
       });
     }
   }
@@ -367,14 +374,10 @@ export class CreateModalContainer extends React.Component<any, any> {
     bodyContent['geom'] = featureGeom;
     bodyContent['type'] = this.props.selectedLayer;
 
-    const queryOptions: any = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ user: login.loggedUser, body: bodyContent })
-    };
+    const options: any = postOptions;
+    options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent });
 
-    fetch(url, queryOptions).then(response => response.json()).then(response => {
+    fetch(url, options).then(response => response.json()).then(() => {
       this.updateFeaturesToMap(this.state.form, type, this.props.selectedLayer);
       feature.remove();
       this.props.hideModal();

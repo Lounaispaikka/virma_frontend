@@ -4,7 +4,8 @@ import { Modal, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 import { login } from '../../../model/store';
-import { appUrls } from '../../../config';
+import { appUrls } from '../../../config/config';
+import { postOptions } from '../../../config/fetchConfig';
 
 import { ToggleEditor } from './editors/ToggleEditor';
 import { SelectEditor } from './editors/SelectEditor';
@@ -56,20 +57,13 @@ export class ManageUsersModal extends React.Component<any, any> {
   }
 
   sendApiCall(method, body, url) {
-    let queryOptions = {};
+    const queryOptions: any = postOptions;
+    queryOptions.method = method;
+
     if (body) {
-      queryOptions = {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ body: body, user: login.loggedUser })
-      };
+      queryOptions.body = JSON.stringify({ body: body, user: login.loggedUser });
     } else {
-      queryOptions = {
-        method: method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-      };
+      delete queryOptions.body;
     }
 
     return fetch(url, queryOptions);

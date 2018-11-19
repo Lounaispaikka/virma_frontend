@@ -9,7 +9,8 @@ import 'whatwg-fetch';
 declare const L: any; // Some hack that works for including L & L.draw
 
 import { data, map, layer, modal, messages, login } from '../model/store';
-import { appUrls, mapUrls } from '../config';
+import { appUrls, mapUrls } from '../config/config';
+import { postOptions } from '../config/fetchConfig';
 
 import Dummy from './Dummy';
 import { CreateModalContainer } from './modals/CreateModalContainer';
@@ -273,19 +274,14 @@ export class LeafletMap extends React.Component<any, any> {
 
       // This is only called when the feature is already in db
       if (e.feature && e.featureDetails) {
-        const queryOptions: any = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ id: e.featureDetails.gid, type: this.state.selectedLayer, name: e.featureDetails.name_fi, user: login.loggedUser })
-        };
+        postOptions['body'] = JSON.stringify({ id: e.featureDetails.gid, type: this.state.selectedLayer, name: e.featureDetails.name_fi, user: login.loggedUser });
 
         if (e.feature instanceof L.CircleMarker) {
-          this.removeTargetFeatureFetch(appUrls.removePoint, queryOptions, messages.mapMessages.removePointSuccess, messages.mapMessages.removePointFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removePoint, postOptions, messages.mapMessages.removePointSuccess, messages.mapMessages.removePointFailure, e.feature);
         } else if ((e.feature instanceof L.Polyline) && !(e.feature instanceof L.Polygon)) {
-          this.removeTargetFeatureFetch(appUrls.removeLine, queryOptions, messages.mapMessages.removeLineSuccess, messages.mapMessages.removeLineFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removeLine, postOptions, messages.mapMessages.removeLineSuccess, messages.mapMessages.removeLineFailure, e.feature);
         } else if ((e.feature instanceof L.Polygon) && !(e.feature instanceof L.Rectangle)) {
-          this.removeTargetFeatureFetch(appUrls.removeArea, queryOptions, messages.mapMessages.removeAreaSuccess, messages.mapMessages.removeAreaFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removeArea, postOptions, messages.mapMessages.removeAreaSuccess, messages.mapMessages.removeAreaFailure, e.feature);
         }
       } else { // Just for case if the feature somehow doesn't have any information...
         e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...

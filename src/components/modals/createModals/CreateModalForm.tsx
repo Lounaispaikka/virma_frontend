@@ -33,6 +33,11 @@ export class CreateModalForm extends React.Component<any, any> {
     prevProps.formConfig.map((info) => {
       let content = prevProps.parentState[info.attr] + '';
 
+      if (content.length > 253) {
+        info.formError = true;
+        return;
+      }
+
       // Check if field is added to form and it cannot be undefined -> some content needs to be there
       if (info.addedToForm && !info.canBeUndefined) {
         if (content.indexOf('undefined') >= 0 || validator.isEmpty(content)) {
