@@ -17,7 +17,7 @@ export class LineApprovalFeatures extends React.Component<any, any> {
             <Polyline
               key={idx}
               positions={feature.geom.coordinates}
-              color={"black"}
+              color={"rgba(0, 0, 0, 0.7"}
               weight={3}
               onClick={(e) => setSelectedFeature(e.target, feature, LINE_APPROVAL_FEATURES)}
             >

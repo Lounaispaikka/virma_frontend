@@ -19,7 +19,7 @@ export class PointApprovalFeatures extends React.Component<any, any> {
               center={[feature.geom.coordinates[0], feature.geom.coordinates[1]]}
               radius={8}
               color={"black"}
-              fillColor={"black"}
+              fillColor={"rgba(0, 0, 0, 0.7"}
               weight={1.5}
               fillOpacity={1}
               onClick={(e) => setSelectedFeature(e.target, feature, POINT_APPROVAL_FEATURES)}

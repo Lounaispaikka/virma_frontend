@@ -18,7 +18,7 @@ export class AreaApprovalFeatures extends React.Component<any, any> {
               key={idx}
               positions={feature.geom.coordinates}
               color={"black"}
-              fillColor={"black"}
+              fillColor={"rgba(0, 0, 0, 0.7"}
               weight={1.5}
               fillOpacity={1}
               onClick={(e) => setSelectedFeature(e.target, feature, AREA_APPROVAL_FEATURES)}

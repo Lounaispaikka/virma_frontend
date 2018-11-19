@@ -292,7 +292,11 @@ export class CreateModalContainer extends React.Component<any, any> {
         }
       });
     } else if (id === NO_ADDRESS) {
-      this.setState({ form: { ...this.state.form, [id]: value } });
+      if (value === 'T') {
+        this.setState({ form: { ...this.state.form, [id]: value } });
+      } else {
+        this.setState({ form: { ...this.state.form, [id]: value, address: '' }});
+      }
     } else if (id === PUBLICINFO) {
       if (value === 'T') {
         this.setState({ form: { ...this.state.form, [id]: value } });

@@ -102,18 +102,18 @@ export class Sidebar extends React.Component<any, any> {
             {login.isLoggedIn &&
               <div className={"layerSelectorAdmin"}>
                 <PanelGroup>
-                    <LayerPanel
-                      type={ALL}
-                      layers={layer.userLayers[0]}
-                      layerName={'Omat kohteet'}
-                      layerType={ALL_FEATURES}
-                    />
-                    <LayerPanel
-                      type={APPROVAL}
-                      layers={layer.approvalLayers[0]}
-                      layerName={'Hyväksytystä odottavat kohteet'}
-                      layerType={APPROVAL_FEATURES}
-                    />
+                  <LayerPanel
+                    type={ALL}
+                    layers={layer.userLayers[0]}
+                    layerName={'Omat kohteet'}
+                    layerType={ALL_FEATURES}
+                  />
+                  <LayerPanel
+                    type={APPROVAL}
+                    layers={layer.approvalLayers[0]}
+                    layerName={'Hyväksytystä odottavat kohteet'}
+                    layerType={APPROVAL_FEATURES}
+                  />
                 </PanelGroup>
               </div>
             }

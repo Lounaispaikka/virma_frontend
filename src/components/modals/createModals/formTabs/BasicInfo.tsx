@@ -21,7 +21,7 @@ export class BasicInfo extends React.Component<any, any> {
 
   handleCheckbox(e) {
     this.setState({ showAddress: !this.state.showAddress });
-    e.target.value = this.state.showAddress ? 'F' : 'T';
+    e.target.value = this.state.showAddress ? 'T' : 'F';
 
     this.props.formConfig.forEach(() => {
       if (e.target.id === NO_ADDRESS) {

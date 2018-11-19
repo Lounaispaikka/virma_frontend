@@ -390,7 +390,7 @@ export class LeafletMap extends React.Component<any, any> {
                 this.setStylingToDefault();
               } else {
                 if (this.state.selectedFeature.feature.options.children.props.type.indexOf('Point') >= 0 || this.state.selectedFeature.feature.options.children.props.type.indexOf('Area') >= 0) {
-                  this.state.selectedFeature.feature.setStyle({ "fillColor": "black", "weight": 1.5 });
+                  this.state.selectedFeature.feature.setStyle({ "fillColor": "rgba(0, 0, 0, 0.7", "weight": 1.5 });
                 } else {
                   this.state.selectedFeature.feature.setStyle({ "color": "black", "weight": 3 });
                 }
