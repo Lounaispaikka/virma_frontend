@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 
 import { initialFormState } from '../../config/formConfig/initialFormState';
 
@@ -28,6 +28,11 @@ export default class Form {
   @observable organizations = organizations;
   @observable ownerclass = ownerclass;
   @observable upkeepclass = upkeepclass;
-  @observable tooltipsForForm = tooltipsForForm;
+  @observable.shallow tooltipsForForm = tooltipsForForm;
   @observable helpBlockTexts = helpBlockTexts;
+
+  @action.bound
+  getTooltipsForForm(name, type) {
+    return this.tooltipsForForm[name][type];
+  }
 }

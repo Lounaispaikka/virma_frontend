@@ -29,12 +29,12 @@ export default class ControlText extends React.Component<any, any> {
   }
 
   render() {
-    const { formName } = this.props;
+    const { formName, formType } = this.props;
 
     if (form.tooltipsForForm[formName]) {
       return (
         <TooltipWithContent
-          tooltip={form.tooltipsForForm[formName]}
+          tooltip={form.getTooltipsForForm(formName, formType)}
         >
           {this.returnFormControl()}
         </TooltipWithContent>

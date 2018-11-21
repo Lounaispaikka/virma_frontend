@@ -110,7 +110,7 @@ export const lineConfig = [
   },
   {
     attr: NAME_FI,
-    desc: 'Reitin nimi - Objektets namn',
+    desc: 'Reitin nimi - Ruttens namn',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -140,7 +140,7 @@ export const lineConfig = [
   },
   {
     attr: INFO_FI,
-    desc: 'Kohdekuvaus - Beskrivning av objektet',
+    desc: 'Reitin kuvaus - Beskrivning av rutten',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -180,7 +180,7 @@ export const lineConfig = [
   },
   {
     attr: ACCESSIBIL,
-    desc: 'Esteettömyys - Hinderfritt',
+    desc: 'Esteettömyys - Tillgänglighet',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -200,7 +200,7 @@ export const lineConfig = [
   },
   {
     attr: WWW_FI,
-    desc: 'Kohteen verkkosivut - Objektets webbsidor',
+    desc: 'Kohteen verkkosivut - Ruttens webbsidor',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -386,7 +386,7 @@ export const lineConfig = [
   },
   {
     attr: TELEPHONE,
-    desc: 'Kohdetta koskeva yleinen puhelinnumero – En allmän telefonnummer som gäller objektet',
+    desc: 'Reittiä koskeva yleinen puhelinnumero - Allmänt telefonnummer för rutten',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -396,7 +396,7 @@ export const lineConfig = [
   },
   {
     attr: EMAIL,
-    desc: 'Kohdetta koskeva yleinen sähköposti – En allmän epost som gäller objektet',
+    desc: 'Reittiä koskeva yleinen sähköposti - Allmän e-post för rutten',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,

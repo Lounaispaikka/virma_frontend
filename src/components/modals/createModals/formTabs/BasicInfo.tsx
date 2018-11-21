@@ -40,7 +40,7 @@ export class BasicInfo extends React.Component<any, any> {
   }
 
   render() {
-    const { formConfig, parentState, handleFormChange, layers, sortTabContent } = this.props;
+    const { formConfig, formType, parentState, handleFormChange, layers, sortTabContent } = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
@@ -88,6 +88,7 @@ export class BasicInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   checkboxValue={this.state.showAddress}
                   handleChange={this.handleCheckbox}
+                  formType={formType}
                 />
               );
             }
@@ -102,6 +103,7 @@ export class BasicInfo extends React.Component<any, any> {
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
                 placeholder={null}
+                formType={formType}
               />
             );
           }

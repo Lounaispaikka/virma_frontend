@@ -147,7 +147,7 @@ export const pointConfig = [
   },
   {
     attr: NO_ADDRESS,
-    desc: 'Ei osoitetta - Publicitet av adressen',
+    desc: 'Ei osoitetta - Ingen adress',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,

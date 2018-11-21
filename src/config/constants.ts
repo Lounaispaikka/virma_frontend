@@ -88,3 +88,10 @@ export const UPKEEPINFO = 'upkeepinfo';
 export const TELEPHONE = 'telephone';
 export const EMAIL = 'email';
 export const LENGTH_M = 'length_m';
+
+export const NO_ADDRESS_DESC = 'Ei osoitetta - Ingen adress';
+export const POINT_ADDRESS_DESC = 'Kohteen katuosoite - Objektets gatuadress';
+export const AREA_ADDRESS_DESC = 'Alueen katuosoite - Områdets gatuadress';
+export const POINT_INFO_FI_DESC = 'Kohdekuvaus - Beskrivning av objektet';
+export const POINT_WWW_FI_DESC = 'Kohteen verkkosivut - Objektets webbsidor';
+export const ROUTE_WWW_FI_DESC = 'Kohteen verkkosivut - Ruttens webbsidor'

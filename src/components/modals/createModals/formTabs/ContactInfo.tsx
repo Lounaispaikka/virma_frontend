@@ -55,7 +55,7 @@ export class ContactInfo extends React.Component<any, any> {
 
   render() {
     const { showPublic } = this.state;
-    const { formConfig, parentState, handleFormChange, sortTabContent} = this.props;
+    const { formConfig, formType, parentState, handleFormChange, sortTabContent} = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
@@ -77,6 +77,7 @@ export class ContactInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   disabled={info.attr.indexOf('timestamp') >= 0 ? true : false}
+                  formType={formType}
                 />
               );
             }
@@ -91,6 +92,7 @@ export class ContactInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.ownerclass}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
             } else if (info.attr === UPKEEPCLAS) {
@@ -114,6 +116,7 @@ export class ContactInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   checkboxValue={showPublic}
                   handleChange={this.handleCheckbox}
+                  formType={formType}
                 />
               );
             }
@@ -128,6 +131,7 @@ export class ContactInfo extends React.Component<any, any> {
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
                 placeholder={this.getPublicInfoPlaceholders(showPublic, info.attr)}
+                formType={formType}
               />
             );
           }

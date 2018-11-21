@@ -4,7 +4,18 @@ import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-boot
 import validator from 'validator';
 
 import { map } from '../../../model/store';
-import { EMAIL, TELEPHONE, ZIP, UPKEEPCLAS, UNDEFINED, CIRCLE_MARKER, POLYLINE, POLYGON } from '../../../config/constants';
+import {
+  EMAIL,
+  TELEPHONE,
+  ZIP,
+  UPKEEPCLAS,
+  UNDEFINED,
+  CIRCLE_MARKER,
+  POLYLINE,
+  POLYGON,
+  POINT,
+  LINESTRING
+} from '../../../config/constants';
 
 import { BasicInfo } from './formTabs/BasicInfo';
 import { OtherInfo } from './formTabs/OtherInfo';
@@ -109,14 +120,16 @@ export class CreateModalForm extends React.Component<any, any> {
   }
 
   getHeaderText() {
-    if (this.props.createType === CIRCLE_MARKER) {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa kohteen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
+    const { createType, feature } = this.props;
+
+    if (createType === CIRCLE_MARKER) {
+      if (feature.featureDetails) { return <b>{`Muokkaa kohteen "${feature.featureDetails.name_fi}" tietoja`}</b>; }
       return <b>{'Lisää uuden kohteen tiedot'}</b>;
-    } else if (this.props.createType === POLYLINE) {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa reitin "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
+    } else if (createType === POLYLINE) {
+      if (feature.featureDetails) { return <b>{`Muokkaa reitin "${feature.featureDetails.name_fi}" tietoja`}</b>; }
       return <b>{'Lisää uuden reitin tiedot'}</b>;
-    } else if (this.props.createType === POLYGON) {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa alueen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
+    } else if (createType === POLYGON) {
+      if (feature.featureDetails) { return <b>{`Muokkaa alueen "${feature.featureDetails.name_fi}" tietoja`}</b>; }
       return <b>{'Lisää uuden alueen tiedot'}</b>;
     }
 
@@ -135,6 +148,7 @@ export class CreateModalForm extends React.Component<any, any> {
 
   render() {
     const {
+      createType,
       formConfig,
       layers,
       showCreateModal,
@@ -148,6 +162,11 @@ export class CreateModalForm extends React.Component<any, any> {
       unsetFeature,
       resetFeatureCoords
     } = this.props;
+
+    let type = null;
+    if (createType === CIRCLE_MARKER) type = POINT;
+    if (createType === POLYLINE) type = LINESTRING;
+    if (createType === POLYGON) type = POLYGON;
 
     return (
       <div>
@@ -163,6 +182,7 @@ export class CreateModalForm extends React.Component<any, any> {
               <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'createTabs'} bsStyle={"tabs"}>
                 <Tab eventKey={1} title={"Perustiedot"}>
                   <BasicInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}
@@ -173,6 +193,7 @@ export class CreateModalForm extends React.Component<any, any> {
 
                 <Tab eventKey={2} title={"Muut tiedot"}>
                   <OtherInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}
@@ -182,6 +203,7 @@ export class CreateModalForm extends React.Component<any, any> {
 
                 <Tab eventKey={3} title={"Yhteystiedot"}>
                   <ContactInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}

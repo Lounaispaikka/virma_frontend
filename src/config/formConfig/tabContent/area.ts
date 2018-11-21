@@ -114,7 +114,7 @@ export const areaConfig = [
   },
   {
     attr: NAME_FI,
-    desc: 'Kohteen nimi - Objektets namn',
+    desc: 'Alueen nimi - Områdets namn',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -144,7 +144,7 @@ export const areaConfig = [
   },
   {
     attr: NO_ADDRESS,
-    desc: 'Ei osoitetta - Publicitet av adressen',
+    desc: 'Ei osoitetta - Ingen adress',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -154,7 +154,7 @@ export const areaConfig = [
   },
   {
     attr: ADDRESS,
-    desc: 'Kohteen katuosoite - Objektets gatuadress',
+    desc: 'Alueen katuosoite - Områdets gatuadress',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -174,7 +174,7 @@ export const areaConfig = [
   },
   {
     attr: INFO_FI,
-    desc: 'Kohdekuvaus - Beskrivning av objektet',
+    desc: 'Alueen kuvaus - Beskrivning av området',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -214,7 +214,7 @@ export const areaConfig = [
   },
   {
     attr: ACCESSIBIL,
-    desc: 'Esteettömyys - Hinderfritt',
+    desc: 'Esteettömyys - Tillgänglighet',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -224,7 +224,7 @@ export const areaConfig = [
   },
   {
     attr: WWW_FI,
-    desc: 'Kohteen verkkosivut - Objektets webbsidor',
+    desc: 'Alueen verkkosivut - Områdets webbsidor',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -431,7 +431,7 @@ export const areaConfig = [
   },
   {
     attr: TELEPHONE,
-    desc: 'Kohdetta koskeva yleinen puhelinnumero – En allmän telefonnummer som gäller objektet',
+    desc: 'Aluetta koskeva yleinen puhelinnumero - Allmänt telefonnummer för området',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -441,7 +441,7 @@ export const areaConfig = [
   },
   {
     attr: EMAIL,
-    desc: 'Kohdetta koskeva yleinen sähköposti – En allmän epost som gäller objektet',
+    desc: 'Aluetta koskeva yleinen sähköposti - Allmän e-post for området',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,

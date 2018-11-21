@@ -19,7 +19,7 @@ import {
 
 export class OtherInfo extends React.Component<any, any> {
   render() {
-    const { formConfig, parentState, handleFormChange, sortTabContent } = this.props;
+    const { formConfig, formType, parentState, handleFormChange, sortTabContent } = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
@@ -35,6 +35,7 @@ export class OtherInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   disabled={false}
+                  formType={formType}
                 />
               );
             } else if (info.attr === TIMESTAMP) {
@@ -46,6 +47,7 @@ export class OtherInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   disabled={true}
+                  formType={formType}
                 />
               );
             } else if (info.attr === MUNICIPALI) {
@@ -58,6 +60,7 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.municipali}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
             } else if (info.attr === SUBREGION) {
@@ -70,6 +73,7 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.subregion}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
             } else if (info.attr === REGION) {
@@ -82,6 +86,7 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.region}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
             }
@@ -97,6 +102,7 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   displayFormError={info.formError}
                   placeholder={null}
+                  formType={formType}
                 />
               );
             }
@@ -111,6 +117,7 @@ export class OtherInfo extends React.Component<any, any> {
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
                 placeholder={null}
+                formType={formType}
               />
             );
           }
