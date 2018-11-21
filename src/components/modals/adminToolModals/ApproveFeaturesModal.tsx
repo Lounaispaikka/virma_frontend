@@ -35,13 +35,6 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
       approveLines: [],
       approveAreas: []
     };
-
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-    this.customConfirm = this.customConfirm.bind(this);
-    this.approveFeaturesButton = this.approveFeaturesButton.bind(this);
-    this.removeFeaturesButton = this.removeFeaturesButton.bind(this);
-    this.sendApproval = this.sendApproval.bind(this);
-    this.removeFeatureFromState = this.removeFeatureFromState.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +57,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
       }).catch(e => console.log(e));
   }
 
-  handleTabSelect(key) {
+  handleTabSelect = (key) => {
     this.setState({ tabKey: key });
   }
 
@@ -84,7 +77,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     }); }}>Poista kohteet</Button>)
   }
 
-  sendApproval(form, type, feature, addUrl, removeUrl, layerType) {
+  sendApproval = (form, type, feature, addUrl, removeUrl, layerType) => {
     const bodyContent = this.getPostBodyContent(form, feature, type, layerType);
     const options: any = postOptions;
 
@@ -128,7 +121,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     return bodyContent;
   }
 
-  removeFeatureFromState(type, feature) {
+  removeFeatureFromState = (type, feature) => {
     if (type === POINT_TYPE) {
       const newPoints = this.filterFeatureArray(this.state.approvePoints, feature.gid);
       this.setState({ approvePoints: newPoints });
@@ -148,7 +141,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     });
   }
 
-  customConfirm(next) {
+  customConfirm = (next) => {
     if (this.state.approving ? confirm('Haluatko lisätä kohteet kantaan?') : confirm('Haluatko poistaa kohteet pysyvästi?')) {
       if (this.state.tabKey === 1) {
         this.pointTable.state.selectedRowKeys.forEach(key => {

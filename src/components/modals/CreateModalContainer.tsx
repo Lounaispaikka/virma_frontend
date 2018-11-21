@@ -45,10 +45,6 @@ export class CreateModalContainer extends React.Component<any, any> {
       featureInfoExists: false, // This for determine whether to use create or update as post method!
       form: map.checkFormEditOn ? map.formState : form.initialFormState // This is for not reseting form state if modifing feature geometry
     };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.sendPost = this.sendPost.bind(this);
-    this.resetFeatureCoords = this.resetFeatureCoords.bind(this);
   }
 
   // This is for filling up the form content based whether feature has properties or it is newly created feature
@@ -210,7 +206,7 @@ export class CreateModalContainer extends React.Component<any, any> {
   }
 
   // This resets faeture back after possible geometry changes
-  resetFeatureCoords(feature) {
+  resetFeatureCoords = (feature) => {
     let coordArray = [];
 
     // Get feature coordinates for feature equal check -> to see whether the feature coords have been edited
@@ -267,7 +263,7 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
   }
 
-  handleChange(event, layer, newValue = null) {
+  handleChange = (event, layer, newValue = null) => {
     const { id, value } = event.target;
 
     // Check if the form change occurs for class1 or class2. If it does change the values for se and en values accordingly
@@ -392,7 +388,7 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
   }
 
-  sendDbPost(type, url, featureGeom, feature, operation) {
+  sendDbPost = (type, url, featureGeom, feature, operation) => {
     let bodyContent = {};
     if (type === CIRCLE_MARKER) {
       form.pointFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });

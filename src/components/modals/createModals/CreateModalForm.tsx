@@ -23,10 +23,6 @@ export class CreateModalForm extends React.Component<any, any> {
       showAlert: false,
       formConfig: []
     };
-
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-    this.hideCreateModal = this.hideCreateModal.bind(this);
-    this.getAlert = this.getAlert.bind(this);
   }
 
   componentWillReceiveProps(prevProps) {
@@ -81,7 +77,7 @@ export class CreateModalForm extends React.Component<any, any> {
     });
   }
 
-  handleTabSelect(key) {
+  handleTabSelect = (key) => {
     this.setState({ tabKey: key });
   }
 
@@ -93,7 +89,7 @@ export class CreateModalForm extends React.Component<any, any> {
       this.props.sendPost(this.props.createType, this.props.feature.feature);
   }
 
-  hideCreateModal() {
+  hideCreateModal = () => {
     this.handleTabSelect(1);
     this.props.unsetFeature();
     this.props.hideModal();
@@ -127,7 +123,7 @@ export class CreateModalForm extends React.Component<any, any> {
     return null;
   }
 
-  getAlert() {
+  getAlert = () => {
     return (
      <Alert className={"formErrorAlert"} bsStyle={"danger"} onDismiss={() => { this.setState({ showAlert: false }); }}>
        <div className={"formErrorMsg"}>

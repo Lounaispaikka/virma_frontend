@@ -5,7 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { login } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
-import { POINT } from '../../../config/constants';
+import { POINT, MULTILINESTRING, MULTIPOLYGON } from '../../../config/constants';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
@@ -29,10 +29,6 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       modifiedLines: [],
       modifiedAreas: []
     };
-
-    this.updateChanges = this.updateChanges.bind(this);
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-    this.onAfterSaveCell = this.onAfterSaveCell.bind(this);
   }
 
   componentDidMount() {
@@ -65,18 +61,19 @@ export class ManageFeaturesModal extends React.Component<any, any> {
     return fetch(url, queryOptions);
   }
 
-  onAfterSaveCell(row, cellName, cellValue) {
+  onAfterSaveCell = (row, cellName, cellValue) => {
     if (row.geom.type === POINT) {
       this.setState({ modifiedPoints: this.state.modifiedPoints.concat(row) });
-    } else if (row.geom.type === 'MultiLineString') {
+    } else if (row.geom.type === MULTILINESTRING) {
       this.setState({ modifiedLines: this.state.modifiedLines.concat(row) });
-    } else if (row.geom.type === 'MultiPolygon') {
+    } else if (row.geom.type === MULTIPOLYGON) {
       this.setState({ modifiedAreas: this.state.modifiedAreas.concat(row) });
     }
   }
 
-  updateChanges() {
+  updateChanges = () => {
     const featureLength = this.state.modifiedPoints.length + this.state.modifiedLines.length + this.state.modifiedAreas.length;
+
     if (confirm(`Haluatko päivittää päivittäjätunnukset ${featureLength} kohteelle?`)) {
       if (this.state.modifiedPoints.length !== 0) {
         this.state.modifiedPoints.forEach(point => {
@@ -107,7 +104,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
     }
   }
 
-  handleTabSelect(key) {
+  handleTabSelect = (key) => {
     this.setState({ tabKey: key });
   }
 

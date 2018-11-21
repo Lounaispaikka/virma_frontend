@@ -21,11 +21,9 @@ export class ControlDate extends React.Component<any, any> {
     this.state = {
       startDate: this.props.stateValue === undefined ? moment() : moment(this.props.stateValue)
     };
-
-    this.handleDatePicker = this.handleDatePicker.bind(this);
   }
 
-  handleDatePicker(date, event) {
+  handleDatePicker = (date, event) => {
     this.setState({ startDate: date });
     event.target['id'] = this.props.formName;
     event.target['value'] = moment(date).format(DATE_FORMAT);

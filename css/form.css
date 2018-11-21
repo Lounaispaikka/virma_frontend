@@ -104,3 +104,18 @@ select {
   -moz-box-shadow: none !important;
   box-shadow: none !important;
 }
+
+.register-inline {
+  display: flex;
+  justify-content: space-between;
+}
+
+.register-inline-1 {
+  width: 50%;
+  margin-right: 10px;
+}
+
+.register-inline-2 {
+  width: 50%;
+  margin-left: 10px;
+}

@@ -15,11 +15,9 @@ export class BasicInfo extends React.Component<any, any> {
     this.state = {
       showAddress: this.props.parentState[NO_ADDRESS] === 'T' ? true : false
     };
-
-    this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
-  handleCheckbox(e) {
+  handleCheckbox = (e) => {
     this.setState({ showAddress: !this.state.showAddress });
     e.target.value = this.state.showAddress ? 'T' : 'F';
 

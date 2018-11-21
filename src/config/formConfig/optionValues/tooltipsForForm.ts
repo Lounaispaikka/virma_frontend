@@ -83,7 +83,10 @@ const tooltipsForForm = {
     'Jag försäkrar att upprätthållarens samtycke finns för att publicera upprätthållarens kontaktinformation i Lounaispaikkas karttjänst. Personuppgifter publiceras inte som fria data. Mer information i anvisningen.'
   ],
 
-
+  nameInfo: [
+    '',
+    ''
+  ],
   usernameInfo: [
     'Ei ääkkösiä, eikä välilyöntejä. Max 15 merkkiä.',
     'Ej å,ä,ö, inga mellanslag. Max. 15 tecken.'

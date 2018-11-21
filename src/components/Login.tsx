@@ -23,11 +23,13 @@ export class Login extends React.Component<any, any> {
     this.state = {
       // Form value state
       username: '', password: '',
-      regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
+      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
       forgotEmail: '',
 
       // Form error state
       errorTextLogin: '', errorTextRegister: '', errorTextForgot: '',
+      displayErrorRegisterName: false,
+      displayErrorRegisterSurname: false,
       displayErrorLoginUsername: false,
       displayErrorLoginPassword: false,
       displayErrorForgot: false,
@@ -42,33 +44,6 @@ export class Login extends React.Component<any, any> {
       // View render logic state
       showLoginModalContainer: false, showLoginModal: false, showRegisterModal: false, showForgotModal: false
     };
-
-    this.login = this.login.bind(this);
-    this.register = this.register.bind(this);
-    this.forgot = this.forgot.bind(this);
-
-    this.processLogin = this.processLogin.bind(this);
-    this.processLogout = this.processLogout.bind(this);
-    this.processRegister = this.processRegister.bind(this);
-    this.processForgot = this.processForgot.bind(this);
-
-    this.showLoginModal = this.showLoginModal.bind(this);
-    this.showRegisterModal = this.showRegisterModal.bind(this);
-    this.showForgotModal = this.showForgotModal.bind(this);
-    this.hideLoginModal = this.hideLoginModal.bind(this);
-    this.hideRegisterModal = this.hideRegisterModal.bind(this);
-    this.hideForgotModal = this.hideForgotModal.bind(this);
-
-    this.updateLoginUsername = this.updateLoginUsername.bind(this);
-    this.updateLoginPassword = this.updateLoginPassword.bind(this);
-    this.updateRegisterUsername = this.updateRegisterUsername.bind(this);
-    this.updateRegisterPassword = this.updateRegisterPassword.bind(this);
-    this.updateRegisterPasswordRepeat = this.updateRegisterPasswordRepeat.bind(this);
-    this.updateRegisterEmail = this.updateRegisterEmail.bind(this);
-    this.updateRegisterOrganization = this.updateRegisterOrganization.bind(this);
-    this.updateForgotEmail = this.updateForgotEmail.bind(this);
-
-    this.resetErrors = this.resetErrors.bind(this);
   }
 
   componentWillMount() {
@@ -80,7 +55,7 @@ export class Login extends React.Component<any, any> {
       .catch(error => console.log(error));
   }
 
-  login(e) {
+  login = (e) => {
     e.preventDefault();
 
     if (this.state.username.length === 0 && this.state.password.length === 0) {
@@ -113,7 +88,7 @@ export class Login extends React.Component<any, any> {
       });
   }
 
-  logout(e) {
+  logout = (e) => {
     e.preventDefault();
     const options: any = getOptions;
 
@@ -123,35 +98,19 @@ export class Login extends React.Component<any, any> {
       .catch(error => console.log(error));
   }
 
-  register(e) {
+  register = (e) => {
     e.preventDefault();
 
+    const { regName, regSurname, regUsername, regPassword, regPassword2, regEmail, regOrganization } = this.state;
+
     let errorMessagesCount = 0;
-
-    if (this.state.regUsername.length === 0) {
-      this.setState({ displayErrorRegisterUsername: true });
-      errorMessagesCount++;
-    }
-
-    if (this.state.regPassword.length === 0) {
-      this.setState({ displayErrorRegisterPassword: true });
-      errorMessagesCount++;
-    }
-
-    if (this.state.regPassword2.length === 0) {
-      this.setState({ displayErrorRegisterPassword2: true });
-      errorMessagesCount++;
-    }
-
-    if (this.state.regEmail.length === 0) {
-      this.setState({ displayErrorRegisterEmail: true });
-      errorMessagesCount++;
-    }
-
-    if (this.state.regOrganization.length === 0) {
-      this.setState({ displayErrorRegisterOrganization: true });
-      errorMessagesCount++;
-    }
+    if (regName.length === 0) { this.setState({ displayErrorRegisterName: true }); errorMessagesCount++; }
+    if (regSurname.length === 0) { this.setState({ displayErrorRegisterSurname: true }); errorMessagesCount++; }
+    if (regUsername.length === 0) { this.setState({ displayErrorRegisterUsername: true }); errorMessagesCount++; }
+    if (regPassword.length === 0) { this.setState({ displayErrorRegisterPassword: true }); errorMessagesCount++; }
+    if (regPassword2.length === 0) { this.setState({ displayErrorRegisterPassword2: true }); errorMessagesCount++; }
+    if (regEmail.length === 0) { this.setState({ displayErrorRegisterEmail: true }); errorMessagesCount++; }
+    if (regOrganization.length === 0) { this.setState({ displayErrorRegisterOrganization: true }); errorMessagesCount++; }
 
     if (errorMessagesCount > 0) {
       this.setState({ errorTextRegister: 'Lomakkeessa on vielä täytettäviä kohteita' });
@@ -160,11 +119,12 @@ export class Login extends React.Component<any, any> {
 
     const options: any = postOptions;
     options.body = JSON.stringify({
-      username: this.state.regUsername,
-      password: this.state.regPassword,
-      password2: this.state.regPassword2,
-      email: this.state.regEmail,
-      organization: this.state.regOrganization
+      name: `${regName.replace(/ /g,'')} ${regSurname.replace(/ /g,'')}`,
+      username: regUsername,
+      password: regPassword,
+      password2: regPassword2,
+      email: regEmail,
+      organization: regOrganization
     });
 
     fetch(appUrls.register, options)
@@ -178,7 +138,7 @@ export class Login extends React.Component<any, any> {
       });
   }
 
-  forgot(e) {
+  forgot = (e) => {
     e.preventDefault();
 
     const options: any = postOptions;
@@ -195,7 +155,7 @@ export class Login extends React.Component<any, any> {
       });
   }
 
-  processLogin(loginResponse) {
+  processLogin = (loginResponse) => {
     if (loginResponse.message === 'In' || loginResponse.message === 'Success') {
       this.setState({
         password: '',
@@ -233,7 +193,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  processLogout(logoutResponse) {
+  processLogout = (logoutResponse) => {
     if (logoutResponse.message === 'Success') {
       this.setState({
         username: '',
@@ -269,7 +229,7 @@ export class Login extends React.Component<any, any> {
     data.areasApproval = [];
   }
 
-  processRegister(registerResponse) {
+  processRegister = (registerResponse) => {
     if (registerResponse.message === 'Success') {
       this.setState({
         password: '',
@@ -308,7 +268,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  processForgot(forgotResponse) {
+  processForgot = (forgotResponse) => {
     if (forgotResponse.message === 'Success') {
       this.setState({
         displayErrorForgot: false,
@@ -330,7 +290,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  showLoginModal() {
+  showLoginModal = () => {
     this.resetErrors();
     this.setState({
       showLoginModalContainer: true,
@@ -338,7 +298,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  showRegisterModal() {
+  showRegisterModal = () => {
     this.resetErrors();
     this.setState({
       showRegisterModal: true,
@@ -348,7 +308,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  showForgotModal() {
+  showForgotModal = () => {
     this.resetErrors();
     this.setState({
       showForgotModal: true,
@@ -357,7 +317,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  hideLoginModal() {
+  hideLoginModal = () => {
     this.resetErrors();
     this.setState({
       showLoginModalContainer: false,
@@ -366,7 +326,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  hideRegisterModal() {
+  hideRegisterModal = () => {
     this.resetErrors();
     this.setState({
       showLoginModal: true,
@@ -375,7 +335,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  hideForgotModal() {
+  hideForgotModal = () => {
     this.resetErrors();
     this.setState({
       showLoginModal: true,
@@ -384,7 +344,7 @@ export class Login extends React.Component<any, any> {
     });
   }
 
-  resetErrors() {
+  resetErrors = () => {
     this.setState({
       displayErrorLoginUsername: false,
       displayErrorLoginPassword: false,
@@ -396,16 +356,32 @@ export class Login extends React.Component<any, any> {
       displayErrorForgot: false,
       errorTextLogin: '', errorTextRegister: '', errorTextForgot: '',
       username: '', password: '',
-      regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
+      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
       forgotEmail: '',
     });
   }
 
-  updateRegisterUsername(event) {
+  updateRegisterName = (event) => {
     if (event.target.value.length === 0) {
-      this.setState({
-        displayErrorRegisterUsername: true
-      });
+      this.setState({ regName: event.target.value, displayErrorRegisterName: true });
+      return;
+    }
+
+    this.setState({ regName: event.target.value, displayErrorRegisterName: false});
+  }
+
+  updateRegisterSurname = (event) => {
+    if (event.target.value.length === 0) {
+      this.setState({ regSurname: event.target.value, displayErrorRegisterSurname: true });
+      return;
+    }
+
+    this.setState({ regSurname: event.target.value, displayErrorRegisterSurname: false });
+  }
+
+  updateRegisterUsername = (event) => {
+    if (event.target.value.length === 0) {
+      this.setState({ displayErrorRegisterUsername: true });
     } else if (event.target.value.length > 15) {
       this.setState({
         displayErrorRegisterUsername: true,
@@ -430,7 +406,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateRegisterPassword(event) {
+  updateRegisterPassword = (event) => {
     if (event.target.length === 0) {
       this.setState({ regPassword: event.target.value, displayErrorRegisterPassword: true });
     } else {
@@ -444,7 +420,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateRegisterPasswordRepeat(event) {
+  updateRegisterPasswordRepeat = (event) => {
     if (event.target.length === 0) {
       this.setState({ regPassword2: event.target.value, displayErrorRegisterPassword2: true });
     } else if (event.target.length === 0 || (event.target.value !== this.state.regPassword)) {
@@ -454,7 +430,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateRegisterEmail(event) {
+  updateRegisterEmail = (event) => {
     if (event.target.value.length === 0 || !validator.isEmail(event.target.value)) {
       this.setState({ regEmail: event.target.value, displayErrorRegisterEmail: true });
       return;
@@ -463,7 +439,7 @@ export class Login extends React.Component<any, any> {
     this.setState({ regEmail: event.target.value, displayErrorRegisterEmail: false });
   }
 
-  updateRegisterOrganization(event) {
+  updateRegisterOrganization = (event) => {
     if (event.target.value.length === 0) {
       this.setState({ regOrganization: event.target.value, displayErrorRegisterOrganization: true });
     } else {
@@ -471,7 +447,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateLoginUsername(event) {
+  updateLoginUsername = (event) => {
     if (event.target.value.length === 0) {
       this.setState({ username: event.target.value, displayErrorLoginUsername: true });
     } else {
@@ -479,7 +455,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateLoginPassword(event) {
+  updateLoginPassword = (event) => {
     if (event.target.value.length === 0) {
       this.setState({ password: event.target.value, displayErrorLoginPassword: true });
     } else {
@@ -487,7 +463,7 @@ export class Login extends React.Component<any, any> {
     }
   }
 
-  updateForgotEmail(event) {
+  updateForgotEmail = (event) => {
     if (event.target.value.length === 0 || !validator.isEmail(event.target.value)) {
       this.setState({ forgotEmail: event.target.value, forgotDisabled: true });
       return;
@@ -497,6 +473,33 @@ export class Login extends React.Component<any, any> {
   }
 
   render() {
+    const displayFormErrors = {
+      displayErrorLoginUsername: this.state.displayErrorLoginUsername,
+      displayErrorLoginPassword: this.state.displayErrorLoginPassword,
+      displayErrorForgot: this.state.displayErrorForgot,
+      displayErrorRegister: this.state.displayErrorRegister,
+      displayErrorRegisterName: this.state.displayErrorRegisterName,
+      displayErrorRegisterSurname: this.state.displayErrorRegisterSurname,
+      displayErrorRegisterUsername: this.state.displayErrorRegisterUsername,
+      displayErrorRegisterPassword: this.state.displayErrorRegisterPassword,
+      displayErrorRegisterPasssword2: this.state.displayErrorRegisterPassword2,
+      displayErrorRegisterEmail: this.state.displayErrorRegisterEmail,
+      displayErrorRegisterOrganization: this.state.displayErrorRegisterOrganization,
+    };
+
+    const updaters = {
+      updateLoginUsername: this.updateLoginUsername,
+      updateLoginPassword: this.updateLoginPassword,
+      updateRegisterName: this.updateRegisterName,
+      updateRegisterSurname: this.updateRegisterSurname,
+      updateRegisterUsername: this.updateRegisterUsername,
+      updateRegisterPassword: this.updateRegisterPassword,
+      updateRegisterPasswordRepeat: this.updateRegisterPasswordRepeat,
+      updateRegisterEmail: this.updateRegisterEmail,
+      updateRegisterOrganization: this.updateRegisterOrganization,
+      updateForgotEmail: this.updateForgotEmail,
+    };
+
     let loginButtonStyle = "square-button-primary";
 
     if (this.state.showLoginModal || this.state.showRegisterModal || this.state.showForgotModal) {
@@ -538,20 +541,11 @@ export class Login extends React.Component<any, any> {
 
           showRegisterModal={this.showRegisterModal}
           showForgotModal={this.showForgotModal}
-
           hideLoginModal={this.hideLoginModal}
           hideForgotModal={this.hideForgotModal}
           hideRegisterModal={this.hideRegisterModal}
 
-          displayErrorLoginUsername={this.state.displayErrorLoginUsername}
-          displayErrorLoginPassword={this.state.displayErrorLoginPassword}
-          displayErrorForgot={this.state.displayErrorForgot}
-          displayErrorRegister={this.state.displayErrorRegister}
-          displayErrorRegisterUsername={this.state.displayErrorRegisterUsername}
-          displayErrorRegisterPassword={this.state.displayErrorRegisterPassword}
-          displayErrorRegisterPassword2={this.state.displayErrorRegisterPassword2}
-          displayErrorRegisterEmail={this.state.displayErrorRegisterEmail}
-          displayErrorRegisterOrganization={this.state.displayErrorRegisterOrganization}
+          displayFormErrors={displayFormErrors}
 
           loginDisabled={this.state.loginDisabled}
           registerDisabled={this.state.registerDisabled}
@@ -560,14 +554,7 @@ export class Login extends React.Component<any, any> {
           errorTextRegister={this.state.errorTextRegister}
           errorTextForgot={this.state.errorTextForgot}
 
-          updateLoginUsername={this.updateLoginUsername}
-          updateLoginPassword={this.updateLoginPassword}
-          updateRegisterUsername={this.updateRegisterUsername}
-          updateRegisterPassword={this.updateRegisterPassword}
-          updateRegisterPasswordRepeat={this.updateRegisterPasswordRepeat}
-          updateRegisterEmail={this.updateRegisterEmail}
-          updateRegisterOrganization={this.updateRegisterOrganization}
-          updateForgotEmail={this.updateForgotEmail}
+          updaters={updaters}
         />
       </div>
     );

@@ -26,6 +26,8 @@ export class ManageUsersModal extends React.Component<any, any> {
       users: [],
       loading: true,
       form: {
+        name: undefined,
+        surname: undefined,
         username: undefined,
         password: undefined,
         email: undefined,
@@ -40,20 +42,12 @@ export class ManageUsersModal extends React.Component<any, any> {
       selectedUserKey: null,
       addUserInfo: false
     };
-
-    this.updateUsers = this.updateUsers.bind(this);
-    this.onDeleteRow = this.onDeleteRow.bind(this);
-    this.handleRowSelect = this.handleRowSelect.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.addNewUser = this.addNewUser.bind(this);
-    this.hideAddNewUser = this.hideAddNewUser.bind(this);
   }
 
   componentDidMount() {
     this.sendApiCall('GET', null, appUrls.users).then(response => response.json())
-      .then(response => {
-        this.setState({ users: response, loading: false });
-      }).catch(e => console.log(e));
+      .then(response => this.setState({ users: response, loading: false }))
+      .catch(e => console.log(e));
   }
 
   sendApiCall(method, body, url) {
@@ -69,13 +63,13 @@ export class ManageUsersModal extends React.Component<any, any> {
     return fetch(url, queryOptions);
   }
 
-  updateUsers() {
+  updateUsers = () => {
     this.state.users.forEach(user => {
       this.sendApiCall('POST', user, appUrls.updateUser).catch(e => console.log(e));
     });
   }
 
-  onDeleteRow(username) {
+  onDeleteRow = (username) => {
     const newUsers = this.state.users.filter((user) => {
       if (user.username === username[0]) { return false; }
       return true;
@@ -86,21 +80,34 @@ export class ManageUsersModal extends React.Component<any, any> {
     this.sendApiCall('POST', username, appUrls.removeUser).catch(e => console.log(e));
   }
 
-  handleRowSelect(row, isSelected, event, key) {
+  handleRowSelect = (row, isSelected, event, key) => {
     this.setState({ selectedUserKey: key });
   }
 
-  addNewUser(e) {
+  addNewUser = (e) => {
+    const {
+      name,
+      surname,
+      username,
+      password,
+      email,
+      customOrganization,
+      organization,
+      admin,
+      updater_id
+    } = this.state.form;
+
     this.setState({ addUserInfo: false });
     this.table.setState({ selectedRowKeys: [] });
 
     const user = {
-      username: this.state.form.username,
-      password: this.state.form.password,
-      email: this.state.form.email,
-      organization: this.state.showCustomOrganization ? this.state.form.customOrganization : this.state.form.organization,
-      admin: this.state.form.admin === 'on' ? true : false,
-      updater_id: this.state.form.updater_id
+      name: `${name.replace(/ /g,'')} ${surname.replace(/ /g,'')}`,
+      username: username,
+      password: password,
+      email: email,
+      organization: this.state.showCustomOrganization ? customOrganization : organization,
+      admin: admin === 'on' ? true : false,
+      updater_id: updater_id
     }
 
     this.table.handleAddRow(user);
@@ -116,15 +123,15 @@ export class ManageUsersModal extends React.Component<any, any> {
   }
 
   deleteButton = (removeRowEvent) => {
-    return (<Button id={"square-button-table-danger"} onClick={() => removeRowEvent([this.state.selectedUserKey])}>Poista käyttäjä</Button>)
+    return (<Button id={"square-button-table-danger"} onClick={() => removeRowEvent([this.state.selectedUserKey])}>{'Poista käyttäjä'}</Button>)
   }
 
   insertButton = (addRowEvent) => {
-    return (<Button id={"square-button-table-primary"} onClick={() => this.setState({ addUserInfo: true})}>Lisää käyttäjä</Button>)
+    return (<Button id={"square-button-table-primary"} onClick={() => this.setState({ addUserInfo: true})}>{'Lisää käyttäjä'}</Button>)
   }
 
   unselectButton = () => {
-    return <Button id={"square-button-table-warning"} onClick={() => this.table.setState({selectedRowKeys: []})}>Poista valinta</Button>
+    return <Button id={"square-button-table-warning"} onClick={() => this.table.setState({selectedRowKeys: []})}>{'Poista valinta'}</Button>
   }
 
   customConfirm(next, dropRowKeys) {
@@ -135,7 +142,7 @@ export class ManageUsersModal extends React.Component<any, any> {
     return rowIdx % 2 === 0 ? 'td-columnn-even' : 'td-column-odd';
   }
 
-  hideAddNewUser() {
+  hideAddNewUser = () => {
     this.setState({
       addUserInfo: false,
       form: { organization: "Aura" },
@@ -144,7 +151,7 @@ export class ManageUsersModal extends React.Component<any, any> {
     });
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     if (event.target.id === 'organization') {
       event.target.value === 'Muu organisaatio' ?
         this.setState({ showCustomOrganization: true, disableOrganization: true })
@@ -193,7 +200,7 @@ export class ManageUsersModal extends React.Component<any, any> {
         <Modal backdrop={"static"} bsSize={"large"} show={showManageUsersModal} onHide={(e) => hideManageUsersModal(e)}>
           <Modal.Header>
             <Modal.Title>
-              <b>Hallitse käyttäjiä ja niiden oikeuksia</b>
+              <b>{'Hallitse käyttäjiä ja niiden oikeuksia'}</b>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -215,11 +222,12 @@ export class ManageUsersModal extends React.Component<any, any> {
               exportCSV
               keyField={"username"}
             >
-              <TableHeaderColumn dataField={"username"} dataSort>Käyttäjätunnus</TableHeaderColumn>
-              <TableHeaderColumn dataField={"email"} dataSort>Sähköposti</TableHeaderColumn>
-              <TableHeaderColumn dataField={"organization"} customEditor={{ getElement: selectEditor }} dataSort>Organisaatio</TableHeaderColumn>
-              <TableHeaderColumn dataField={"admin"} customEditor={{ getElement: toggleEditor }} dataSort>Admin</TableHeaderColumn>
-              <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+              <TableHeaderColumn dataField={"name"} dataSort>{'Nimi'}</TableHeaderColumn>
+              <TableHeaderColumn dataField={"username"} dataSort>{'Käyttäjätunnus'}</TableHeaderColumn>
+              <TableHeaderColumn dataField={"email"} dataSort>{'Sähköpostiä'}</TableHeaderColumn>
+              <TableHeaderColumn dataField={"organization"} customEditor={{ getElement: selectEditor }} dataSort>{'Organisaatio'}</TableHeaderColumn>
+              <TableHeaderColumn dataField={"admin"} customEditor={{ getElement: toggleEditor }} dataSort>{'Admin'}</TableHeaderColumn>
+              <TableHeaderColumn dataField={"updater_id"} dataSort>{'Päivittäjätunnus'}</TableHeaderColumn>
             </BootstrapTable>
 
             <AddNewUser
@@ -234,8 +242,12 @@ export class ManageUsersModal extends React.Component<any, any> {
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => this.updateUsers()}>Vahvista kenttien muutokset</Button>
-              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideManageUsersModal(e)}>Sulje</Button>
+              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => this.updateUsers()}>
+                {'Vahvista kenttien muutokset'}
+              </Button>
+              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideManageUsersModal(e)}>
+                {'Sulje'}
+              </Button>
             </ButtonToolbar>
           </Modal.Footer>
         </Modal>

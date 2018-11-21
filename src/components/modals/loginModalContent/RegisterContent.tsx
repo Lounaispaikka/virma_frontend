@@ -18,11 +18,9 @@ export class RegisterContent extends React.Component<any, any> {
       selectedOrganization: 'Aura',
       newOrganization: ''
     };
-
-    this.onChangeOrganization = this.onChangeOrganization.bind(this);
   }
 
-  onChangeOrganization(e) {
+  onChangeOrganization = (e) => {
     if (e.target.value === 'Muu organisaatio') {
       this.setState({
         showCustomOrganization: true,
@@ -39,13 +37,16 @@ export class RegisterContent extends React.Component<any, any> {
   render() {
     const {
       register,
-      registerDisabled,
       errorTextRegister,
+      displayErrorRegisterName,
+      displayErrorRegisterSurname,
       displayErrorRegisterUsername,
       displayErrorRegisterPassword,
       displayErrorRegisterPassword2,
       displayErrorRegisterEmail,
       displayErrorRegisterOrganization,
+      updateRegisterName,
+      updateRegisterSurname,
       updateRegisterUsername,
       updateRegisterPassword,
       updateRegisterPasswordRepeat,
@@ -53,8 +54,16 @@ export class RegisterContent extends React.Component<any, any> {
       hideRegisterModal
     } = this.props;
 
+
     let disabled = false;
-    if (displayErrorRegisterUsername || displayErrorRegisterPassword || displayErrorRegisterPassword2 || displayErrorRegisterEmail || displayErrorRegisterOrganization) {
+    if (displayErrorRegisterName ||
+      displayErrorRegisterSurname ||
+      displayErrorRegisterUsername ||
+      displayErrorRegisterPassword ||
+      displayErrorRegisterPassword2 ||
+      displayErrorRegisterEmail ||
+      displayErrorRegisterOrganization
+    ) {
       disabled = true;
     }
 
@@ -63,29 +72,50 @@ export class RegisterContent extends React.Component<any, any> {
         <form onSubmit={e => register(e)}>
           {errorTextRegister.length !== 0 && <p>{errorTextRegister}</p>}
 
+          <div className={'register-inline'}>
+            <div className={'register-inline-1'}>
+              <FormGroup validationState={displayErrorRegisterName ? 'error' : null}>
+                <ControlLabel>{'Etunimi'}</ControlLabel>
+                <FormControl type={"text"} onChange={updateRegisterName} autoComplete={"new-password"} autoFocus />
+              </FormGroup>
+            </div>
+            <div className={'register-inline-2'}>
+              <FormGroup validationState={displayErrorRegisterSurname ? 'error' : null}>
+                <ControlLabel>{'Sukunimi'}</ControlLabel>
+                <FormControl type={"text"} onChange={updateRegisterSurname} autoComplete={"new-password"} />
+              </FormGroup>
+            </div>
+          </div>
+
           <TooltipWithContent
             tooltip={form.tooltipsForForm['usernameInfo']}
           >
             <FormGroup validationState={displayErrorRegisterUsername ? 'error' : null}>
-              <ControlLabel>Käyttäjätunnus</ControlLabel>
-              <FormControl type={"text"} onChange={updateRegisterUsername} autoComplete={"new-password"} autoFocus />
+              <ControlLabel>{'Käyttäjätunnus'}</ControlLabel>
+              <FormControl type={"text"} onChange={updateRegisterUsername} autoComplete={"new-password"} />
             </FormGroup>
           </TooltipWithContent>
 
-          <FormGroup validationState={displayErrorRegisterPassword ? 'error' : null}>
-            <ControlLabel>Salasana</ControlLabel>
-            <FormControl type={"password"} onChange={updateRegisterPassword} autoComplete={"new-password"} />
-          </FormGroup>
-          <FormGroup validationState={displayErrorRegisterPassword2 ? 'error' : null}>
-            <ControlLabel>Salasana uudestaan</ControlLabel>
-            <FormControl type={"password"} onChange={updateRegisterPasswordRepeat} autoComplete={"new-password"} />
-          </FormGroup>
+          <div className={'register-inline'}>
+            <div className={'register-inline-1'}>
+              <FormGroup validationState={displayErrorRegisterPassword ? 'error' : null}>
+                <ControlLabel>{'Salasana'}</ControlLabel>
+                <FormControl type={"password"} onChange={updateRegisterPassword} autoComplete={"new-password"} />
+              </FormGroup>
+            </div>
+            <div className={'register-inline-2'}>
+              <FormGroup validationState={displayErrorRegisterPassword2 ? 'error' : null}>
+                <ControlLabel>{'Salasana uudestaan'}</ControlLabel>
+                <FormControl type={"password"} onChange={updateRegisterPasswordRepeat} autoComplete={"new-password"} />
+              </FormGroup>
+            </div>
+          </div>
 
           <TooltipWithContent
             tooltip={form.tooltipsForForm['emailInfo']}
           >
             <FormGroup validationState={displayErrorRegisterEmail ? 'error' : null}>
-              <ControlLabel>Sähköposti</ControlLabel>
+              <ControlLabel>{'Sähköposti'}</ControlLabel>
               <FormControl onChange={updateRegisterEmail} autoComplete={"new-password"} />
             </FormGroup>
           </TooltipWithContent>
@@ -94,7 +124,7 @@ export class RegisterContent extends React.Component<any, any> {
             tooltip={form.tooltipsForForm['organizationInfo']}
           >
             <FormGroup controlId={"organization"}>
-              <ControlLabel>Organisaatio</ControlLabel>
+              <ControlLabel>{'Organisaatio'}</ControlLabel>
               <FormControl
                 componentClass={"select"}
                 id={"organization"}
@@ -116,7 +146,7 @@ export class RegisterContent extends React.Component<any, any> {
               tooltip={form.tooltipsForForm['new_organizationInfo']}
             >
               <FormGroup validationState={(displayErrorRegisterOrganization || this.state.newOrganization.length === 0) ? 'error' : null}>
-                <ControlLabel>Uusi organisaatio</ControlLabel>
+                <ControlLabel>{'Uusi organisaatio'}</ControlLabel>
                 <FormControl
                   type={"text"}
                   onChange={(e) => this.onChangeOrganization(e)}
@@ -129,10 +159,10 @@ export class RegisterContent extends React.Component<any, any> {
 
           <ButtonToolbar>
             <Button id={"square-button-primary"} type={"submit"} bsStyle={"primary"} disabled={disabled}>
-              Luo tunnus
+              {'Luo tunnus'}
             </Button>
             <Button id={"square-button-danger"} bsStyle={"danger"} onClick={hideRegisterModal}>
-              Takaisin
+              {'Takaisin'}
             </Button>
           </ButtonToolbar>
         </form>

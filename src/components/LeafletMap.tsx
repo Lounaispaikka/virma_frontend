@@ -105,22 +105,6 @@ export class LeafletMap extends React.Component<any, any> {
         }
       }
     };
-
-    this.setSelectedFeature = this.setSelectedFeature.bind(this);
-    this.unsetSelectedFeature = this.unsetSelectedFeature.bind(this);
-
-    this.manageFeature = this.manageFeature.bind(this);
-    this.startEditFeature = this.startEditFeature.bind(this);
-    this.stopAddingFeature = this.stopAddingFeature.bind(this);
-    this.stopEditFeature = this.stopEditFeature.bind(this);
-    this.removeNewTargetFeature = this.removeNewTargetFeature.bind(this);
-    this.removeTargetFeature = this.removeTargetFeature.bind(this);
-    this.removeTargetFeatureFetch = this.removeTargetFeatureFetch.bind(this);
-
-    this.showCreateModal = this.showCreateModal.bind(this);
-    this.hideCreateModal = this.hideCreateModal.bind(this);
-
-    this.switchLayer = this.switchLayer.bind(this);
   }
 
   componentDidMount() {
@@ -252,7 +236,7 @@ export class LeafletMap extends React.Component<any, any> {
   }
 
   // This is passed to featurePopup that opens CreateModal
-  manageFeature(e) {
+  manageFeature = (e) => {
     if (e.feature) {
       this.showCreateModal();
       e.feature.editing.disable();
@@ -262,7 +246,7 @@ export class LeafletMap extends React.Component<any, any> {
     this.setState({ manageOn: false });
   }
 
-  removeNewTargetFeature(e) {
+  removeNewTargetFeature = (e) => {
     if (confirm('Haluatko varmasti poistaa keskeneräisen kohteen ehdotuksen?')) {
       e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...
       e.feature.editing.disable();
@@ -273,7 +257,7 @@ export class LeafletMap extends React.Component<any, any> {
     }
   }
 
-  removeTargetFeature(e) {
+  removeTargetFeature = (e) => {
     if (confirm('Oletko varma, että haluat poistaa kohteen?')) {
 
       // This is only called when the feature is already in db
@@ -298,7 +282,7 @@ export class LeafletMap extends React.Component<any, any> {
     this.setSelectedFeature(null, null);
   }
 
-  removeTargetFeatureFetch(url, options, successMessage, failureMessage, feature) {
+  removeTargetFeatureFetch = (url, options, successMessage, failureMessage, feature) => {
     fetch(url, options).then(response => response.json()).then(() => {
       feature.options.editing || (feature.options.editing = {}); // Hack that works...
       feature.editing.disable();
@@ -309,7 +293,7 @@ export class LeafletMap extends React.Component<any, any> {
     }).catch(() => modal.showErrorAlert(failureMessage));
   }
 
-  startEditFeature(e) {
+  startEditFeature = (e) => {
     this.leafletMap.leafletElement.closePopup();
 
     if (!this.state.editOn) {
@@ -349,7 +333,7 @@ export class LeafletMap extends React.Component<any, any> {
     }
   }
 
-  stopAddingFeature(e) {
+  stopAddingFeature = (e) => {
     e.preventDefault();
     this.state.creatingFeature.disable();
     this.setState({ addingFeature: false, creatingFeature: null });
@@ -363,20 +347,20 @@ export class LeafletMap extends React.Component<any, any> {
     }
   }
 
-  stopEditFeature(e) {
+  stopEditFeature = (e) => {
     e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...
     e.feature.editing.disable();
     map.stopEditFeature();
     this.setState({ editOn: false, editStopOn: false });
   }
 
-  unsetSelectedFeature() {
+  unsetSelectedFeature = () => {
     this.leafletMap.leafletElement.closePopup();
     this.setState({ selectedFeature: { feature: null, featureDetails: null } });
     this.setSelectedFeature(null, null);
   }
 
-  setSelectedFeature(feature, featureDetails, selectedLayer = null) {
+  setSelectedFeature = (feature, featureDetails, selectedLayer = null) => {
     // Set the selectedLayer type -> needed for forms etc.
     this.setState({ selectedLayer: selectedLayer });
 
@@ -501,15 +485,15 @@ export class LeafletMap extends React.Component<any, any> {
     return createType;
   }
 
-  showCreateModal() {
+  showCreateModal = () => {
     this.setState({ showCreateModal: true });
   }
 
-  hideCreateModal() {
+  hideCreateModal = () => {
     this.setState({ showCreateModal: false });
   }
 
-  switchLayer(layer) {
+  switchLayer = (layer) => {
     // First remove the current layer
     this.leafletMap.leafletElement.removeLayer(this.state.layer);
 

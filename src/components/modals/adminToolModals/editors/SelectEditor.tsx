@@ -18,13 +18,9 @@ export class SelectEditor extends React.Component<any, any> {
       organizationName: '',
       showNewOrganization: false
     };
-
-    this.updateData = this.updateData.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleInput = this.handleInput.bind(this);
   }
 
-  updateData() {
+  updateData = () => {
     if (this.state.showNewOrganization) {
       this.props.onUpdate(this.state.organizationName)
     } else {
@@ -37,7 +33,7 @@ export class SelectEditor extends React.Component<any, any> {
     this.props.onUpdate(this.props.defaultValue);
   }
 
-  handleSelect(e) {
+  handleSelect = (e) => {
     if (e.target.value === 'Muu organisaatio') {
       this.setState({ buttonName: e.target.value, showNewOrganization: true });
     } else {
@@ -45,7 +41,7 @@ export class SelectEditor extends React.Component<any, any> {
     }
   }
 
-  handleInput(e) {
+  handleInput = (e) => {
     this.setState({ organizationName: e.target.value });
   }
 

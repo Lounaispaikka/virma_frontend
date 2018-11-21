@@ -23,11 +23,9 @@ export class ContactInfo extends React.Component<any, any> {
     this.state = {
       showPublic: this.props.parentState[PUBLICINFO] === 'T' ? true : false
     };
-
-    this.handleCheckbox = this.handleCheckbox.bind(this);
   }
 
-  handleCheckbox(e) {
+  handleCheckbox = (e) => {
     const { showPublic } = this.state;
     const { handleFormChange, formConfig } = this.props;
 

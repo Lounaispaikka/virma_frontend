@@ -20,11 +20,9 @@ export class LayerPanel extends React.Component<any, any> {
 
     bUtils.addStyle(Panel, 'panel-on');
     bUtils.addStyle(Panel, 'panel-off');
-
-    this.togglePanelState = this.togglePanelState.bind(this);
   }
 
-  togglePanelState(e) {
+  togglePanelState = (e) => {
     // Hack, fix this to be more precise way of checking from where the trigger came from
     if (e.target.hasAttribute("href") || e.target.id === "menu-glyphicon") {
       this.setState({ panelCollapsed: !this.state.panelCollapsed });

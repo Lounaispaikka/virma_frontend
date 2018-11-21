@@ -4,27 +4,50 @@ import { Modal, FormGroup, ControlLabel, FormControl, Button } from 'react-boots
 import { form } from '../../../model/store';
 
 import '../../../../css/modal.css!';
+import '../../../../css/form.css!';
 import '../../../../css/customBootstrap.css!';
 
-const AddNewUser = ({ showAddNewUser, hideAddNewUser, addNewUser, handleChange, formState, disableOrganization, showCustomOrganization }) => {
+const AddNewUser = ({
+  showAddNewUser,
+  hideAddNewUser,
+  addNewUser,
+  handleChange,
+  formState,
+  disableOrganization,
+  showCustomOrganization
+}) => {
   if (showAddNewUser) {
     return (
       <Modal backdrop={"static"} show={showAddNewUser} onHide={hideAddNewUser} className={"addNewUserModal"}>
         <Modal.Body>
+          <div className={'register-inline'}>
+            <div className={'register-inline-1'}>
+              <FormGroup>
+                <ControlLabel>{'Etunimi'}</ControlLabel>
+                <FormControl type={"text"} id={"name"} onChange={handleChange} />
+              </FormGroup>
+            </div>
+            <div className={'register-inline-2'}>
+              <FormGroup>
+                <ControlLabel>{'Sukunimi'}</ControlLabel>
+                <FormControl type={"text"} id={"surname"} onChange={handleChange} />
+              </FormGroup>
+            </div>
+          </div>
           <FormGroup>
-            <ControlLabel>Käyttäjätunnus</ControlLabel>
+            <ControlLabel>{'Käyttäjätunnus'}</ControlLabel>
             <FormControl type={"text"} id={"username"} onChange={handleChange} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Salasana</ControlLabel>
+            <ControlLabel>{'Salasana'}</ControlLabel>
             <FormControl type={"text"} id={"password"} onChange={handleChange} />
           </FormGroup>
           <FormGroup>
-            <ControlLabel>Sähköposti</ControlLabel>
+            <ControlLabel>{'Sähköposti'}</ControlLabel>
             <FormControl type={"text"} id={"email"} onChange={handleChange} />
           </FormGroup>
           <FormGroup controlId={"organization"}>
-            <ControlLabel>Organisaatio</ControlLabel>
+            <ControlLabel>{'Organisaatio'}</ControlLabel>
             <FormControl
               componentClass={"select"}
               id={"organization"}
@@ -42,7 +65,7 @@ const AddNewUser = ({ showAddNewUser, hideAddNewUser, addNewUser, handleChange, 
 
           {showCustomOrganization &&
             <FormGroup>
-              <ControlLabel>Uusi organisaatio</ControlLabel>
+              <ControlLabel>{'Uusi organisaatio'}</ControlLabel>
               <FormControl
                 type={"text"}
                 id={"customOrganization"}
@@ -59,12 +82,16 @@ const AddNewUser = ({ showAddNewUser, hideAddNewUser, addNewUser, handleChange, 
           </div>
 
           <FormGroup>
-            <ControlLabel>Päivittäjätunnus</ControlLabel>
+            <ControlLabel>{'Päivittäjätunnus'}</ControlLabel>
             <FormControl type={"text"} id={"updater_id"} onChange={handleChange} />
           </FormGroup>
-          <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => addNewUser(e)}>Lisää käyttäjä</Button>
+          <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => addNewUser(e)}>
+            {'Lisää käyttäjä'}
+          </Button>
           {' '}
-          <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideAddNewUser()}>Peruuta</Button>
+          <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideAddNewUser()}>
+            {'Peruuta'}
+          </Button>
         </Modal.Body>
       </Modal>
     );
