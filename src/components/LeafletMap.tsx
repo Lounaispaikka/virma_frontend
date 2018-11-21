@@ -262,7 +262,12 @@ export class LeafletMap extends React.Component<any, any> {
 
       // This is only called when the feature is already in db
       if (e.feature && e.featureDetails) {
-        postOptions['body'] = JSON.stringify({ id: e.featureDetails.gid, type: this.state.selectedLayer, name: e.featureDetails.name_fi, user: login.loggedUser });
+        postOptions['body'] = JSON.stringify({
+          id: e.featureDetails.gid,
+          type: this.state.selectedLayer,
+          name: e.featureDetails.name_fi,
+          user: login.loggedUser
+        });
 
         if (e.feature instanceof L.CircleMarker) {
           this.removeTargetFeatureFetch(appUrls.removePoint, postOptions, messages.mapMessages.removePointSuccess, messages.mapMessages.removePointFailure, e.feature);

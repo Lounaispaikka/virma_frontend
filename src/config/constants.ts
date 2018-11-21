@@ -21,6 +21,9 @@ export const AREA_FEATURES = 'Aluekohteet';
 export const POINT_APPROVAL_FEATURES = 'pointApprovalFeatures';
 export const LINE_APPROVAL_FEATURES = 'lineApprovalFeatures';
 export const AREA_APPROVAL_FEATURES = 'areaApprovalFeatures';
+export const POINT_USER_FEATURES = 'pointUserFeatures';
+export const LINE_USER_FEATURES = 'lineUserFeatures';
+export const AREA_USER_FEATURES = 'areaUserFeatures';
 
 export const RECREATIONAL_ATTRACTION = 'Virkistyskohde';
 export const TOURIST_ATTRACTION = 'Matkailupalvelukohde';

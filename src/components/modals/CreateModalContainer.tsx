@@ -32,6 +32,9 @@ import {
   POINT_APPROVAL_FEATURES,
   LINE_APPROVAL_FEATURES,
   AREA_APPROVAL_FEATURES,
+  POINT_USER_FEATURES,
+  LINE_USER_FEATURES,
+  AREA_USER_FEATURES,
 } from '../../config/constants';
 
 import '../../../css/modal.css!';
@@ -207,12 +210,14 @@ export class CreateModalContainer extends React.Component<any, any> {
 
   // This resets faeture back after possible geometry changes
   resetFeatureCoords = (feature) => {
+    const { selectedLayer } = this.props;
+
     let coordArray = [];
 
     // Get feature coordinates for feature equal check -> to see whether the feature coords have been edited
-    if (this.props.selectedLayer.indexOf(POINT) >= 0) {
+    if (selectedLayer.indexOf(POINT) >= 0) {
       coordArray = [feature.feature._latlng.lat, feature.feature._latlng.lng];
-    } else if (this.props.selectedLayer.indexOf(LINESTRING) >= 0) {
+    } else if (selectedLayer.indexOf(LINESTRING) >= 0) {
       feature.feature._latlngs.forEach((coord, idx) => {
         coordArray.push([]);
         coord.forEach((coord2) => {
@@ -220,8 +225,8 @@ export class CreateModalContainer extends React.Component<any, any> {
           coordArray[idx].push(Object.keys(coords).map(item => coords[item]));
         })
       });
-    } else if (this.props.selectedLayer.indexOf(AREA) >= 0) {
-      if (this.props.selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) { // Approval area coords don't have same ending and starting point
+    } else if (selectedLayer.indexOf(AREA) >= 0) {
+      if (selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) { // Approval area coords don't have same ending and starting point
         feature.feature._latlngs[0].forEach((coord, idx) => {
           coordArray.push([]);
           coord.forEach((coord2) => {
@@ -245,20 +250,28 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
 
     if (!isEqual(this.state.form.geom.coordinates, coordArray)) {
-      if (this.props.selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) {
-        if (this.props.selectedLayer === POINT_APPROVAL_FEATURES) {
-          data.updateFeatures(feature.featureDetails, POINT, true);
-        } else if (this.props.selectedLayer === LINE_APPROVAL_FEATURES) {
-          data.updateFeatures(feature.featureDetails, LINESTRING, true);
-        } else if (this.props.selectedLayer === AREA_APPROVAL_FEATURES) {
-          data.updateFeatures(feature.featureDetails, POLYGON, true);
+      if (selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) {
+        if (selectedLayer === POINT_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POINT, true, false);
+        } else if (selectedLayer === LINE_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, LINESTRING, true, false);
+        } else if (selectedLayer === AREA_APPROVAL_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POLYGON, true, false);
         }
-      } else if (this.props.selectedLayer.toLowerCase().indexOf(POINT) >= 0) {
-        data.updateFeatures(feature.featureDetails, POINT, false);
-      } else if (this.props.selectedLayer.toLowerCase().indexOf(LINESTRING) >= 0) {
-        data.updateFeatures(feature.featureDetails, LINESTRING, false);
-      } else if (this.props.selectedLayer.toLowerCase().indexOf(AREA) >= 0) {
-        data.updateFeatures(feature.featureDetails, POLYGON, false);
+      } else if (selectedLayer.toLowerCase().indexOf('user') >= 0) {
+        if (selectedLayer === POINT_USER_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POINT, false, true);
+        } else if (selectedLayer === LINE_USER_FEATURES) {
+          data.updateFeatures(feature.featureDetails, LINESTRING, false, true);
+        } else if (selectedLayer === AREA_USER_FEATURES) {
+          data.updateFeatures(feature.featureDetails, POLYGON, false, true);
+        }
+      } else if (selectedLayer.toLowerCase().indexOf(POINT) >= 0) {
+        data.updateFeatures(feature.featureDetails, POINT, false, false);
+      } else if (selectedLayer.toLowerCase().indexOf(LINESTRING) >= 0) {
+        data.updateFeatures(feature.featureDetails, LINESTRING, false, false);
+      } else if (selectedLayer.toLowerCase().indexOf(AREA) >= 0) {
+        data.updateFeatures(feature.featureDetails, POLYGON, false, false);
       }
     }
   }
@@ -307,14 +320,16 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
   }
 
-  sendPost(type, feature) {
+  sendPost = (type, feature) => {
+    const { featureInfoExists } = this.state;
+
     let url: any = null;
     let array: any = [];
     let geomFeature: any = null;
 
     if (type === CIRCLE_MARKER) {
       const coords = [feature._latlng.lat, feature._latlng.lng];
-      url = this.state.featureInfoExists ? appUrls.updatePoint : appUrls.createPoint;
+      url = featureInfoExists ? appUrls.updatePoint : appUrls.createPoint;
 
       geomFeature = {
         type: POINT,
@@ -322,7 +337,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         crs: { type: 'name', properties: { name: 'EPSG:3067' } }
       }
     } else if (type === POLYLINE) {
-      if (!this.state.featureInfoExists) {
+      if (!featureInfoExists) {
         url = appUrls.createLine;
 
         array.push([]);
@@ -348,7 +363,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         crs: { type: 'name', properties: { name: 'EPSG:3067' } }
       }
     } else if (type === POLYGON) {
-      if (!this.state.featureInfoExists) {
+      if (!featureInfoExists) {
         url = appUrls.createArea
 
         feature._latlngs.forEach((coord, idx) => {
@@ -377,7 +392,7 @@ export class CreateModalContainer extends React.Component<any, any> {
       }
     }
 
-    if (!this.state.featureInfoExists) {
+    if (!featureInfoExists) {
       if (confirm('Haluatko varmasti lisätä kohteen?')) {
         this.sendDbPost(type, url, geomFeature, feature, CREATE);
       }
@@ -389,6 +404,8 @@ export class CreateModalContainer extends React.Component<any, any> {
   }
 
   sendDbPost = (type, url, featureGeom, feature, operation) => {
+    const { selectedLayer } = this.props;
+
     let bodyContent = {};
     if (type === CIRCLE_MARKER) {
       form.pointFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
@@ -399,14 +416,14 @@ export class CreateModalContainer extends React.Component<any, any> {
     }
 
     bodyContent['geom'] = featureGeom;
-    bodyContent['type'] = this.props.selectedLayer;
+    bodyContent['type'] = selectedLayer;
 
     const options: any = postOptions;
     options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent });
 
     fetch(url, options).then(response => response.json()).then(() => {
-      this.updateFeaturesToMap(type, this.props.selectedLayer);
-      feature.remove();
+      if (selectedLayer.indexOf('newFeature') >= 0) feature.remove();
+      this.updateFeaturesToMap(type, selectedLayer);
       this.props.hideModal();
 
       let message = operation === CREATE ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
@@ -450,19 +467,27 @@ export class CreateModalContainer extends React.Component<any, any> {
       }
     } else if (layerType.indexOf('ApprovalFeatures') >= 0) { // update
       if (layerType === POINT_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POINT, true);
+        data.updateFeatures(this.props.feature.featureDetails, POINT, true, false);
       } else if (layerType === LINE_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, true);
+        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, true, false);
       } else if (layerType === AREA_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POLYGON, true);
+        data.updateFeatures(this.props.feature.featureDetails, POLYGON, true, false);
+      }
+    } else if (layerType.indexOf('UserFeatures') >= 0) { // update
+      if (layerType === POINT_USER_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, POINT, false, true);
+      } else if (layerType === LINE_USER_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false, true);
+      } else if (layerType === AREA_USER_FEATURES) {
+        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false, true);
       }
     } else { // update
       if (type === CIRCLE_MARKER) {
-        data.updateFeatures(this.props.feature.featureDetails, POINT, false);
+        data.updateFeatures(this.props.feature.featureDetails, POINT, false, false);
       } else if (type === POLYLINE) {
-        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false);
+        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false, false);
       } else if (type === POLYGON) {
-        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false);
+        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false, false);
       }
     }
   }

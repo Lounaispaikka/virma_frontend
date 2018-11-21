@@ -43,25 +43,25 @@ export default class Data {
 
   fetchRequest(url, options, resultArray) {
     return fetch(url, options).then(response => response.json())
-      .then(response => {
-        resultArray.replace(resultArray.concat(response));
-      }).catch(() => {
-        modal.showErrorAlert('Tasoja ei pystytty hakemaan.');
-      });
+      .then((response) => resultArray.replace(resultArray.concat(response)))
+      .catch(() => modal.showErrorAlert('Tasoja ei pystytty hakemaan.'));
   }
 
-  updateFeatures(featureDetails, type, approval) {
+  updateFeatures(featureDetails, type, approval, user) {
     postOptions.body = JSON.stringify({ gid: featureDetails.gid, approval: approval });
 
     if (type === POINT) {
-      approval ? this.sendUpdateRequest(appUrls.pointIndividual, this.pointsApproval, featureDetails, postOptions) :
-        this.sendUpdateRequest(appUrls.pointIndividual, this.points, featureDetails, postOptions);
+      if (approval) this.sendUpdateRequest(appUrls.pointIndividual, this.pointsApproval, featureDetails, postOptions)
+      else if (user) this.sendUpdateRequest(appUrls.pointIndividual, this.pointsUser, featureDetails, postOptions)
+      else this.sendUpdateRequest(appUrls.pointIndividual, this.points, featureDetails, postOptions);
     } else if (type === LINESTRING) {
-      approval ? this.sendUpdateRequest(appUrls.lineIndividual, this.linesApproval, featureDetails, postOptions) :
-        this.sendUpdateRequest(appUrls.lineIndividual, this.lines, featureDetails, postOptions);
+      if (approval) this.sendUpdateRequest(appUrls.lineIndividual, this.linesApproval, featureDetails, postOptions)
+      else if (user) this.sendUpdateRequest(appUrls.lineIndividual, this.linesUser, featureDetails, postOptions)
+      else this.sendUpdateRequest(appUrls.lineIndividual, this.lines, featureDetails, postOptions);
     } else if (type === POLYGON) {
-      approval ? this.sendUpdateRequest(appUrls.areaIndividual, this.areasApproval, featureDetails, postOptions) :
-        this.sendUpdateRequest(appUrls.areaIndividual, this.areas, featureDetails, postOptions);
+      if (approval) this.sendUpdateRequest(appUrls.areaIndividual, this.areasApproval, featureDetails, postOptions)
+      else if (user) this.sendUpdateRequest(appUrls.areaIndividual, this.areasUser, featureDetails, postOptions)
+      else this.sendUpdateRequest(appUrls.areaIndividual, this.areas, featureDetails, postOptions);
     }
   }
 

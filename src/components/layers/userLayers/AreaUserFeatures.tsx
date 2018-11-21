@@ -5,7 +5,7 @@ import { Polygon } from 'react-leaflet';
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
-import { AREA } from '../../../config/constants';
+import { AREA_USER_FEATURES } from '../../../config/constants';
 
 @observer
 export class AreaUserFeatures extends React.Component<any, any> {
@@ -28,9 +28,9 @@ export class AreaUserFeatures extends React.Component<any, any> {
                     weight={1.5}
                     fillColor={color}
                     fillOpacity={0.4}
-                    onClick={(e) => setSelectedFeature(e.target, feature, 'areaFeatures')}
+                    onClick={(e) => setSelectedFeature(e.target, feature, AREA_USER_FEATURES)}
                   >
-                    <FeaturePopup featureInfo={feature} type={AREA} />
+                    <FeaturePopup featureInfo={feature} type={'userArea'} />
                   </Polygon>
                 );
               }
