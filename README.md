@@ -4,35 +4,59 @@ This repository contains frontend source code for Virma application. Application
 # Getting started
 
 ## Prerequisities
-Project base is based on https://github.com/charto/charto repository with heavy modifications. Most notable packages from this repository are phopshor widgets, charto-leaflet, cbuild to name a few.
-Project uses System.js module loader which is used for importing JavaScript to the DOM. TypeScript is used as the main language through the application, therefore React components and some other files are written as .ts or .tsx files.
-
-Frontend is made primarily with React framework with mobx state management. Other used frameworks are Leaflet & React-bootstrap.
-
-In order to run both backend and frontend Node.js needs to installed.
+Project is written with TypeScript. However, the full utility of writing proper typed JavaScript is not implemented on this application. Application is built with TypeScript and bundled with cBuild (https://github.com/charto/cbuild) which is built on SystemJs. Built and bundled content is injected to HTML dom by using dojo (https://dojotoolkit.org/). Since were are using Node package management (npm) application requires Node.js to be installed.
 
 ## Installing
 Basic instructions for installing backend & frontend are explained here.
 
 ### Frontend
+Frontend is made primarily with React framework with mobx state management. Other used frameworks are Leaflet & React-bootstrap.
+
 ```
-1. npm install
-2. cd bundler
+Frontend requires TypeScript. Install it globally by running
 
-npm install
-cd ..
+$ npm install -g typescript
 
-3. npm run build
-4. npm run bundle
-5. npm start
-6. By default running at http://localhost:8080
+Install bundler
+
+$ cd bundler
+$ npm install
+$ cd ..
+
+Install npm packages
+
+$ npm install
+
+Run build
+
+$ npm run build
+
+Run bundle -> creates bundle file /dist/bundle.js
+
+$ npm run bundle
+
+Run app
+
+$ npm start
+
+By default running at http://localhost:8080
 ```
 
 ### Backend
 ```
-1. npm install
-2. npm start (or npm run start-dev)
-3. By default running at http://localhost:8081
+Install npm packages
+
+$ npm install
+
+Run backend with development settings
+
+$ npm run start-dev
+
+Run backend with production settings
+
+$ npm start
+
+By default running at http://localhost:8081
 ```
 
 # Development
@@ -42,18 +66,21 @@ Mapproxy dependency can be avoided by using publicly avaible tileservice (e.g. K
 
 By default sending email locally is not possible and will need some kind of VM to run the backend on.
 
-During development, it is not necessary to build & bundle the application everytime making to modifications to the application. System.js will automatically build the application when page is refreshed. However, if the application is already built, it is necessary to remove bundle.js file from /dist/bundle.js in order to run the application with the latest changes.
+During development, it is not necessary to build & bundle the application everytime making to modifications to the application. System.js will automatically build the application when page is refreshed. However, if the application is already built, it is necessary to remove bundle.js file from /dist/bundle.js in order to run the application with the latest built changes.
 
 Adding new npm packages may require manual labor for setting them up for System.js & TypeScript:
+
+```
 1. Install package normally and add typings:
-```
-npm install --save leaflet @types/leaflet
-```
+
+$ npm install --save leaflet @types/leaflet
+
 2. Add package manually to config-npm.js file (copy from other examples)
 3. Make sure that install was successfull by running npm run build & npm run bundle
 4. If error messages are shown at console, some other packages may need to be installed manually (error messages are complaining about missing package/s)
+```
 
-Building application on Windows needs different running scripts than in Linux (Package.json)
+Building application with TypeScript requires different running scripts on Windows than on Linux (Package.json)
 - Windows:
   - build -> "tsc -p src NUL: || echo"
 - Linux:
@@ -68,7 +95,7 @@ Deployment instructions are based on the current deployment. Different technolog
   - e.g. 22, 443, 80, 5432
 
 ### PostgreSQL + PostGIS
-- Default installation
+- Default installation (remember to create PostGIS extension!)
 - Add the following tables (e.g. points and points_approval are identical tables)
   - These can be added with command-line using psql or for example with pgAdmin
 
@@ -240,16 +267,17 @@ CREATE INDEX areas_geom_idx ON public.areas USING gist (geom);
 ```
 CREATE TABLE public.users (
     id integer NOT NULL,
-    username character varying(255) NOT NULL,
-    password character varying(255) NOT NULL,
-    email character varying(255),
+    name text,
+    username text NOT NULL,
+    password text NOT NULL,
+    email text,
     admin boolean DEFAULT false,
     organization text,
     updater_id text,
-    "resetPasswordToken" text,
-    "resetPasswordExpires" timestamp without time zone,
-    "failedLoginAttempts" integer DEFAULT 0,
-    "failedLoginTime" timestamp without time zone
+    resetPasswordToken text,
+    resetPasswordExpires timestamp without time zone,
+    failedLoginAttempts integer DEFAULT 0,
+    failedLoginTime timestamp without time zone
 );
 
 ALTER TABLE public.users OWNER TO postgres;
@@ -304,7 +332,7 @@ ALTER TABLE ONLY public.logs ADD CONSTRAINT logs_pkey PRIMARY KEY (id);
 sudo apt-get nginx
 ```
 
-### Certbot (Let's Encrypt) (for Nginx installation)
+Certbot (Let's Encrypt) (for Nginx installation)
 ```
 1. sudo apt-get update
 2. sudo apt-get install software-properties-common
@@ -368,16 +396,18 @@ server {
 In order to install Mapproxy files mapproxy.yaml & seed.yaml are needed.
 
 ```
-1. sudo aptitude install python-imaging python-yaml libproj-dev
-2. easy_install pip
-3. pip install MapProxy
-4. Put Mapproxy on
+$ sudo apt-get install aptitude
+$ sudo aptitude install python-imaging python-yaml libproj-dev
+$ easy_install pip
+$ pip install MapProxy
 
-mapproxy-util serve-develop -b 0.0.0.0 mapproxy.yaml
+Put Mapproxy on
 
-5. Load tiles (mapproxy has to be on while loading tiles)
+$ mapproxy-util serve-develop -b 0.0.0.0 mapproxy.yaml &>/dev/null &
 
-mapproxy-seed -f mapproxy.yaml -s seed.yaml --progress-file .mapproxy_seed_progress
+Load tiles (mapproxy has to be on while loading tiles)
+
+$ mapproxy-seed -f mapproxy.yaml -s seed.yaml --progress-file .mapproxy_seed_progress
 ```
 
 mapproxy.yaml
@@ -497,27 +527,26 @@ WantedBy=multi-user.target
 .
 |-- bin                       Express server used for hosting static content
 |-- bundler                   Contains https://github.com/charto/cbuild bundler for building application
-|-- css                       Application stylesheets
+|-- css                       Stylesheets
+|-- images                    Static images
 |-- src
 |   |-- components            Contains all of the React components
 |   |   |-- layers            Feature related components
 |   |   |-- modals            Modal related components (adminTools, featureModals, loginModals, utilModals etc.)
-|   |-- model
+|   |-- config
 |   |   |-- formConfig        Contains all configuration needed for making slight modifications for form content
 |   |   |-- layerConfig       Contains all classes assigned for each layer feature type
 |   |   |-- messageConfig     Contains notification messages and info modal content
+|   |   |-- config.ts         API, Backgroundmap urls
+|   |-- model
 |   |   |-- models            Contains mobx state management
-|   |-- App.tsx               Initialize Phosphor widgets
-|   |-- AppLayout.ts          Create app widgets
-|   |-- config.ts             API, Backgroundmap urls
-|   |-- ReactWidget.ts        Creating React component to be rendered inside Phosphor widget
+|   |-- App.tsx               Render ReactDOM
 |   |-- tsconfig.json         TypeScript config
 |-- vendor                    Folder consists manually loaded npm packages created by https://github.com/jjrv
 |-- config-base.js            System.js configuration file
 |-- config-npm.js             System.js configuration file for mapping npm packages
 |-- config.js                 System.js configutation file
 |-- package.json              Configure npm package & scripts
-|-- .jpg & .json files        Static files
 ```
 
 # License
