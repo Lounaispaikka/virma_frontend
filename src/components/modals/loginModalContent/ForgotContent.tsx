@@ -25,17 +25,17 @@ const ForgotContent = ({
           tooltip={form.tooltipsForForm['forgotEmailInfo']}
         >
           <FormGroup validationState={displayErrorForgot ? 'error' : null}>
-            <ControlLabel>Sähköposti</ControlLabel>
-            <FormControl type={"email"} onChange={updateForgotEmail} autoComplete={"new-password"} />
+            <ControlLabel>{'Sähköposti'}</ControlLabel>
+            <FormControl type={"email"} onChange={updateForgotEmail} autoComplete={"new-password"} autoFocus />
           </FormGroup>
         </TooltipWithContent>
 
         <ButtonToolbar>
           <Button id={"square-button-primary"} type={"submit"} bsStyle={"primary"} disabled={forgotDisabled}>
-            Palauta salasana
+            {'Palauta salasana'}
           </Button>
           <Button id={"square-button-danger"} bsStyle={"danger"} onClick={hideForgotModal}>
-            Takaisin
+            {'Takaisin'}
           </Button>
         </ButtonToolbar>
       </form>

@@ -20,9 +20,9 @@ import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
 
 export class ApproveFeaturesModal extends React.Component<any, any> {
-  private pointTable: BootstrapTable;
-  private lineTable: BootstrapTable;
-  private areaTable: BootstrapTable;
+  private pointTable: any;
+  private lineTable: any;
+  private areaTable: any;
 
   constructor(props: any) {
     super(props);
@@ -42,19 +42,16 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     options['body'] = JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin });
 
     fetch(appUrls.pointApprovals, options).then(response => response.json())
-      .then((response) => {
-        this.setState({ approvePoints: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ approvePoints: response, loading: false }))
+      .catch(e => console.log(e));
 
     fetch(appUrls.lineApprovals, options).then(response => response.json())
-      .then((response) => {
-        this.setState({ approveLines: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ approveLines: response, loading: false }))
+      .catch(e => console.log(e));
 
     fetch(appUrls.areaApprovals, options).then(response => response.json())
-      .then((response) => {
-        this.setState({ approveAreas: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ approveAreas: response, loading: false }))
+      .catch(e => console.log(e));
   }
 
   handleTabSelect = (key) => {
@@ -91,14 +88,16 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
           options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser });
 
           fetch(removeUrl, options).then(response => response.json())
-            .then(() => this.removeFeatureFromState(type, feature)).catch(e => console.log(e));
+            .then(() => this.removeFeatureFromState(type, feature))
+            .catch(e => console.log(e));
         }).catch(e => console.log(e));
     } else {
       // Remove feature for approving table
       options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser }); 
 
       fetch(removeUrl, options).then(response => response.json())
-        .then(() => this.removeFeatureFromState(type, feature)).catch(e => console.log(e));
+        .then(() => this.removeFeatureFromState(type, feature))
+        .catch(e => console.log(e));
     }
   }
 
@@ -178,6 +177,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
   }
 
   render() {
+    const { tabKey, loading, approvePoints, approveLines, approveAreas } = this.state;
     const { showApproveFeaturesModal, hideApproveFeaturesModal } = this.props;
 
     const selectRowProp: any = {
@@ -186,13 +186,20 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     };
 
     const options: any = {
-      noDataText: this.state.loading ? "Hyväksyttäviä kohteita ladataan" : "Hyväksyttäviä kohteita ei ole",
+      noDataText: loading ? "Hyväksyttäviä kohteita ladataan" : "Hyväksyttäviä kohteita ei ole",
       deleteBtn: this.approveFeaturesButton,
       insertBtn: this.removeFeaturesButton,
       handleConfirmDeleteRow: this.customConfirm,
       defaultSortName: "timestamp",
       defaultSortOrder: "desc"
     };
+
+    const ID = 'ID';
+    const CLASS1 = 'Pääluokitus';
+    const CLASS2 = 'Aliluokitus';
+    const NAME = 'Kohteen nimi';
+    const TIMESTAMP = 'Aikaleima';
+    const UPDATER = 'Päivittäjätunnus';
 
     return (
       <div>
@@ -208,24 +215,24 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
               painamalla "Poista kohteet" tällöin ne poistuvat lopullisesti.
             </p>
 
-            <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
+            <Tabs activeKey={tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
               <Tab eventKey={1} title={"Pisteet"}>
                 <br />
                 <BootstrapTable
                   ref={(pointTable) => { this.pointTable = pointTable; }}
-                  data={this.state.approvePoints}
+                  data={approvePoints}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -233,19 +240,19 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(lineTable) => { this.lineTable = lineTable; }}
-                  data={this.state.approveLines}
+                  data={approveLines}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -253,26 +260,28 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(areaTable) => { this.areaTable = areaTable; }}
-                  data={this.state.approveAreas}
+                  data={approveAreas}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
             </Tabs>
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideApproveFeaturesModal(e)}>Sulje</Button>
+              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideApproveFeaturesModal(e)}>
+                {'Sulje'}
+              </Button>
             </ButtonToolbar>
           </Modal.Footer>
         </Modal>

@@ -12,9 +12,9 @@ import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
 
 export class ManageFeaturesModal extends React.Component<any, any> {
-  private pointTable: BootstrapTable;
-  private lineTable: BootstrapTable;
-  private areaTable: BootstrapTable;
+  private pointTable: any;
+  private lineTable: any;
+  private areaTable: any;
 
   constructor(props: any) {
     super(props);
@@ -33,19 +33,16 @@ export class ManageFeaturesModal extends React.Component<any, any> {
 
   componentDidMount() {
     this.sendApiCall('POST', null, appUrls.pointsAll).then(response => response.json())
-      .then((response) => {
-        this.setState({ points: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ points: response, loading: false }))
+      .catch(e => console.log(e));
 
     this.sendApiCall('POST', null, appUrls.linesAll).then(response => response.json())
-      .then((response) => {
-        this.setState({ lines: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ lines: response, loading: false }))
+      .catch(e => console.log(e));
 
     this.sendApiCall('POST', null, appUrls.areasAll).then(response => response.json())
-      .then((response) => {
-        this.setState({ areas: response, loading: false });
-      }).catch(e => console.log(e));
+      .then((response) => this.setState({ areas: response, loading: false }))
+      .catch(e => console.log(e));
   }
 
   sendApiCall(method, body, url) {
@@ -78,27 +75,24 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       if (this.state.modifiedPoints.length !== 0) {
         this.state.modifiedPoints.forEach(point => {
           this.sendApiCall('POST', point, appUrls.alterUpdaterPoint).then(response => response.json())
-            .then(() => {
-              this.setState({ modifiedPoints: [] });
-            }).catch(e => console.log(e));
+            .then(() => this.setState({ modifiedPoints: [] }))
+            .catch(e => console.log(e));
         });
       }
 
       if (this.state.modifiedLines.length !== 0) {
         this.state.modifiedLines.forEach(line => {
           this.sendApiCall('POST', line, appUrls.alterUpdaterLine).then(response => response.json())
-            .then(() => {
-              this.setState({ modifiedLines: [] });
-            }).catch(e => console.log(e));
+            .then(() => this.setState({ modifiedLines: [] }))
+            .catch(e => console.log(e));
         });
       }
 
       if (this.state.modifiedAreas.length !== 0) {
         this.state.modifiedAreas.forEach(area => {
           this.sendApiCall('POST', area, appUrls.alterUpdaterArea).then(response => response.json())
-            .then(() => {
-              this.setState({ modifiedAreas: [] });
-            }).catch(e => console.log(e));
+            .then(() => this.setState({ modifiedAreas: [] }))
+            .catch(e => console.log(e));
         });
       }
     }
@@ -135,6 +129,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
   }
 
   render() {
+    const { tabKey, loading, points, lines, areas } = this.state;
     const {
       showManageFeaturesModal,
       hideManageFeaturesModal,
@@ -162,12 +157,19 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       clearSearchBtn: this.customClearButton
     };
 
+    const ID = 'ID';
+    const CLASS1 = 'Pääluokitus';
+    const CLASS2 = 'Aliluokitus';
+    const NAME = 'Kohteen nimi';
+    const TIMESTAMP = 'Aikaleima';
+    const UPDATER = 'Päivittäjätunnus';
+
     return (
       <div>
         <Modal backdrop={"static"} bsSize={"large"} show={showManageFeaturesModal} onHide={hideManageFeaturesModal}>
           <Modal.Header>
             <Modal.Title>
-              <b>Hallitse kohteiden muokkausoikeuksia</b>
+              <b>{'Hallitse kohteiden muokkausoikeuksia'}</b>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body className={"manageFeaturesModalBody"}>
@@ -176,12 +178,12 @@ export class ManageFeaturesModal extends React.Component<any, any> {
               Tietoja voi muokata valitsemalla "Päivittäjätunnus" -sarakkeen kohdalla solun ja kirjoittamalla halutun arvon. Muutokset tallentuvat valitsemalla "Päivitä kohteet" -painikkeella.
             </p>
 
-            <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
+            <Tabs activeKey={tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
               <Tab eventKey={1} title={"Pisteet"}>
                 <br />
                 <BootstrapTable
                   ref={(pointTable) => { this.pointTable = pointTable; }}
-                  data={this.state.points}
+                  data={points}
                   cellEdit={cellEditProp}
                   options={options}
                   pagination
@@ -189,12 +191,12 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -202,7 +204,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(lineTable) => { this.lineTable = lineTable; }}
-                  data={this.state.lines}
+                  data={lines}
                   cellEdit={cellEditProp}
                   options={options}
                   pagination
@@ -210,12 +212,12 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -223,7 +225,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(areaTable) => { this.areaTable = areaTable; }}
-                  data={this.state.areas}
+                  data={areas}
                   cellEdit={cellEditProp}
                   options={options}
                   pagination
@@ -231,20 +233,24 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
             </Tabs>
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => this.updateChanges()}>Päivitä kohteet</Button>
-              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideManageFeaturesModal(e)}>Sulje</Button>
+              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => this.updateChanges()}>
+                {'Päivitä kohteet'}
+              </Button>
+              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideManageFeaturesModal(e)}>
+                {'Sulje'}
+              </Button>
             </ButtonToolbar>
           </Modal.Footer>
         </Modal>
