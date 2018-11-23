@@ -58,10 +58,11 @@
   padding: 5px 0;
   order: 5;
   flex: 1;
+  overflow-y: auto;
 }
 
 .layerselector-wrapper {
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .layerSelectorAdmin {
