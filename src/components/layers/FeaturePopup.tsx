@@ -101,11 +101,9 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {(login.isAdmin || okToModify) &&
+          {(map.featureSelected && (login.isAdmin || okToModify)) &&
             <div className={"featurePopupButton"}>
-              <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={map.manageTargetFeature} block>
-                {'Avaa kohteen hallinta'}
-              </Button>
+              {!map.toggleEditState && <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={map.manageTargetFeature} block>Avaa kohteen hallinta</Button>}
             </div>
           }
         </div>
