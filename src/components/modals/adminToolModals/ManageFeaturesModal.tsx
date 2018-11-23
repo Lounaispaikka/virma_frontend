@@ -5,7 +5,6 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { login } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
-import { POINT, MULTILINESTRING, MULTIPOLYGON } from '../../../config/constants';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
@@ -59,11 +58,11 @@ export class ManageFeaturesModal extends React.Component<any, any> {
   }
 
   onAfterSaveCell = (row, cellName, cellValue) => {
-    if (row.geom.type === POINT) {
+    if (row.geom.type === 'Point') {
       this.setState({ modifiedPoints: this.state.modifiedPoints.concat(row) });
-    } else if (row.geom.type === MULTILINESTRING) {
+    } else if (row.geom.type === 'MultiLineString') {
       this.setState({ modifiedLines: this.state.modifiedLines.concat(row) });
-    } else if (row.geom.type === MULTIPOLYGON) {
+    } else if (row.geom.type === 'MultiPolygon') {
       this.setState({ modifiedAreas: this.state.modifiedAreas.concat(row) });
     }
   }
@@ -144,7 +143,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
     const options: any = {
       defaultSortName: "gid",
       defaultSortOrder: "asc",
-      noDataText: this.state.loading ? "Kohteita ladataan" : "Kohteita ei pystytty hakemaan",
+      noDataText: loading ? "Kohteita ladataan" : "Kohteita ei pystytty hakemaan",
 
       sizePerPage: 50,
       sizePerPageList: [

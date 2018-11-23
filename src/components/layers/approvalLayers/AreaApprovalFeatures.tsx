@@ -11,7 +11,7 @@ export class AreaApprovalFeatures extends React.Component<any, any> {
     const { alueet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {alueet.length !== 0 && alueet.map((feature, idx) => {
           return (
             <Polygon
@@ -27,7 +27,7 @@ export class AreaApprovalFeatures extends React.Component<any, any> {
             </Polygon>
           );
         })}
-      </div>
+      </>
     );
   }
 }

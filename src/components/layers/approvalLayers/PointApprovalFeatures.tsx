@@ -11,7 +11,7 @@ export class PointApprovalFeatures extends React.Component<any, any> {
     const { pisteet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {pisteet.length !== 0 && pisteet.map((feature, idx) => {
           return (
             <CircleMarker
@@ -28,7 +28,7 @@ export class PointApprovalFeatures extends React.Component<any, any> {
             </CircleMarker>
           );
         })}
-      </div>
+      </>
     );
   }
 }

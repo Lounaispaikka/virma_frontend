@@ -400,7 +400,7 @@ export class CreateModalContainer extends React.Component<any, any> {
   }
 
   sendDbPost = (type, url, featureGeom, feature, operation) => {
-    const { selectedLayer } = this.props;
+    const { selectedLayer, feature: { featureDetails } } = this.props;
 
     let bodyContent = {};
     if (type === CIRCLE_MARKER) {
@@ -419,7 +419,8 @@ export class CreateModalContainer extends React.Component<any, any> {
 
     fetch(url, options).then(response => response.json()).then(() => {
       if (selectedLayer.indexOf('newFeature') >= 0) feature.remove();
-      this.updateFeaturesToMap(type, selectedLayer);
+      this.props.unsetFeature();
+      this.updateFeaturesToMap(type, selectedLayer, featureDetails);
       this.props.hideModal();
 
       let message = operation === CREATE ? 'Kohde lisätty onnistuneesti.' : 'Kohde päivitetty onnistuneesti.';
@@ -434,11 +435,12 @@ export class CreateModalContainer extends React.Component<any, any> {
       modal.showSuccessAlert(message);
     }).catch(() => {
       feature.remove();
+      this.props.unsetFeature();
       this.props.hideModal();
 
-      let message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
+      let message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohteen päivitys epäonnistui.';
       if (type === CIRCLE_MARKER) {
-        message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohde päivitys epäonnistui.';
+        message = operation === CREATE ? 'Kohteen lisäys epäonnistui.' : 'Kohteen päivitys epäonnistui.';
       } else if (type === POLYLINE) {
         message = operation === CREATE ? 'Reitin lisäys epäonnistui.' : 'Reitin päivitys epäonnistui.';
       } else if (type === POLYGON) {
@@ -449,7 +451,7 @@ export class CreateModalContainer extends React.Component<any, any> {
     });
   }
 
-  updateFeaturesToMap(type, layerType) {
+  updateFeaturesToMap(type, layerType, featureDetails) {
     if (layerType.indexOf('newFeature') >= 0) { // create
       if (this.props.createType === CIRCLE_MARKER) {
         data.updateApprovalFeatures(POINT_FEATURES);
@@ -463,27 +465,27 @@ export class CreateModalContainer extends React.Component<any, any> {
       }
     } else if (layerType.indexOf('ApprovalFeatures') >= 0) { // update
       if (layerType === POINT_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POINT, true, false);
+        data.updateFeatures(featureDetails, POINT, true, false);
       } else if (layerType === LINE_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, true, false);
+        data.updateFeatures(featureDetails, LINESTRING, true, false);
       } else if (layerType === AREA_APPROVAL_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POLYGON, true, false);
+        data.updateFeatures(featureDetails, POLYGON, true, false);
       }
     } else if (layerType.indexOf('UserFeatures') >= 0) { // update
       if (layerType === POINT_USER_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POINT, false, true);
+        data.updateFeatures(featureDetails, POINT, false, true);
       } else if (layerType === LINE_USER_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false, true);
+        data.updateFeatures(featureDetails, LINESTRING, false, true);
       } else if (layerType === AREA_USER_FEATURES) {
-        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false, true);
+        data.updateFeatures(featureDetails, POLYGON, false, true);
       }
     } else { // update
       if (type === CIRCLE_MARKER) {
-        data.updateFeatures(this.props.feature.featureDetails, POINT, false, false);
+        data.updateFeatures(featureDetails, POINT, false, false);
       } else if (type === POLYLINE) {
-        data.updateFeatures(this.props.feature.featureDetails, LINESTRING, false, false);
+        data.updateFeatures(featureDetails, LINESTRING, false, false);
       } else if (type === POLYGON) {
-        data.updateFeatures(this.props.feature.featureDetails, POLYGON, false, false);
+        data.updateFeatures(featureDetails, POLYGON, false, false);
       }
     }
   }

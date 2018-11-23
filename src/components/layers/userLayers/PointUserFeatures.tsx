@@ -13,7 +13,7 @@ export class PointUserFeatures extends React.Component<any, any> {
     const { pisteet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {pisteet.length !== 0 && pisteet.map((feature, idx) => {
           for (let j = 0; j < layer.pointLayers.length; j++) {
             for (let i = 0; i < layer.pointLayers[j].features.length; i++) {
@@ -40,7 +40,7 @@ export class PointUserFeatures extends React.Component<any, any> {
 
           return null;
         })}
-      </div>
+      </>
     );
   }
 }

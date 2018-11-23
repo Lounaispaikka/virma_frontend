@@ -12,6 +12,7 @@ import { AREA, LINESTRING, POINT } from '../../config/constants';
 import '../../../css/mapFeature.css!';
 import '../../../css/customBootstrap.css!';
 
+const NO_LINK = 'Linkkiä ei saatavilla';
 const NON_EXIST = 'Tietoa ei saatavilla';
 
 @observer
@@ -21,11 +22,11 @@ export class FeaturePopup extends React.Component<any, any> {
   }
 
   getLink() {
-    const { featureInfo} = this.props;
+    const { featureInfo } = this.props;
 
     return featureInfo.www_fi ?
-      (validator.isURL(featureInfo.www_fi) ? <a href={featureInfo.www_fi} target="_blank">Linkki sivulle</a> : 'Linkkiä ei saatavilla')
-    : 'Linkkiä ei saatavilla';
+      (validator.isURL(featureInfo.www_fi) ? <a href={featureInfo.www_fi} target="_blank">Linkki sivulle</a> : NO_LINK)
+    : NO_LINK;
   }
 
   render() {
@@ -100,9 +101,11 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {(map.featureSelected && (login.isAdmin || okToModify)) &&
+          {(login.isAdmin || okToModify) &&
             <div className={"featurePopupButton"}>
-              {!map.toggleEditState && <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={map.manageTargetFeature} block>Avaa kohteen hallinta</Button>}
+              <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={map.manageTargetFeature} block>
+                {'Avaa kohteen hallinta'}
+              </Button>
             </div>
           }
         </div>

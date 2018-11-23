@@ -13,7 +13,7 @@ export class AreaFeatures extends React.Component<any, any> {
     const { alueet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {alueet.length !== 0 && alueet.map((feature, idx) => {
           for (let j = 0; j < layer.areaLayers.length; j++) {
             for (let i = 0; i < layer.areaLayers[j].features.length; i++) {
@@ -39,7 +39,7 @@ export class AreaFeatures extends React.Component<any, any> {
 
           return null;
         })}
-      </div>
+      </>
     );
   }
 }

@@ -13,7 +13,7 @@ export class LineUserFeatures extends React.Component<any, any> {
     const { reitit, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {reitit.length !== 0 && reitit.map((feature, idx) => {
           for (let j = 0; j < layer.lineLayers.length; j++) {
             for (let i = 0; i < layer.lineLayers[j].features.length; i++) {
@@ -37,7 +37,7 @@ export class LineUserFeatures extends React.Component<any, any> {
 
           return null;
         })}
-      </div>
+      </>
     );
   }
 }
