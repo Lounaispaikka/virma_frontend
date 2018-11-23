@@ -307,11 +307,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         this.setState({ form: { ...this.state.form, [id]: value, address: '' }});
       }
     } else if (id === PUBLICINFO) {
-      if (value === 'T') {
-        this.setState({ form: { ...this.state.form, [id]: value } });
-      } else {
-        this.setState({ form: { ...this.state.form, [id]: value, upkeeper: '', upkeepinfo: '' }});
-      }
+      this.setState({ form: { ...this.state.form, [id]: value } });
     } else {
       // If other form values were changed handle them normaly
       this.setState({

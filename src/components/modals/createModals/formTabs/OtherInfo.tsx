@@ -4,7 +4,7 @@ import ControlText from '../formUtils/ControlText';
 import { ControlSelectInfo } from '../formUtils/ControlSelectInfo';
 import { ControlDate } from '../formUtils/ControlDate';
 
-import { form } from '../../../../model/store';
+import { form, login } from '../../../../model/store';
 
 import {
   SH_ES_DATE,
@@ -91,13 +91,29 @@ export class OtherInfo extends React.Component<any, any> {
               );
             }
 
-            if (info.attr === X_EUREFFIN || info.attr === Y_EUREFFIN || info.attr === UPDATER_ID) {
+            if (info.attr === X_EUREFFIN || info.attr === Y_EUREFFIN) {
               return (
                 <ControlText
                   key={idx}
                   controlName={info.desc}
                   formName={info.attr}
-                  readOnly={true}
+                  readOnly={false}
+                  stateValue={parentState[info.attr]}
+                  handleChange={handleFormChange}
+                  displayFormError={info.formError}
+                  placeholder={null}
+                  formType={formType}
+                />
+              );
+            }
+
+            if (info.attr === UPDATER_ID) {
+              return (
+                <ControlText
+                  key={idx}
+                  controlName={info.desc}
+                  formName={info.attr}
+                  readOnly={!login.isAdmin}
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   displayFormError={info.formError}

@@ -267,6 +267,20 @@ const tooltipsForForm = {
       'Jag försäkrar att upprätthållarens samtycke finns för att publicera upprätthållarens kontaktinformation i Lounaistietos karttjänst. Personuppgifter publiceras inte som fria data. Detta val gäller fältet "Upprätthållarens namn" och "Upprätthållarens kontaktinformation".'
     ]
   },
+  updater_id: {
+    'point': [
+      'Päivittäjätunnusten vaihdon tekee pääkäyttäjä – ota yhteyttä: virma@lounaistieto.fi',
+      'Om ni vill ändra uppdateraren var vänlig och kontakta Virma administratör: virma@lounaistieto.fi.'
+    ],
+    'line': [
+      'Päivittäjätunnusten vaihdon tekee pääkäyttäjä – ota yhteyttä: virma@lounaistieto.fi',
+      'Om ni vill ändra uppdateraren var vänlig och kontakta Virma administratör: virma@lounaistieto.fi.'
+    ],
+    'polygon': [
+      'Päivittäjätunnusten vaihdon tekee pääkäyttäjä – ota yhteyttä: virma@lounaistieto.fi',
+      'Om ni vill ändra uppdateraren var vänlig och kontakta Virma administratör: virma@lounaistieto.fi.'
+    ]
+  },
 
 
   nameInfo: [

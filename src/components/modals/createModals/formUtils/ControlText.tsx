@@ -5,6 +5,8 @@ import { form } from '../../../../model/store';
 import { TooltipWithContent } from './Tooltip';
 import HelpBlockContent from './Helpblock';
 
+import { UPKEEPER, UPKEEPINFO } from '../../../../config/constants';
+
 import '../../../../../css/form.css!';
 
 export default class ControlText extends React.Component<any, any> {
@@ -12,7 +14,12 @@ export default class ControlText extends React.Component<any, any> {
     const { displayFormError, formName, controlName, stateValue, handleChange, readOnly, placeholder } = this.props;
 
     return (
-      <FormGroup validationState={displayFormError ? 'error' : null} controlId={formName} bsSize={"small"}>
+      <FormGroup
+        className={(formName === UPKEEPER || formName === UPKEEPINFO) ? 'form-indented' : null}
+        validationState={displayFormError ? 'error' : null}
+        controlId={formName}
+        bsSize={"small"}
+      >
         <ControlLabel>{controlName}</ControlLabel>
         <FormControl
           componentClass={"input"}

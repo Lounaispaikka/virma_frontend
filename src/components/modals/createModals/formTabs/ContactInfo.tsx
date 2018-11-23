@@ -61,12 +61,6 @@ export class ContactInfo extends React.Component<any, any> {
     return (
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
-          let disabled = false;
-
-          if (!this.state.showPublic && (info.attr === UPKEEPER || info.attr === UPKEEPINFO)) {
-            disabled = true;
-          }
-
           if (info.addedToForm && info.tab === 3) {
             if (info.type === 'date') {
               return (
@@ -126,7 +120,7 @@ export class ContactInfo extends React.Component<any, any> {
                 key={idx}
                 controlName={info.desc}
                 formName={info.attr}
-                readOnly={disabled}
+                readOnly={false}
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
