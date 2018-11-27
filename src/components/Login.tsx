@@ -439,11 +439,11 @@ export class Login extends React.Component<any, any> {
     this.setState({ regEmail: event.target.value, displayErrorRegisterEmail: false });
   }
 
-  updateRegisterOrganization = (event) => {
-    if (event.target.value.length === 0) {
-      this.setState({ regOrganization: event.target.value, displayErrorRegisterOrganization: true });
+  updateRegisterOrganization = (value) => {
+    if (value.length === 0) {
+      this.setState({ regOrganization: value, displayErrorRegisterOrganization: true });
     } else {
-      this.setState({ regOrganization: event.target.value, displayErrorRegisterOrganization: false });
+      this.setState({ regOrganization: value, displayErrorRegisterOrganization: false });
     }
   }
 

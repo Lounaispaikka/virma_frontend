@@ -1,4 +1,4 @@
-import 'core-js/fn/object/assign';
+import 'core-js/library/fn/object/assign';
 import React from 'react';
 import ReactDOM from 'react-dom';
 

@@ -7,6 +7,7 @@ import { form } from '../../../model/store';
 
 import '../../../../css/customBootstrap.css!';
 import '../../../../css/form.css!';
+import '../../../../css/checkbox.css!';
 
 export class RegisterContent extends React.Component<any, any> {
   constructor(props: any) {
@@ -14,27 +15,48 @@ export class RegisterContent extends React.Component<any, any> {
 
     this.state = {
       showCustomOrganization: false,
-      organizationDisabled: false,
       selectedOrganization: 'Aura',
-      newOrganization: ''
+      newOrganization: '',
+      gdprAccepted: false,
     };
   }
 
   onChangeOrganization = (e) => {
-    if (e.target.value === 'Muu organisaatio') {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    if (id === 'organization') {
+      if (value === 'Muu organisaatio') {
+        this.setState({
+          showCustomOrganization: true,
+          selectedOrganization: value,
+          newOrganization: ''
+        });
+      } else {
+        this.setState({
+          showCustomOrganization: false,
+          selectedOrganization: value,
+          newOrganization: value
+        });
+        this.props.updateRegisterOrganization(value);
+      }
+    }
+
+    if (id === 'new_organization') {
       this.setState({
-        showCustomOrganization: true,
-        organizationDisabled: true,
-        selectedOrganization: e.target.value,
-        newOrganization: ''
+        selectedOrganization: value,
+        newOrganization: value
       });
-    } else {
-      this.setState({ selectedOrganization: e.target.value, newOrganization: e.target.value });
-      this.props.updateRegisterOrganization(e);
+      this.props.updateRegisterOrganization(value);
     }
   }
 
+  handleCheckbox = (e) => {
+    this.setState({ gdprAccepted: !this.state.gdprAccepted });
+  }
+
   render() {
+    const { gdprAccepted } = this.state;
     const {
       register,
       errorTextRegister,
@@ -62,7 +84,8 @@ export class RegisterContent extends React.Component<any, any> {
       displayErrorRegisterPassword ||
       displayErrorRegisterPassword2 ||
       displayErrorRegisterEmail ||
-      displayErrorRegisterOrganization
+      displayErrorRegisterOrganization ||
+      !gdprAccepted
     ) {
       disabled = true;
     }
@@ -128,7 +151,6 @@ export class RegisterContent extends React.Component<any, any> {
               <FormControl
                 componentClass={"select"}
                 id={"organization"}
-                disabled={this.state.organizationDisabled}
                 value={this.state.selectedOrganization}
                 onChange={(e) => this.onChangeOrganization(e)}
               >
@@ -149,6 +171,7 @@ export class RegisterContent extends React.Component<any, any> {
                 <ControlLabel>{'Uusi organisaatio'}</ControlLabel>
                 <FormControl
                   type={"text"}
+                  id={"new_organization"}
                   onChange={(e) => this.onChangeOrganization(e)}
                   placeholder={"Kirjoita listan ulkopuolinen organisaatio"}
                   autoComplete={"new-password"}
@@ -156,6 +179,15 @@ export class RegisterContent extends React.Component<any, any> {
               </FormGroup>
             </TooltipWithContent>
           }
+
+          <p className={'p-text'}>
+            {'Antamalla yhteystietosi hyväksyt tietojesi tallentamisen Varsinais-Suomen liiton tietosuojaselosteen periaatteiden mukaisesti '}
+            {'('}<a href="https://www.varsinais-suomi.fi/fi/tietopankki/tietosuoja" target="_blank">{'linkki'}</a>{')'}
+          </p>
+          <label className={'checkbox-container'}>{'Hyväksyn'}
+            <input type="checkbox" id={'gdpr'} checked={this.state.gdprAccepted} onChange={this.handleCheckbox} />
+            <span className={'checkbox-checkmark'}></span>
+          </label>
 
           <ButtonToolbar>
             <Button id={"square-button-primary"} type={"submit"} bsStyle={"primary"} disabled={disabled}>

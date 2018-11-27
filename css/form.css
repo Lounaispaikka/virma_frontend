@@ -123,3 +123,7 @@ select {
 .form-indented {
   margin-left: 30px;
 }
+
+.p-text {
+  font-size: 13px;
+}

@@ -34,6 +34,7 @@
     "charto-leaflet": "file:vendor/charto-leaflet-0.0.2.tgz",
     "charto-model": "file:vendor/charto-model-0.0.1.tgz",
     "classy-mst": "^0.1.2",
+    "core-js": "^2.5.7",
     "dgrid": "^1.2.1",
     "dojo": "^1.13.0",
     "dojo-dstore": "^1.1.2",

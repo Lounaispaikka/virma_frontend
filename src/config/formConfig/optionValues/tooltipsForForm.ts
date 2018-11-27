@@ -292,13 +292,16 @@ const tooltipsForForm = {
     'Ej å,ä,ö, inga mellanslag. Max. 15 tecken.'
   ],
   emailInfo: [
-    'Sähköpostiosoite tulee olla käyttäjäkohtaisesti yksilöllinen ja sen tulee olla hyväksytyssä muodossa esim. "sähko@posti.fi"',
+    'Sähköpostiosoite tulee olla käyttäjäkohtaisesti yksilöllinen ja sen tulee olla hyväksytyssä muodossa esim. "sahko@posti.fi"',
+    'Ange en personlig e-postadress i giltigt format t.ex. förnamn@efternamn.fi'
   ],
   organizationInfo: [
     'Valitse organisaatio listasta. Voit lisätä vapaasti määriteltävän organisaation valisemalla "Muu organisaatio".',
+    'Välj organisation eller lägg till en organisation genom att  välja "Muu organisaatio"'
   ],
   new_organizationInfo: [
-    'Kirjoita haluamasi organisaatio nimi.',
+    'Kirjoita haluamasi organisaation nimi.',
+    'Skriv valfri organisation'
   ],
   forgotEmailInfo: [
     'Anna sähköpostiosoite, johon salasanan palautuslinkki lähetetään.',

@@ -4,6 +4,7 @@ import { form } from '../../../../model/store';
 import { TooltipWithContent } from './Tooltip';
 
 import '../../../../../css/form.css!';
+import '../../../../../css/checkbox.css!';
 
 export class ControlCheckbox extends React.Component<any, any> {
 
@@ -12,8 +13,9 @@ export class ControlCheckbox extends React.Component<any, any> {
 
     return (
       <div className={"checkbox-form"}>
-        <label>
-          <input type="checkbox" id={formName} checked={checkboxValue} onChange={handleChange} /> {controlName}
+        <label className={'checkbox-container'}>{controlName}
+          <input type="checkbox" id={formName} checked={checkboxValue} onChange={handleChange} />
+          <span className={'checkbox-checkmark'}></span>
         </label>
       </div>
     );

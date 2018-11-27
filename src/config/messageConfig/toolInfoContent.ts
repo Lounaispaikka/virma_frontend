@@ -207,7 +207,7 @@ export const toolInfoContent = `
   </p>
 
   <p>
-  Henkilötietojen keräämisen perusteena on yleistä etua koskevan tehtävän suorittaminen. Aineistoa käytetään muun muassa maankäytön suunnittelussa. Virman rekisteriseloste löytyy täältä (LISÄTÄÄN LINKKI)
+  Henkilötietojen keräämisen perusteena on yleistä etua koskevan tehtävän suorittaminen. Aineistoa käytetään muun muassa maankäytön suunnittelussa. Virman rekisteriseloste löytyy täältä (<a href="https://www.varsinais-suomi.fi/fi/tietopankki/tietosuoja" target="_blank">linkki</a>)
   </p>
 
   <p>
@@ -238,16 +238,208 @@ export const toolInfoContent = `
   <strong>Huom.</strong> Kohdetta koskeva yleinen puhelinnumero ja yleinen sähköposti eivät saa olla henkilökohtaisia vaan niiden on oltava organisaatiokohtaisia (esim. info@yhdistys.fi, tai kunnan/kaupungin puhelinvaihteen numerot ovat näihin kenttiin soveltuvia tietoja). Sähköposti ja puhelinnumero julkaistaan sekä karttapalvelussa että avoimena datana.
   </p>
 
+
+
+
   <hr />
 
-  <h4 id="svenska_anvisningen">Personuppgifter, kontaktinformation och publicering av material</h4>
+
+
+  <h4 id="svenska_anvisningen">Allmänt</h4>
+
+  <p>
+  Välkommen att använda tjänsten Virma! Med hjälp av Virma tillfogas och bearbetas informationsmaterial om Egentliga Finlands rekreations- och naturturismobjekt. Läs anvisningararna noga innan uppgifter tillfogas. Det lönar sig att öppna sidan med anvisningarna till en annan flik för tiden medan man fyller i informationsblanketten.
+  </p>
+
+  <p>
+  <strong>OBS</strong> Användaren kan i kartfönstret foga till nya objekt som enkla anteckningar med punkter, streck eller områden. Ifall du har mer omfattande och/eller komplicerade digitala kartmaterial (t.ex. Rutter som bildas av flera stigar, en helhet av rekreationsområden bestående av flera områden), så står du väl i kontakt med huvudanvändaren genom att skicka e-post till adressen: virma [at] lounaistieto.fi.
+  </p>
+
+  <p>
+  Tjänsten Virma är producerad inom projektet Virkistä dataa!, med producenterna Egentliga Finlands förbund, Valonia, Lounaistieto samt ProAgria Västra Finland/ Länsi-Suomen maa- ja kotitalousnaiset. Projektet har finansierats av NTM-centralen i Egentliga Finland ur Europeiska jordbruksfonden för landsbygdsutveckling.
+  </p>
+
+  <hr />
+
+  <h4>Kartvisningens basfunktioner</h4>
+  
+  <b>Att röra sig på kartvisningen</b>
+  <p>
+  Man kan röra på kartvisningen genom att dra musen med vänstra tangenten intryckt i botten. Bilden kan föras närnmare och längre bort med hjälp av tangenten +/- i kartfönstrets övre hörn till vänster och genom att rulla på musrullen.
+  </p>
+
+  <b>Att byta bakgrundskarta</b>
+  <p>
+  Det finns tre olika alternativa bakgrundskartor: en bakgrundskarta, en grundkarta och en ortobild. Bakgrundskartan kan bytas ut med hjälp av tangenten i kartfönstrets övre kant. Som standardvärde i verktygets kartvisning öppnas en bakgrundskarta i mera allmänna drag, vilken lämpar sig väl t.ex. för att allmänt bläddra i kartorna. Grundkartan innehåller exaktare uppgifter t.ex. om terrängens ytformer och annan terränginformation, vilket för sin del lämpar sig väl som ett bakgrundsmaterial för en digitalisering som ska göras med verktyget. Ortobilden, dvs. Flygfotografiet, beskriver alla synliga egenskaper hos terrängen. Ortobilden fungerar som ett bra stödmaterial för de andra kartnivåerna.
+  </p>
+  
+  <p>
+  Kartorna kommer att finnas i Kapsi ry:s karttjänst (<a href="http://kartat.kapsi.fi/" target="_blank">http://kartat.kapsi.fi/</a>). De material som används i kartorna är Lantmäteriverkets fria data, på vilka licensen Creative Commons 4.0 (CC BY 4.0) tillämpas.
+  </p>
+
+  <hr />
+
+  <h4>Menyernas innehåll</h4>
+  
+  <b>Logga in</b>
+  <p>
+  Genom att logga in med tangenten Logga in kan användaren logga in i systemet, skapa identifikationer och återställa ett lösenord som blivit glömt. Användaren skapar själv för sig en identifikation (t.ex. ”LuontoVeikko”) och ett lösenord med högst 15 tecken (inte å, ä, ö eller mellanslag). För att skapa en identifikation behövs det också en e-postadress som är i kraft. Vid inloggningen används identifikationen (t.ex. ”LuontoVeikko”) och lösenordet.
+  </p>
+
+  <b>Föreslå objekt</b>
+  <p>
+  Menyn innehåller verktyg avsedda för att föreslå nya objekt. Som punktobjekt antecknas enstaka objekt med liten yta, såsom vägvisarinformationer,lägereldsplats och parkeringsställen. Som områdesobjekt antecknas mer omfattande områden avsedda för rekreation eller turism, om vilkas områdesbegränsning man vill informera användarna. Streckobjekten är rutter, till exempel naturstigarna, kanotrutterna och skidspåren.
+  </p>
+
+  <b>Välj själv de nivåer som syns</b>
+  <p>
+  Användaren kan själv i kartfönstret ta fram kartobjekt som hör till rekreations- och turisttemana. Objekten kan skapas per huvudklass (t.ex. alla rekreationsobjekt) eller per underklass (t.ex. fiskeplats). Om du t.ex. i visningen tar fram alla rekreationsobjekten med funktionen ”Välj alla nivåert” kan du dölja alla nivåerna med samma tangent. Ifall användaren har s.k. egna objekt, kan även de tas fram så de blir synliga i kartfönstret. Objekten som väntar på att bli godkända kan också visas på en särskild kartnivå.
+  </p>
+
+  <hr />
+  
+  <h4>Föreslå och bearbeta objekt</h4>
+  
+  <b>Rättigheter som behövs för att administrera objekten</b>
+  <p>
+  De nödvändiga rättigheterna för att bearbeta och avlägsna objekt, kan vid behov erhållas av huvudanvändaren. I applikationen är objekten länkade till användaridentifikationen, varvid det är möjligt att bearbeta de egna objekten endast då den rätta användaren är inloggad. För att få rätten ska du stå i kontakt med huvudanvändaren.
+  </p>
+
+  <b>Förslag till objekt</b>
+  <p>
+  <strong>OBS!</strong> Med verktyget kan man föreslå nya objekt som enkla punkt-, streck- eller områdesanteckningar. För att göra komplicerade multiLine- och multiPolygon-anteckningar behövs en applikation för geografisk information. Ifall du förfogar över färdiga mer omfattande eller komplicerade digitala kartmaterial (t.ex. nätverk av rutter som består av flera stigar, en helhet av rekreationsområdem bestående av flera områden), så står du väl i kontakt med huvudanvändaren.
+  </p>
+
+  <p>
+  Förslag om objekt sker genom att man väljer objektstyp i punkten "Föreslå objekt" (punktobjekt, streckobjekt, områdesobjekt. Objekt tillfogas per objektstyp på följande sätt:
+  </p>
+
+  <ul>
+    <li>Punktobjekt</li>
+    <ul>
+      <li>Välj önskat objekt på kartan och klicka på kartan</li>
+    </ul>
+    <li>Streckobjekt</li>
+    <ul>
+      <li>Välj önskat läge på kartan och börja tlllfoga ruttpunkter på kartan</li>
+      <li>För en rutt behövs minst två ruttpunkter</li>
+      <li>Rutten kan avslutas genom att man trycker på den sist tillfogade ruttpunkten</li>
+      <li><strong>OBS!</strong> Ruttstrecket får inte skära sig självt</li>
+    </ul>
+    <li>Områdesobjekt</li>
+    <ul>
+      <li>Välj önskat läge på kartan och börja tillfoga områdespunkter</li>
+      <li>För ett område behövs minst tre områdespunkter</li>
+      <li>Ett område kan avslutas genom att man trycker på den områdespunkt som först tillfogats</li>
+      <li><strong></strong> Ett områdesobjekt får inte skära sig självt</li>
+    </ul>
+  </ul>
+  
+  <p>
+  När du tillfogat objektet öppnas i visningen en blankett där objektets egenskaper kan registreras. Blanketten innehåller obligatoriska fält. Anvisningar för att fylla i de uppgifter som frågas finns i blankettens rutor med tips samt i slutet av denna anvisning.
+  </p>
+
+  <p>
+  Blanketten stängs med tangenten "Bekräfta förslaget" , med möjlighet att bekräfta och återta raderingen av objektet. Efter bekräftelsen går objektet till att vänta på huvudanvändarens godkännande. Godkännandet sker alltså inte omedelbart utan det föreslagna objektet blir synligt i tjänsten för alla under några vardagar. Ifall du ännu önskar bearbeta objektets läge och/eller form, välj Bearbeta läget. Ifall du önskar återkalla inmatandet av rutt- och blankettuppgifter, välj "Radera förslaget", varvid uppgifterna raderas och ej heller överförs till huvudanvändaren.
+  </p>
+
+  <b>Bearbetning av objekt</b>
+  <p>
+  Bearbetningen av objekt sker genom att man klickar på det önskade objektet i kartvisningen, varvid objektets uppgifter blir synliga i pop-up -fönstret. Ifall användarens rättigheter räcker till för att bearbeta objektet, öppnas i pop-up -fönstret med tangenten "Öppna objektets administrering" en bearbetningsvisning. I denna visning är det möjligt att tillfoga och bearbeta objektets uppgifter om egenskaper, bearbeta läget, radera objektet och bekräfta de ändringar som gjorts. OBS! Kom ihåg att fylla i alla de nödvändiga fälten, för ändringar kan inte bekräftas utan att man har fyllt i de uppgifter som behövs.
+  </p>
+
+  <b>Bearbetning av objektens läge</b>
+  
+  <ul>
+    <li>Punktobjekt</li>
+    <ul>
+      <li>Flytta objektpunkten till den önskade platsen</li>
+      <li>Avsluta bearbetningen genom att välja "Avsluta objektets bearbetning" invid nivåväljaren</li>
+    </ul>
+    <li>Streckobjekt</li>
+    <ul>
+      <li>Ruttpunkterna för ett streckobjekt i bearbetningstillstånd uttrycks med en kvadratisk symbol</li>
+      <ul>
+        <li>Klicka på den vita kvadraten <strong>radera punkten</strong></li>
+        <li>Klicka på den genomskinliga kvadraten <strong>tillfoga nya punkter</strong></li>
+      </ul>
+      <li>Ruttpunkter kan flyttas genom att dra punkten med musens vänstra tangent intryckt</li>
+      <li>Bearbetningen avslutas genom att man väljer "Avsluta objektets bearbetning" upptill på kartvisningen</li>
+    </ul>
+    <li>Områdesobjekt</li>
+    <ul>
+      <li>Hörnpunkterna för ett områdesobjekt i bearbetningstillstånd uttrycks med en kvadratisk symbol</li>
+      <ul>
+        <li>Klicka på den vita kvadraten <strong>radera punkten</strong></li>
+        <li>Klicka på den genomskinliga kvadraten <strong>tillfoga nya punkter</strong></li>
+      </ul>
+      <li>Hörnpunkter kan flyttas genom att dra punkten med musens vänstra tangent intryckt</li>
+      <li>Bearbetningen avslutas genom att man väljer "Avsluta objektets bearbetning" upptill på kartvisningen</li>
+    </ul>
+  </ul>
+
+  <b>Radering av objekt</b>
+  <p>
+  Raderingen av objekt sker genom att man öppnar objektet, varvid en möjlighet öppnas att välja visningen "Öppna objektets administering". I denna visning är det möjligt att radera objektet. <strong>OBS!</strong> Raderingen är definitiv, och den kan inte återtas.
+  </p>
+
+  <hr />
+
+  <h4>Anvisning för att fylla i blanketten</h4>
+  
+  <p>
+  Informationsklasserna varierar i blanketterna för punkt-, streck- och områdesobjekten. Nedan har anvisningarna för alla informationsklasser beskrivits.
+  </p>
+
+  <b>Grunduppgifterna</b>
+  <p>
+  <strong>Objektsbeskrivning</strong> Beskrivning i fri form. Berätta vad man kan göra och se på objektet (t.ex. bärplockning, upplevelser, paddling, närmat, inkvartering, mikrovandringsled i joggingskor från Tokyo, gravröse från bronsåldern). Passar det särskilt för en viss grupp av användare, exempelvis barnfamiljer, någon på dagsuflykt, fågelskådare, gourmetturister. Var kan man få kart- och guidematerial? Beskriv tillgänglighet, parkering, närmaste hållplatser för kollektivtrafiken. Beskrivningstexten kan även skrivas på en webbsida som hänför sig till objektet, men blanketten måste ha en särskild punkt för webbsidan. Du lägger väl märke till att det nedan finns en särskild punkt för utrustning.
+  </p>
+
+  <p>
+  Beskrivningstexten får vara högst c. 254 tecken lång.
+  </p>
+
+  <p>
+  <strong>Utrustning</strong> Utrustning Förteckning på utrustning, orden helst i grundform. Ordexempel. Torrklosett, WC, vedlider, lägereld, kokskjul, bord, tappställe (dricksvatten, hushållsvatten), eluttag, septiktank/tömning av kemisk toalett, sopstation, gästbok, brygga, livboj, lokaliseringsställe, hyresobjekt (produkt) bastu, dusch, båt, kajak, snöskor, tvättmaskin, service.
+  </p>
+
+  <p>
+  <strong>Tillgänglighet</strong> Beskrivning av tillgänglighet Exempel: Ej konstruktioner som beaktar tillgänglighet. Eller en lista över konstruktioner såsom inva-WC, ledstänger, vägvisare, belysning, färgkontraster, rastställen, lätt rullstolsrutt (symbolen internationell rullstolssymbol), tillgänglig fiskeplats på brygga, tillgänglig fågelplattform. Exempel på planering och beskrivning av tillgängligt objekt finns bl.a. på webbplatsen för Invalidförbundets Tillgänglighetscenter ESKE.
+  </p>
+
+  <p>
+  <strong>Kravnivå</strong> Beskrivning av faktorer som påverkar hur krävande objektet, rutten eller ruttavsnittet är: markens yta och jämnhet, höjdskillnader, svårframkomliga ställen, vägvisarnas nivå, behovet av orienteringsfärdighet. Utifrån beskrivningen ska det vara möjligt för rekreationsanvändaren att bedöma hur han/hon utrustar sig och förmår färdas på objektet, rutten eller ruttavsnitten. Berätta om kravnivån har definierats vid ofrusen barmark. Om rutten har en färdig klassificering, berätta om det klassificeringssystem som brukats.
+  </p>
+
+  <b>Kontaktinformation</b>
+  <p>
+  <strong>Konditionsbedömning</strong> Beskriv informationstavlornas och konstruktionernas skick, markslitaget, informationen, säkerheten och geografisk räddningslokalisering. Har ett säkerhetsdokument utarbetats? Beskrivningsexempel: På rutten har alla spänger förnyats år 2016 och stigen har på behövliga delar jämnats ut med sandbeläggning år 2017. Vid diket har brons ledstång (räck) ruttnat. Vägvisarna börjar från Kurjentie-hållplatsen, men i slutändan av rutten på Pahkamäki är de de blå färgmärkningarna delvis slitna. Vid Sinivuori-vindskyddet finns en skylt för information om räddningslokalisering.
+  </p>
+
+  <p>
+  <strong>Underhållsklass</strong> Välj en klass.
+  </p>
+
+  <ul>
+    <li>kontinuerligt: objektet, rutten eller området underhålls kontinuerligt och underhållsåtgärder utförs relativt snabbt när behoven av underhåll framkommit</li>
+    <li>tidvis:objektet, rutten eller området underhålls tidvis, exv. endast sommar- eller vintertid.</li>
+    <li>sporadiskt: objektet, rutten eller området underhålls, men det kan förekommabetydande dröjsmål med underhålls- eller reparationsåtgärderna.</li>
+    <li>inget underhåll: objektet, rutten eller området underhålls inte alls</li>
+    <li>ingen uppgift om underhållsklass: ingen uppgift om objektets, ruttens eller områdets underhållsklass.</li>
+  </ul>
+
+
+  <hr />
+
+  <h4>Personuppgifter, kontaktinformation och publicering av material</h4>
 
   <p>
   Med undantag för personuppgifter publiceras materialet som fria data med licensen Creative Commons Nimeä 4.0 Kansainvälinen (CC BY 4.0) bl.a. för fri användning av applikationsutvecklare.
   </p>
 
   <p>
-  Grunden för att samla in personuppgifter är att det utförs ett uppdrag av allmänt intresse. Materialet används bland annat i planeringen av markanvändning. Virmas registerbeskrivning finns här (LÄNK TILLFOGAS)
+  Grunden för att samla in personuppgifter är att det utförs ett uppdrag av allmänt intresse. Materialet används bland annat i planeringen av markanvändning. Virmas registerbeskrivning finns här (<a href="https://www.varsinais-suomi.fi/fi/tietopankki/tietosuoja" target="_blank">länk</a>)
   </p>
 
   <p>
