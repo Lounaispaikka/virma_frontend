@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import { Polyline } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
+import { LINESTRING } from '../../../config/constants';
 
 @observer
 export class LineFeatures extends React.Component<any, any> {
@@ -12,7 +13,7 @@ export class LineFeatures extends React.Component<any, any> {
     const { reitit, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {reitit.length !== 0 && reitit.map((feature, idx) => {
           for (let j = 0; j < layer.lineLayers.length; j++) {
             for (let i = 0; i < layer.lineLayers[j].features.length; i++) {
@@ -27,7 +28,7 @@ export class LineFeatures extends React.Component<any, any> {
                     color={color}
                     onClick={(e) => setSelectedFeature(e.target, feature, 'lineFeatures')}
                   >
-                    <FeaturePopup featureInfo={feature} type={'line'} />
+                    <FeaturePopup featureInfo={feature} type={LINESTRING} />
                   </Polyline>
                 );
               }
@@ -36,7 +37,7 @@ export class LineFeatures extends React.Component<any, any> {
 
           return null;
         })}
-      </div>
+      </>
     );
   }
 }

@@ -2,17 +2,27 @@ import React from 'react';
 import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { data, login, form } from '../../../model/store';
-import { appUrls } from '../../../config';
+import { login, form } from '../../../model/store';
+import { appUrls } from '../../../config/config';
+import { postOptions } from '../../../config/fetchConfig';
+
+import {
+  POINT_APPROVAL_FEATURES,
+  LINE_APPROVAL_FEATURES,
+  AREA_APPROVAL_FEATURES,
+  MULTILINESTRING,
+  MULTIPOLYGON,
+  POINT_TYPE,
+} from '../../../config/constants';
 
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
 
 export class ApproveFeaturesModal extends React.Component<any, any> {
-  private pointTable: BootstrapTable;
-  private lineTable: BootstrapTable;
-  private areaTable: BootstrapTable;
+  private pointTable: any;
+  private lineTable: any;
+  private areaTable: any;
 
   constructor(props: any) {
     super(props);
@@ -25,40 +35,26 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
       approveLines: [],
       approveAreas: []
     };
-
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-    this.customConfirm = this.customConfirm.bind(this);
-    this.approveFeaturesButton = this.approveFeaturesButton.bind(this);
-    this.removeFeaturesButton = this.removeFeaturesButton.bind(this);
-    this.sendApproval = this.sendApproval.bind(this);
-    this.removeFeatureFromState = this.removeFeatureFromState.bind(this);
   }
 
   componentDidMount() {
-    const queryOptions: any = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin })
-    };
+    const options: any = postOptions;
+    options['body'] = JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin });
 
-    fetch(appUrls.pointApprovals, queryOptions).then(response => response.json())
-      .then((response) => {
-        this.setState({ approvePoints: response, loading: false });
-      }).catch(e => console.log(e));
+    fetch(appUrls.pointApprovals, options).then(response => response.json())
+      .then((response) => this.setState({ approvePoints: response, loading: false }))
+      .catch(e => console.log(e));
 
-    fetch(appUrls.lineApprovals, queryOptions).then(response => response.json())
-      .then((response) => {
-        this.setState({ approveLines: response, loading: false });
-      }).catch(e => console.log(e));
+    fetch(appUrls.lineApprovals, options).then(response => response.json())
+      .then((response) => this.setState({ approveLines: response, loading: false }))
+      .catch(e => console.log(e));
 
-    fetch(appUrls.areaApprovals, queryOptions).then(response => response.json())
-      .then((response) => {
-        this.setState({ approveAreas: response, loading: false });
-      }).catch(e => console.log(e));
+    fetch(appUrls.areaApprovals, options).then(response => response.json())
+      .then((response) => this.setState({ approveAreas: response, loading: false }))
+      .catch(e => console.log(e));
   }
 
-  handleTabSelect(key) {
+  handleTabSelect = (key) => {
     this.setState({ tabKey: key });
   }
 
@@ -78,50 +74,30 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     }); }}>Poista kohteet</Button>)
   }
 
-  sendApproval(form, type, feature, addUrl, removeUrl, layerType) {
+  sendApproval = (form, type, feature, addUrl, removeUrl, layerType) => {
     const bodyContent = this.getPostBodyContent(form, feature, type, layerType);
+    const options: any = postOptions;
 
     if (this.state.approving) {
       // 1. Add the desired feature to the corresponding table
-      let options: any = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ user: login.loggedUser, body: bodyContent })
-      };
+      options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent }); 
 
       fetch(addUrl, options).then(response => response.json())
-        .then((response) => {
-          console.log(response);
-
+        .then(() => {
           // 2. Remove the feature from the approval table
-          options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser })
-          };
+          options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser });
 
           fetch(removeUrl, options).then(response => response.json())
-            .then((response) => {
-              this.removeFeatureFromState(type, feature);
-              console.log(response);
-            }).catch(e => console.log(e));
+            .then(() => this.removeFeatureFromState(type, feature))
+            .catch(e => console.log(e));
         }).catch(e => console.log(e));
     } else {
       // Remove feature for approving table
-      let options: any = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser })
-      };
+      options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser }); 
 
       fetch(removeUrl, options).then(response => response.json())
-        .then((response) => {
-          this.removeFeatureFromState(type, feature);
-          console.log(response);
-        }).catch(e => console.log(e));
+        .then(() => this.removeFeatureFromState(type, feature))
+        .catch(e => console.log(e));
     }
   }
 
@@ -144,14 +120,14 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     return bodyContent;
   }
 
-  removeFeatureFromState(type, feature) {
-    if (type === 'Point') {
+  removeFeatureFromState = (type, feature) => {
+    if (type === POINT_TYPE) {
       const newPoints = this.filterFeatureArray(this.state.approvePoints, feature.gid);
       this.setState({ approvePoints: newPoints });
-    } else if (type === 'MultiLineString') {
+    } else if (type === MULTILINESTRING) {
       const newLines = this.filterFeatureArray(this.state.approveLines, feature.gid);
       this.setState({ approveLines: newLines });
-    } else if (type === 'MultiPolygon') {
+    } else if (type === MULTIPOLYGON) {
       const newAreas = this.filterFeatureArray(this.state.approveAreas, feature.gid);
       this.setState({ approveAreas: newAreas });
     }
@@ -164,13 +140,13 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     });
   }
 
-  customConfirm(next) {
+  customConfirm = (next) => {
     if (this.state.approving ? confirm('Haluatko lisätä kohteet kantaan?') : confirm('Haluatko poistaa kohteet pysyvästi?')) {
       if (this.state.tabKey === 1) {
         this.pointTable.state.selectedRowKeys.forEach(key => {
           this.state.approvePoints.forEach(point => {
             if (key === point.gid) {
-              this.sendApproval(form.pointFormConfig, 'Point', point, appUrls.createPoint, appUrls.removePoint, 'pointApprovalFeatures');
+              this.sendApproval(form.pointFormConfig, POINT_TYPE, point, appUrls.createPoint, appUrls.removePoint, POINT_APPROVAL_FEATURES);
             }
           });
         });
@@ -178,7 +154,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
         this.lineTable.state.selectedRowKeys.forEach(key => {
           this.state.approveLines.forEach(line => {
             if (key === line.gid) {
-              this.sendApproval(form.lineFormConfig, 'MultiLineString', line, appUrls.createLine, appUrls.removeLine, 'lineApprovalFeatures');
+              this.sendApproval(form.lineFormConfig, MULTILINESTRING, line, appUrls.createLine, appUrls.removeLine, LINE_APPROVAL_FEATURES);
             }
           });
         });
@@ -186,7 +162,7 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
         this.areaTable.state.selectedRowKeys.forEach(key => {
           this.state.approveAreas.forEach(area => {
             if (key === area.gid) {
-              this.sendApproval(form.areaFormConfig, 'MultiPolygon', area, appUrls.createArea, appUrls.removeArea, 'areaApprovalFeatures');
+              this.sendApproval(form.areaFormConfig, MULTIPOLYGON, area, appUrls.createArea, appUrls.removeArea, AREA_APPROVAL_FEATURES);
             }
           });
         });
@@ -201,10 +177,8 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
   }
 
   render() {
-    const {
-      showApproveFeaturesModal,
-      hideApproveFeaturesModal,
-    } = this.props;
+    const { tabKey, loading, approvePoints, approveLines, approveAreas } = this.state;
+    const { showApproveFeaturesModal, hideApproveFeaturesModal } = this.props;
 
     const selectRowProp: any = {
       mode: "checkbox",
@@ -212,13 +186,20 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     };
 
     const options: any = {
-      noDataText: this.state.loading ? "Hyväksyttäviä kohteita ladataan" : "Hyväksyttäviä kohteita ei ole",
+      noDataText: loading ? "Hyväksyttäviä kohteita ladataan" : "Hyväksyttäviä kohteita ei ole",
       deleteBtn: this.approveFeaturesButton,
       insertBtn: this.removeFeaturesButton,
       handleConfirmDeleteRow: this.customConfirm,
       defaultSortName: "timestamp",
       defaultSortOrder: "desc"
     };
+
+    const ID = 'ID';
+    const CLASS1 = 'Pääluokitus';
+    const CLASS2 = 'Aliluokitus';
+    const NAME = 'Kohteen nimi';
+    const TIMESTAMP = 'Aikaleima';
+    const UPDATER = 'Päivittäjätunnus';
 
     return (
       <div>
@@ -234,24 +215,24 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
               painamalla "Poista kohteet" tällöin ne poistuvat lopullisesti.
             </p>
 
-            <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
+            <Tabs activeKey={tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
               <Tab eventKey={1} title={"Pisteet"}>
                 <br />
                 <BootstrapTable
                   ref={(pointTable) => { this.pointTable = pointTable; }}
-                  data={this.state.approvePoints}
+                  data={approvePoints}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -259,19 +240,19 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(lineTable) => { this.lineTable = lineTable; }}
-                  data={this.state.approveLines}
+                  data={approveLines}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
 
@@ -279,26 +260,28 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
                 <br />
                 <BootstrapTable
                   ref={(areaTable) => { this.areaTable = areaTable; }}
-                  data={this.state.approveAreas}
+                  data={approveAreas}
                   selectRow={selectRowProp}
                   options={options}
                   deleteRow
                   insertRow
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>ID</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class1_fi"} dataSort>Pääluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"class2_fi"} dataSort>Aliluokitus</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort>Kohteen nimi</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>Aikaleima</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} dataSort>Päivittäjätunnus</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class1_fi"} dataSort>{CLASS1}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"class2_fi"} dataSort>{CLASS2}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort>{NAME}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"updater_id"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
               </Tab>
             </Tabs>
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideApproveFeaturesModal(e)}>Sulje</Button>
+              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideApproveFeaturesModal(e)}>
+                {'Sulje'}
+              </Button>
             </ButtonToolbar>
           </Modal.Footer>
         </Modal>

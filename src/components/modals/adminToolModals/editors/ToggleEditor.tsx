@@ -7,11 +7,9 @@ import '../../../../../css/customBootstrap.css!';
 export class ToggleEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-
-    this.updateData = this.updateData.bind(this);
   }
 
-  updateData(e) {
+  updateData = (e) => {
     this.props.onUpdate(e);
   }
 

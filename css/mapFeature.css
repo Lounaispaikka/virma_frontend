@@ -43,6 +43,10 @@
   padding-left: 20px;
 }
 
+.featurePopup li {
+  word-wrap: break-word;
+}
+
 .featurePopup hr {
   margin-top: 5px;
   margin-bottom: 15px;

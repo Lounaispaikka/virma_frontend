@@ -1,9 +1,21 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Modal, Tabs, Tab, Button, Form, FormGroup, ControlLabel, FormControl, ButtonToolbar, Fade, Alert } from 'react-bootstrap';
+import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-bootstrap';
 import validator from 'validator';
 
-import { login, form, modal, map } from '../../../model/store';
+import { map } from '../../../model/store';
+import {
+  EMAIL,
+  TELEPHONE,
+  ZIP,
+  UPKEEPCLAS,
+  UNDEFINED,
+  CIRCLE_MARKER,
+  POLYLINE,
+  POLYGON,
+  POINT,
+  LINESTRING
+} from '../../../config/constants';
 
 import { BasicInfo } from './formTabs/BasicInfo';
 import { OtherInfo } from './formTabs/OtherInfo';
@@ -22,10 +34,6 @@ export class CreateModalForm extends React.Component<any, any> {
       showAlert: false,
       formConfig: []
     };
-
-    this.handleTabSelect = this.handleTabSelect.bind(this);
-    this.hideCreateModal = this.hideCreateModal.bind(this);
-    this.getAlert = this.getAlert.bind(this);
   }
 
   componentWillReceiveProps(prevProps) {
@@ -33,37 +41,42 @@ export class CreateModalForm extends React.Component<any, any> {
     prevProps.formConfig.map((info) => {
       let content = prevProps.parentState[info.attr] + '';
 
+      if (content.length > 253) {
+        info.formError = true;
+        return;
+      }
+
       // Check if field is added to form and it cannot be undefined -> some content needs to be there
       if (info.addedToForm && !info.canBeUndefined) {
-        if (content.indexOf('undefined') >= 0 || validator.isEmpty(content)) {
+        if (content.indexOf(UNDEFINED) >= 0 || validator.isEmpty(content)) {
           info.formError = true;
           return;
         }
       }
 
       // Validate every field that content needs to be in some specific form
-      if (info.addedToForm && content.length !== 0 && content.indexOf('undefined') === -1) {
-        if (info.attr.indexOf('email') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isEmail(content)) {
+      if (info.addedToForm && content.length !== 0 && content.indexOf(UNDEFINED) === -1) {
+        if (info.attr.indexOf(EMAIL) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isEmail(content)) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('telephone') >= 0) {
-          if (content.indexOf('undefined') >= 0 || content.indexOf('+358') < 0) { // || !validator.isMobilePhone(content, 'any') -> doesn't work for every number for some reason
+        } else if (info.attr.indexOf(TELEPHONE) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || content.indexOf('+358') < 0) { // || !validator.isMobilePhone(content, 'any') -> doesn't work for every number for some reason
             info.formError = true;
             return;
           }
         } else if (info.attr.indexOf('www') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isURL(content)) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isURL(content)) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('zip') >= 0) {
-          if (content.indexOf('undefined') >= 0 || !validator.isNumeric(content) || !validator.isLength(content, { min: 5, max: 5 })) {
+        } else if (info.attr.indexOf(ZIP) >= 0) {
+          if (content.indexOf(UNDEFINED) >= 0 || !validator.isNumeric(content) || !validator.isLength(content, { min: 5, max: 5 })) {
             info.formError = true;
             return;
           }
-        } else if (info.attr.indexOf('upkeepclas') >= 0) {
+        } else if (info.attr.indexOf(UPKEEPCLAS) >= 0) {
           if (content.indexOf('Valitse') >= 0) {
             info.formError = true;
             return;
@@ -75,7 +88,7 @@ export class CreateModalForm extends React.Component<any, any> {
     });
   }
 
-  handleTabSelect(key) {
+  handleTabSelect = (key) => {
     this.setState({ tabKey: key });
   }
 
@@ -87,7 +100,7 @@ export class CreateModalForm extends React.Component<any, any> {
       this.props.sendPost(this.props.createType, this.props.feature.feature);
   }
 
-  hideCreateModal() {
+  hideCreateModal = () => {
     this.handleTabSelect(1);
     this.props.unsetFeature();
     this.props.hideModal();
@@ -107,21 +120,23 @@ export class CreateModalForm extends React.Component<any, any> {
   }
 
   getHeaderText() {
-    if (this.props.createType === 'circlemarker') {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa kohteen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden kohteen tiedot</b>);
-    } else if (this.props.createType === 'polyline') {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa reitin "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden reitin tiedot</b>);
-    } else if (this.props.createType === 'polygon') {
-      if (this.props.feature.featureDetails) { return (<b>Muokkaa alueen "{this.props.feature.featureDetails.name_fi}" tietoja</b>); }
-      return (<b>Lisää uuden alueen tiedot</b>);
+    const { createType, feature } = this.props;
+
+    if (createType === CIRCLE_MARKER) {
+      if (feature.featureDetails) { return <b>{`Muokkaa kohteen "${feature.featureDetails.name_fi}" tietoja`}</b>; }
+      return <b>{'Lisää uuden kohteen tiedot'}</b>;
+    } else if (createType === POLYLINE) {
+      if (feature.featureDetails) { return <b>{`Muokkaa reitin "${feature.featureDetails.name_fi}" tietoja`}</b>; }
+      return <b>{'Lisää uuden reitin tiedot'}</b>;
+    } else if (createType === POLYGON) {
+      if (feature.featureDetails) { return <b>{`Muokkaa alueen "${feature.featureDetails.name_fi}" tietoja`}</b>; }
+      return <b>{'Lisää uuden alueen tiedot'}</b>;
     }
 
     return null;
   }
 
-  getAlert() {
+  getAlert = () => {
     return (
      <Alert className={"formErrorAlert"} bsStyle={"danger"} onDismiss={() => { this.setState({ showAlert: false }); }}>
        <div className={"formErrorMsg"}>
@@ -133,6 +148,7 @@ export class CreateModalForm extends React.Component<any, any> {
 
   render() {
     const {
+      createType,
       formConfig,
       layers,
       showCreateModal,
@@ -147,6 +163,11 @@ export class CreateModalForm extends React.Component<any, any> {
       resetFeatureCoords
     } = this.props;
 
+    let type = null;
+    if (createType === CIRCLE_MARKER) type = POINT;
+    if (createType === POLYLINE) type = LINESTRING;
+    if (createType === POLYGON) type = POLYGON;
+
     return (
       <div>
         <Modal backdrop={"static"} show={showCreateModal} onHide={this.hideCreateModal} bsSize={'large'}>
@@ -159,8 +180,9 @@ export class CreateModalForm extends React.Component<any, any> {
             {this.state.showAlert && this.getAlert()}
             <Form>
               <Tabs activeKey={this.state.tabKey} onSelect={this.handleTabSelect} id={'createTabs'} bsStyle={"tabs"}>
-                <Tab eventKey={1} title="Perustiedot">
+                <Tab eventKey={1} title={"Perustiedot"}>
                   <BasicInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}
@@ -169,8 +191,9 @@ export class CreateModalForm extends React.Component<any, any> {
                   />
                 </Tab>
 
-                <Tab eventKey={2} title="Muut tiedot">
+                <Tab eventKey={2} title={"Muut tiedot"}>
                   <OtherInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}
@@ -178,8 +201,9 @@ export class CreateModalForm extends React.Component<any, any> {
                   />
                 </Tab>
 
-                <Tab eventKey={3} title="Yhteystiedot">
+                <Tab eventKey={3} title={"Yhteystiedot"}>
                   <ContactInfo
+                    formType={type}
                     formConfig={formConfig}
                     parentState={parentState}
                     handleFormChange={handleFormChange}
@@ -195,24 +219,24 @@ export class CreateModalForm extends React.Component<any, any> {
                 {this.getConfirmText()}
               </Button>
               <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { startEdit(feature); map.toggleFormEdit(true, parentState); }}>
-                Muokkaa sijaintia
+                {'Muokkaa sijaintia'}
               </Button>
 
               {feature.featureDetails &&
                 <Button id={"square-button-danger"} bsStyle={"danger"} onClick={() => { hideModal(); removeTarget(feature); }}>
-                  Poista kohde
+                  {'Poista kohde'}
                 </Button>
               }
 
               {feature.featureDetails &&
                 <Button id={"square-button-warning"} bsStyle={"warning"} onClick={() => { unsetFeature(); hideModal(); this.setState({ tabKey: 1 }); resetFeatureCoords(feature); }}>
-                  Peruuta
+                  {'Peruuta'}
                 </Button>
               }
 
               {!feature.featureDetails &&
                 <Button id={"square-button-danger"} bsStyle={"danger"} onClick={() => { hideModal(); removeNewTarget(feature); this.setState({ tabKey: 1 }); }}>
-                  Poista ehdotus
+                  {'Poista ehdotus'}
                 </Button>
               }
             </ButtonToolbar>

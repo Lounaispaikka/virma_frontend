@@ -3,7 +3,9 @@ import { observer } from 'mobx-react';
 import { Panel, Button, Glyphicon } from 'react-bootstrap';
 import bUtils from 'react-bootstrap/lib/utils/bootstrapUtils';
 
-import { login, layer, map } from '../model/store';
+import { login, layer } from '../model/store';
+import { APPROVAL } from '../config/constants';
+
 import '../../css/sidebar.css!';
 import '../../css/customBootstrap.css!';
 
@@ -18,11 +20,9 @@ export class LayerPanel extends React.Component<any, any> {
 
     bUtils.addStyle(Panel, 'panel-on');
     bUtils.addStyle(Panel, 'panel-off');
-
-    this.togglePanelState = this.togglePanelState.bind(this);
   }
 
-  togglePanelState(e) {
+  togglePanelState = (e) => {
     // Hack, fix this to be more precise way of checking from where the trigger came from
     if (e.target.hasAttribute("href") || e.target.id === "menu-glyphicon") {
       this.setState({ panelCollapsed: !this.state.panelCollapsed });
@@ -39,20 +39,26 @@ export class LayerPanel extends React.Component<any, any> {
     }
 
     const header = (
-      <span id="header-element">
+      <span id={"header-element"}>
         {layerName}
         {this.state.panelCollapsed &&
-          <Glyphicon id="menu-glyphicon" glyph="menu-down" />
+          <Glyphicon id={"menu-glyphicon"} glyph={"menu-down"} />
         }
         {!this.state.panelCollapsed &&
-          <Glyphicon id="menu-glyphicon" glyph="menu-up" />
+          <Glyphicon id={"menu-glyphicon"} glyph={"menu-up"} />
         }
       </span>
     );
 
     return (
       <div>
-        <Panel onClick={(e) => this.togglePanelState(e)} collapsible id={panelHeader} eventKey={layerType} header={header} bsStyle={layers.selected ? "panel-on" : "panel-off"} >
+        <Panel collapsible
+          onClick={(e) => this.togglePanelState(e)}
+          id={panelHeader}
+          eventKey={layerType}
+          header={header}
+          bsStyle={layers.selected ? "panel-on" : "panel-off"}
+        >
           <Button
             id={layers.selected ? "square-button-layer-switcher-all-on" : "square-button-layer-switcher-all-off"}
             bsSize={"xsmall"}
@@ -78,7 +84,7 @@ export class LayerPanel extends React.Component<any, any> {
           </div>
         </Panel>
 
-        {type === 'approval' && <br />}
+        {type === APPROVAL && <br />}
       </div>
     );
   }

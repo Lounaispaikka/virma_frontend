@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Alert } from 'react-bootstrap';
 
 import { modal } from '../../model/store';
 

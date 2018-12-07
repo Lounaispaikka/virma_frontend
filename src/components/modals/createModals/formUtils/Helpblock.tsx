@@ -5,14 +5,24 @@ import { form } from '../../../../model/store';
 
 import '../../../../../css/form.css!';
 
-export function HelpBlockContent({ children }) {
-  if (form.helpBlockTexts[children]) {
+const HelpBlockContent = ({ formName, value }) => {
+  if (form.helpBlockTexts[formName]) {
     return (
-      <HelpBlock>{form.helpBlockTexts[children]}</HelpBlock>
+      <HelpBlock>{form.helpBlockTexts[formName]}</HelpBlock>
     );
   } else {
+    if (value) {
+      if (value.length > 253) {
+        return (
+          <HelpBlock>Kentän maksimipituus on 254 merkkiä - Fältets maximala längd är 254 tecken</HelpBlock>
+        );
+      }
+    }
+    
     return (
       <HelpBlock>Kenttä on täytettävä - Fyll i fältet</HelpBlock>
     );
   }
 }
+
+export default HelpBlockContent;

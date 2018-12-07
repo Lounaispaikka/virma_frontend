@@ -4,18 +4,29 @@ import ControlText from '../formUtils/ControlText';
 import { ControlSelectInfo } from '../formUtils/ControlSelectInfo';
 import { ControlDate } from '../formUtils/ControlDate';
 
-import { form } from '../../../../model/store';
+import { form, login } from '../../../../model/store';
+
+import {
+  SH_ES_DATE,
+  TIMESTAMP,
+  MUNICIPALI,
+  SUBREGION,
+  REGION,
+  X_EUREFFIN,
+  Y_EUREFFIN,
+  UPDATER_ID,
+} from '../../../../config/constants';
 
 export class OtherInfo extends React.Component<any, any> {
   render() {
-    const { formConfig, parentState, handleFormChange, sortTabContent } = this.props;
+    const { formConfig, formType, parentState, handleFormChange, sortTabContent } = this.props;
     const tabContent = formConfig.sort(sortTabContent);
 
     return (
       <div className={"createModalBodyTab"}>
         {tabContent.map((info, idx) => {
           if (info.addedToForm && info.tab === 2) {
-            if (info.attr === 'sh_es_date') {
+            if (info.attr === SH_ES_DATE) {
               return (
                 <ControlDate
                   key={idx}
@@ -24,9 +35,10 @@ export class OtherInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   disabled={false}
+                  formType={formType}
                 />
               );
-            } else if (info.attr === 'timestamp') {
+            } else if (info.attr === TIMESTAMP) {
               return (
                 <ControlDate
                   key={idx}
@@ -35,9 +47,10 @@ export class OtherInfo extends React.Component<any, any> {
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   disabled={true}
+                  formType={formType}
                 />
               );
-            } else if (info.attr === 'municipali') {
+            } else if (info.attr === MUNICIPALI) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -47,9 +60,10 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.municipali}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
-            } else if (info.attr === 'subregion') {
+            } else if (info.attr === SUBREGION) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -59,9 +73,10 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.subregion}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
-            } else if (info.attr === 'region') {
+            } else if (info.attr === REGION) {
               return (
                 <ControlSelectInfo
                   key={idx}
@@ -71,20 +86,39 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   optionValues={form.region}
                   displayFormError={info.formError}
+                  formType={formType}
                 />
               );
             }
 
-            if (info.attr === 'x_eureffin' || info.attr === 'y_eureffin') {
+            if (info.attr === X_EUREFFIN || info.attr === Y_EUREFFIN) {
               return (
                 <ControlText
                   key={idx}
                   controlName={info.desc}
                   formName={info.attr}
-                  readOnly={true}
+                  readOnly={false}
                   stateValue={parentState[info.attr]}
                   handleChange={handleFormChange}
                   displayFormError={info.formError}
+                  placeholder={null}
+                  formType={formType}
+                />
+              );
+            }
+
+            if (info.attr === UPDATER_ID) {
+              return (
+                <ControlText
+                  key={idx}
+                  controlName={info.desc}
+                  formName={info.attr}
+                  readOnly={!login.isAdmin}
+                  stateValue={parentState[info.attr]}
+                  handleChange={handleFormChange}
+                  displayFormError={info.formError}
+                  placeholder={null}
+                  formType={formType}
                 />
               );
             }
@@ -98,6 +132,8 @@ export class OtherInfo extends React.Component<any, any> {
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
+                placeholder={null}
+                formType={formType}
               />
             );
           }

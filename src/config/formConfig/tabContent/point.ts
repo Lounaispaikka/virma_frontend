@@ -1,6 +1,52 @@
-const lineConfig = [
+import {
+  GID,
+  CLASS1_FI,
+  CLASS1_SE,
+  CLASS1_EN,
+  CLASS2_FI,
+  CLASS2_SE,
+  CLASS2_EN,
+  NAME_FI,
+  NAME_SE,
+  NAME_EN,
+  NO_ADDRESS,
+  ADDRESS,
+  ZIP,
+  INFO_FI,
+  INFO_SE,
+  INFO_EN,
+  EQUIPMENT,
+  ACCESSIBIL,
+  CHALL_CLAS,
+  WWW_FI,
+  WWW_SE,
+  WWW_EN,
+  MUNICIPALI,
+  MUNICI_NRO,
+  SUBREGION,
+  SUBREG_NRO,
+  REGION,
+  REGION_NRO,
+  X_EUREFFIN,
+  Y_EUREFFIN,
+  TIMESTAMP,
+  UPDATER_ID,
+  SPECIAL,
+  SHAPEESTIM,
+  SH_ES_DATE,
+  OWNERCLASS,
+  OWNER,
+  UPKEEPCLAS,
+  PUBLICINFO,
+  UPKEEPER,
+  UPKEEPINFO,
+  TELEPHONE,
+  EMAIL,
+} from '../../constants';
+
+export const pointConfig = [
   {
-    attr: 'gid',
+    attr: GID,
     desc: 'Tunnus',
     type: 'text',
     addedToForm: false,
@@ -10,7 +56,7 @@ const lineConfig = [
     order: 1
   },
   {
-    attr: 'class1_fi',
+    attr: CLASS1_FI,
     desc: 'Pääluokitus - Huvudklassificering',
     type: 'select',
     addedToForm: true,
@@ -20,7 +66,7 @@ const lineConfig = [
     order: 2
   },
   {
-    attr: 'class1_se',
+    attr: CLASS1_SE,
     desc: 'Pääluokitus ruotsiksi',
     type: 'select',
     addedToForm: false,
@@ -30,7 +76,7 @@ const lineConfig = [
     order: 3
   },
   {
-    attr: 'class1_en',
+    attr: CLASS1_EN,
     desc: 'Pääluokitus englanniksi',
     type: 'select',
     addedToForm: false,
@@ -40,7 +86,7 @@ const lineConfig = [
     order: 4
   },
   {
-    attr: 'class2_fi',
+    attr: CLASS2_FI,
     desc: 'Alaluokitus - Underklassificering',
     type: 'select',
     addedToForm: true,
@@ -50,7 +96,7 @@ const lineConfig = [
     order: 5
   },
   {
-    attr: 'class2_se',
+    attr: CLASS2_SE,
     desc: 'Alaluokitus ruotsiksi',
     type: 'select',
     addedToForm: false,
@@ -60,7 +106,7 @@ const lineConfig = [
     order: 6
   },
   {
-    attr: 'class2_en',
+    attr: CLASS2_EN,
     desc: 'Alaluokitus englanniksi',
     type: 'select',
     addedToForm: false,
@@ -70,8 +116,8 @@ const lineConfig = [
     order: 7
   },
   {
-    attr: 'name_fi',
-    desc: 'Reitin nimi - Objektets namn',
+    attr: NAME_FI,
+    desc: 'Kohteen nimi - Objektets namn',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -80,8 +126,8 @@ const lineConfig = [
     order: 8
   },
   {
-    attr: 'name_se',
-    desc: 'Ruttens namn',
+    attr: NAME_SE,
+    desc: 'Objekts namn',
     type: 'text',
     addedToForm: false,
     canBeUndefined: false,
@@ -90,8 +136,8 @@ const lineConfig = [
     order: 9
   },
   {
-    attr: 'name_en',
-    desc: 'Route name',
+    attr: NAME_EN,
+    desc: 'Site name',
     type: 'text',
     addedToForm: false,
     canBeUndefined: false,
@@ -100,8 +146,8 @@ const lineConfig = [
     order: 10
   },
   {
-    attr: 'info_fi',
-    desc: 'Kohdekuvaus - Beskrivning av objektet',
+    attr: NO_ADDRESS,
+    desc: 'Ei osoitetta - Ingen adress',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -110,58 +156,58 @@ const lineConfig = [
     order: 11
   },
   {
-    attr: 'info_se',
+    attr: ADDRESS,
+    desc: 'Kohteen katuosoite - Objektets gatuadress',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: false,
+    formError: false,
+    tab: 1,
+    order: 12
+  },
+  {
+    attr: ZIP,
+    desc: 'Postinumero - Postnummer',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: false,
+    formError: false,
+    tab: 1,
+    order: 13
+  },
+  {
+    attr: INFO_FI,
+    desc: 'Kohdekuvaus - Beskrivning av objektet',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: false,
+    formError: false,
+    tab: 1,
+    order: 14
+  },
+  {
+    attr: INFO_SE,
     desc: 'Beskrivning',
     type: 'text',
     addedToForm: false,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 12
+    order: 15
   },
   {
-    attr: 'info_en',
+    attr: INFO_EN,
     desc: 'Information',
     type: 'text',
     addedToForm: false,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 13
-  },
-  {
-    attr: 'length_m',
-    desc: 'Reitin pituus - Ruttens längd',
-    type: 'text',
-    addedToForm: true,
-    canBeUndefined: true,
-    formError: false,
-    tab: 1,
-    order: 14
-  },
-  {
-    attr: 'accessibil',
-    desc: 'Esteettömyys - Hinderfritt',
-    type: 'text',
-    addedToForm: true,
-    canBeUndefined: true,
-    formError: false,
-    tab: 1,
-    order: 15
-  },
-  {
-    attr: 'chall_clas',
-    desc: 'Vaativuustaso - Kravnivå',
-    type: 'text',
-    addedToForm: true,
-    canBeUndefined: true,
-    formError: false,
-    tab: 1,
     order: 16
   },
   {
-    attr: 'www_fi',
-    desc: 'Kohteen verkkosivut - Objektets webbsidor',
+    attr: EQUIPMENT,
+    desc: 'Varusteet - Utrustning',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -170,30 +216,60 @@ const lineConfig = [
     order: 17
   },
   {
-    attr: 'www_se',
-    desc: 'Websida',
+    attr: ACCESSIBIL,
+    desc: 'Esteettömyys - Hinderfritt',
     type: 'text',
-    addedToForm: false,
+    addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
     order: 18
   },
   {
-    attr: 'www_en',
+    attr: CHALL_CLAS,
+    desc: 'Vaativuustaso - Kravnivå',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 19
+  },
+  {
+    attr: WWW_FI,
+    desc: 'Kohteen verkkosivut - Objektets webbsidor',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 20
+  },
+  {
+    attr: WWW_SE,
+    desc: 'Websida',
+    type: 'text',
+    addedToForm: false,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 21
+  },
+  {
+    attr: WWW_EN,
     desc: 'Webpage',
     type: 'text',
     addedToForm: false,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 19
+    order: 22
   },
 
 
 
   {
-    attr: 'municipali',
+    attr: MUNICIPALI,
     desc: 'Kunta - Kommun',
     type: 'text',
     addedToForm: true,
@@ -203,7 +279,7 @@ const lineConfig = [
     order: 1
   },
   {
-    attr: 'munici_nro',
+    attr: MUNICI_NRO,
     desc: 'Kuntanumero - Kommunnummer',
     type: 'text',
     addedToForm: true,
@@ -213,7 +289,7 @@ const lineConfig = [
     order: 2
   },
   {
-    attr: 'subregion',
+    attr: SUBREGION,
     desc: 'Seutukunta - Regionkommun',
     type: 'text',
     addedToForm: true,
@@ -223,7 +299,7 @@ const lineConfig = [
     order: 3
   },
   {
-    attr: 'subreg_nro',
+    attr: SUBREG_NRO,
     desc: 'Seutukuntanumero - Regionkommunnummer',
     type: 'text',
     addedToForm: true,
@@ -233,7 +309,7 @@ const lineConfig = [
     order: 4
   },
   {
-    attr: 'region',
+    attr: REGION,
     desc: 'Maakunta - Landskap',
     type: 'text',
     addedToForm: true,
@@ -243,7 +319,7 @@ const lineConfig = [
     order: 5
   },
   {
-    attr: 'region_nro',
+    attr: REGION_NRO,
     desc: 'Maakuntanumero - Landskapsnummer',
     type: 'text',
     addedToForm: true,
@@ -253,9 +329,9 @@ const lineConfig = [
     order: 6
   },
   {
-    attr: 'timestamp',
-    desc: 'Aikaleima - Tidstämpel',
-    type: 'date',
+    attr: X_EUREFFIN,
+    desc: 'X-koordinaatti - X-koordinat',
+    type: 'text',
     addedToForm: true,
     canBeUndefined: false,
     formError: false,
@@ -263,8 +339,8 @@ const lineConfig = [
     order: 7
   },
   {
-    attr: 'updater_id',
-    desc: 'Päivittäjätunnus - Uppdaterare identifikation',
+    attr: Y_EUREFFIN,
+    desc: 'Y-koordinaatti - Y-koordinat',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -273,20 +349,40 @@ const lineConfig = [
     order: 8
   },
   {
-    attr: 'special',
+    attr: TIMESTAMP,
+    desc: 'Aikaleima - Tidstämpel',
+    type: 'date',
+    addedToForm: true,
+    canBeUndefined: false,
+    formError: false,
+    tab: 2,
+    order: 9
+  },
+  {
+    attr: UPDATER_ID,
+    desc: 'Päivittäjätunnus - Uppdaterare identifikation',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: false,
+    formError: false,
+    tab: 2,
+    order: 10
+  },
+  {
+    attr: SPECIAL,
     desc: 'Erityisluokittelu - Specialklassificering',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 2,
-    order: 9
+    order: 11
   },
 
 
 
   {
-    attr: 'shapeestim',
+    attr: SHAPEESTIM,
     desc: 'Kuntoarvio - Konditionsbedömning',
     type: 'text',
     addedToForm: true,
@@ -296,7 +392,7 @@ const lineConfig = [
     order: 1
   },
   {
-    attr: 'sh_es_date',
+    attr: SH_ES_DATE,
     desc: 'Kuntoarvion päivämäärä - Konditionsbedömningens datum',
     type: 'date',
     addedToForm: true,
@@ -306,8 +402,8 @@ const lineConfig = [
     order: 2
   },
   {
-    attr: 'upkeepclas',
-    desc: 'Ylläpitoluokka - Underhållsklass',
+    attr: OWNERCLASS,
+    desc: 'Omistajaluokka - Ägarklass',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,
@@ -316,38 +412,38 @@ const lineConfig = [
     order: 3
   },
   {
-    attr: 'publicinfo',
-    desc: 'Yhteystietojen julkisuus - Kontaktuppgifternas offentlighet',
+    attr: OWNER,
+    desc: 'Omistajan nimi - Ägarens namn',
     type: 'text',
     addedToForm: true,
-    canBeUndefined: false,
+    canBeUndefined: true,
     formError: false,
     tab: 3,
     order: 4
   },
   {
-    attr: 'upkeeper',
-    desc: 'Ylläpitäjän nimi - Upprätthållarens namn',
+    attr: UPKEEPCLAS,
+    desc: 'Ylläpitoluokka - Underhållsklass',
     type: 'text',
     addedToForm: true,
-    canBeUndefined: true,
+    canBeUndefined: false,
     formError: false,
     tab: 3,
     order: 5
   },
   {
-    attr: 'upkeepinfo',
-    desc: 'Ylläpitäjän yhteystieto - Upprätthållarens kontaktinformation',
+    attr: PUBLICINFO,
+    desc: 'Yhteystiedot julkisia – Kontaktuppgifter offentliga',
     type: 'text',
     addedToForm: true,
-    canBeUndefined: true,
+    canBeUndefined: false,
     formError: false,
     tab: 3,
     order: 6
   },
   {
-    attr: 'telephone',
-    desc: 'Ylläpitäjän puhelinnumero - Upprätthållarens telefonnummer',
+    attr: UPKEEPER,
+    desc: 'Ylläpitäjän nimi - Upprätthållarens namn',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -356,15 +452,33 @@ const lineConfig = [
     order: 7
   },
   {
-    attr: 'email',
-    desc: 'Ylläpitäjän sähköposti - Upprätthållarens e-post',
+    attr: UPKEEPINFO,
+    desc: 'Ylläpitäjän yhteystieto - Upprätthållarens kontaktinformation',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 3,
     order: 8
+  },
+  {
+    attr: TELEPHONE,
+    desc: 'Kohdetta koskeva yleinen puhelinnumero – En allmän telefonnummer som gäller objektet',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 3,
+    order: 9
+  },
+  {
+    attr: EMAIL,
+    desc: 'Kohdetta koskeva yleinen sähköposti – En allmän epost som gäller objektet',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 3,
+    order: 10
   }
 ];
-
-export { lineConfig };

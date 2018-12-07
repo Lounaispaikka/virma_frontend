@@ -1,16 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Popup } from 'react-leaflet';
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import validator from 'validator';
 
 declare const L: any; // Some hack that works for including L & L.draw
 
 import { login, map } from '../../model/store';
+import { AREA, LINESTRING, POINT } from '../../config/constants';
 
 import '../../../css/mapFeature.css!';
 import '../../../css/customBootstrap.css!';
 
+const NO_LINK = 'Linkkiä ei saatavilla';
 const NON_EXIST = 'Tietoa ei saatavilla';
 
 @observer
@@ -20,11 +22,11 @@ export class FeaturePopup extends React.Component<any, any> {
   }
 
   getLink() {
-    const { featureInfo} = this.props;
+    const { featureInfo } = this.props;
 
     return featureInfo.www_fi ?
-      (validator.isURL(featureInfo.www_fi) ? <a href={featureInfo.www_fi} target="_blank">Linkki sivulle</a> : 'Linkkiä ei saatavilla')
-    : 'Linkkiä ei saatavilla';
+      (validator.isURL(featureInfo.www_fi) ? <a href={featureInfo.www_fi} target="_blank">Linkki sivulle</a> : NO_LINK)
+    : NO_LINK;
   }
 
   render() {
@@ -59,7 +61,7 @@ export class FeaturePopup extends React.Component<any, any> {
         <div className="featurePopup">
           <h4>{featureInfo.class1_fi}{' - '}{featureInfo.class2_fi}</h4>
 
-          {type.toLowerCase().indexOf('point') >= 0 &&
+          {type.toLowerCase().indexOf(POINT) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>
@@ -72,7 +74,7 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {type.toLowerCase().indexOf('line') >= 0 &&
+          {type.toLowerCase().indexOf(LINESTRING) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>
@@ -86,7 +88,7 @@ export class FeaturePopup extends React.Component<any, any> {
             </ul>
           }
 
-          {type.toLowerCase().indexOf('area') >= 0 &&
+          {type.toLowerCase().indexOf(AREA) >= 0 &&
             <ul>
               <li><b>Nimi: </b>{name_fi}</li>
               <li><b>Osoite: </b>{address}</li>

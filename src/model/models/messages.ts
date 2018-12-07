@@ -1,8 +1,8 @@
 import { observable } from 'mobx';
 
-import { loginMessages } from '../messageConfig/loginMessages';
-import { mapMessages } from '../messageConfig/mapMessages';
-import { toolInfoContent} from '../messageConfig/toolInfoContent';
+import { loginMessages } from '../../config/messageConfig/loginMessages';
+import { mapMessages } from '../../config/messageConfig/mapMessages';
+import { toolInfoContent} from '../../config/messageConfig/toolInfoContent';
 
 export default class Messages {
   @observable loginMessages = loginMessages;

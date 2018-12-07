@@ -1,9 +1,11 @@
 import React from 'react';
 import { FormGroup, ControlLabel, FormControl, Label } from 'react-bootstrap';
 
-import { form } from '../../../../model/store';
 import { TooltipWithContent } from './Tooltip';
-import { HelpBlockContent } from './Helpblock';
+import HelpBlockContent from './Helpblock';
+
+import { form } from '../../../../model/store';
+import { MUNICIPALI, SUBREGION, REGION, OWNERCLASS } from '../../../../config/constants';
 
 import '../../../../../css/form.css!';
 
@@ -28,7 +30,7 @@ export class ControlSelectInfo extends React.Component<any, any> {
         newValue = this.props.stateValue.indexOf(e.target.value) < 0 ? this.props.stateValue + ', ' + e.target.value: this.props.stateValue;
       }
 
-      if (e.target.id === 'ownerclass' || 'municipali' || 'subregion' || 'region') {
+      if (e.target.id === OWNERCLASS || MUNICIPALI || SUBREGION || REGION) {
         this.props.handleChange(e, this.props.optionValues, newValue);
       } else {
         this.props.handleChange(e, this.props.optionValues);
@@ -47,7 +49,7 @@ export class ControlSelectInfo extends React.Component<any, any> {
   }
 
   returnFormControl() {
-    const { controlName, formName, stateValue, handleChange, optionValues, displayFormError } = this.props;
+    const { controlName, formName, stateValue, optionValues, displayFormError } = this.props;
 
     return (
       <FormGroup validationState={displayFormError ? 'error' : null} controlId={formName} bsSize={"small"}>
@@ -62,19 +64,19 @@ export class ControlSelectInfo extends React.Component<any, any> {
             <option value={stateValue} key={1}>{stateValue}</option>
           }
           {optionValues.map((item, idx) => {
-            if (formName.indexOf('municipali') >= 0) {
+            if (formName === MUNICIPALI) {
               return (
                 <option value={item.municipali} key={idx}>{item.municipali}</option>
               );
-            } else if (formName.indexOf('subregion') >= 0) {
+            } else if (formName === SUBREGION) {
               return (
                 <option value={item.subregion} key={idx}>{item.subregion}</option>
               );
-            } else if (formName.indexOf('region') >= 0) {
+            } else if (formName === REGION) {
               return (
                 <option value={item.region} key={idx}>{item.region}</option>
               );
-            } else if (formName.indexOf('ownerclass') >= 0) {
+            } else if (formName === OWNERCLASS) {
               return (
                 <option value={item.owner} key={idx}>{item.owner}</option>
               );
@@ -97,18 +99,18 @@ export class ControlSelectInfo extends React.Component<any, any> {
           </div>}
         </div>}
 
-        {displayFormError && <HelpBlockContent>{formName}</HelpBlockContent>}
+        {displayFormError && <HelpBlockContent formName={formName} value={stateValue} />}
       </FormGroup>
     );
   }
 
   render() {
-    const { formName } = this.props;
+    const { formName, formType } = this.props;
 
     if (form.tooltipsForForm[formName]) {
       return (
         <TooltipWithContent
-          tooltip={form.tooltipsForForm[formName]}
+          tooltip={form.getTooltipsForForm(formName, formType)}
         >
           {this.returnFormControl()}
         </TooltipWithContent>

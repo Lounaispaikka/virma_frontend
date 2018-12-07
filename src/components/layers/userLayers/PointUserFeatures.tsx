@@ -1,10 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { CircleMarker, Marker } from 'react-leaflet';
+import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
+import { POINT_USER_FEATURES } from '../../../config/constants';
 
 @observer
 export class PointUserFeatures extends React.Component<any, any> {
@@ -12,7 +13,7 @@ export class PointUserFeatures extends React.Component<any, any> {
     const { pisteet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {pisteet.length !== 0 && pisteet.map((feature, idx) => {
           for (let j = 0; j < layer.pointLayers.length; j++) {
             for (let i = 0; i < layer.pointLayers[j].features.length; i++) {
@@ -28,19 +29,18 @@ export class PointUserFeatures extends React.Component<any, any> {
                     fillColor={color}
                     weight={1.5}
                     fillOpacity={0.8}
-                    onClick={(e) => setSelectedFeature(e.target, feature, 'pointFeatures')}
+                    onClick={(e) => setSelectedFeature(e.target, feature, POINT_USER_FEATURES)}
                   >
-                    <FeaturePopup featureInfo={feature} type={'point'} />
+                    <FeaturePopup featureInfo={feature} type={'userPoint'} />
                   </CircleMarker>
                 );
               }
             }
           }
 
-
           return null;
         })}
-      </div>
+      </>
     );
   }
 }

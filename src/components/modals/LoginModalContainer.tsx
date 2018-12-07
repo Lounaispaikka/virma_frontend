@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, FormGroup, ControlLabel, FormControl, ButtonToolbar, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 import LoginContent from './loginModalContent/LoginContent';
 import { RegisterContent } from './loginModalContent/RegisterContent';
@@ -14,17 +14,11 @@ export class LoginModalContainer extends React.Component<any, any> {
 
   getLoginModalHeader() {
     if (this.props.showLoginModalState) {
-      return (
-        <b>Kirjaudu sisään</b>
-      );
+      return <b>{'Kirjaudu sisään'}</b>;
     } else if (this.props.showRegisterModalState) {
-      return (
-        <b>Luo tunnus</b>
-      );
+      return <b>{'Luo tunnus'}</b>;
     } else if (this.props.showForgotModalState) {
-      return (
-        <b>Palauta salasana</b>
-      );
+      return <b>{'Palauta salasana'}</b>;
     }
 
     return null;
@@ -38,6 +32,33 @@ export class LoginModalContainer extends React.Component<any, any> {
       showRegisterModalState,
       hideLoginModal,
     } = this.props;
+
+    const {
+      displayErrorLoginUsername,
+      displayErrorLoginPassword,
+      displayErrorForgot,
+      displayErrorRegister,
+      displayErrorRegisterName,
+      displayErrorRegisterSurname,
+      displayErrorRegisterUsername,
+      displayErrorRegisterPassword,
+      displayErrorRegisterPasssword2,
+      displayErrorRegisterEmail,
+      displayErrorRegisterOrganization
+    } = this.props.displayFormErrors;
+
+    const {
+      updateLoginUsername,
+      updateLoginPassword,
+      updateRegisterName,
+      updateRegisterSurname,
+      updateRegisterUsername,
+      updateRegisterPassword,
+      updateRegisterPasswordRepeat,
+      updateRegisterEmail,
+      updateRegisterOrganization,
+      updateForgotEmail
+    } = this.props.updaters;
 
     return (
       <div>
@@ -53,10 +74,10 @@ export class LoginModalContainer extends React.Component<any, any> {
                 login={this.props.login}
                 loginDisabled={this.props.loginDisabled}
                 errorTextLogin={this.props.errorTextLogin}
-                displayErrorLoginUsername={this.props.displayErrorLoginUsername}
-                displayErrorLoginPassword={this.props.displayErrorLoginPassword}
-                updateLoginUsername={this.props.updateLoginUsername}
-                updateLoginPassword={this.props.updateLoginPassword}
+                displayErrorLoginUsername={displayErrorLoginUsername}
+                displayErrorLoginPassword={displayErrorLoginPassword}
+                updateLoginUsername={updateLoginUsername}
+                updateLoginPassword={updateLoginPassword}
                 hideLoginModal={this.props.hideLoginModal}
                 showRegisterModal={this.props.showRegisterModal}
                 showForgotModal={this.props.showForgotModal}
@@ -68,16 +89,20 @@ export class LoginModalContainer extends React.Component<any, any> {
                 register={this.props.register}
                 registerDisabled={this.props.registerDisabled}
                 errorTextRegister={this.props.errorTextRegister}
-                displayErrorRegisterUsername={this.props.displayErrorRegisterUsername}
-                displayErrorRegisterPassword={this.props.displayErrorRegisterPassword}
-                displayErrorRegisterPassword2={this.props.displayErrorRegisterPassword2}
-                displayErrorRegisterEmail={this.props.displayErrorRegisterEmail}
-                displayErrorRegisterOrganization={this.props.displayErrorRegisterOrganization}
-                updateRegisterUsername={this.props.updateRegisterUsername}
-                updateRegisterPassword={this.props.updateRegisterPassword}
-                updateRegisterPasswordRepeat={this.props.updateRegisterPasswordRepeat}
-                updateRegisterEmail={this.props.updateRegisterEmail}
-                updateRegisterOrganization={this.props.updateRegisterOrganization}
+                displayErrorRegisterName={displayErrorRegisterName}
+                displayErrorRegisterSurname={displayErrorRegisterSurname}
+                displayErrorRegisterUsername={displayErrorRegisterUsername}
+                displayErrorRegisterPassword={displayErrorRegisterPassword}
+                displayErrorRegisterPassword2={displayErrorRegisterPasssword2}
+                displayErrorRegisterEmail={displayErrorRegisterEmail}
+                displayErrorRegisterOrganization={displayErrorRegisterOrganization}
+                updateRegisterName={updateRegisterName}
+                updateRegisterSurname={updateRegisterSurname}
+                updateRegisterUsername={updateRegisterUsername}
+                updateRegisterPassword={updateRegisterPassword}
+                updateRegisterPasswordRepeat={updateRegisterPasswordRepeat}
+                updateRegisterEmail={updateRegisterEmail}
+                updateRegisterOrganization={updateRegisterOrganization}
                 hideRegisterModal={this.props.hideRegisterModal}
               />
             }
@@ -86,8 +111,8 @@ export class LoginModalContainer extends React.Component<any, any> {
               <ForgotContent
                 forgot={this.props.forgot}
                 errorTextForgot={this.props.errorTextForgot}
-                displayErrorForgot={this.props.displayErrorForgot}
-                updateForgotEmail={this.props.updateForgotEmail}
+                displayErrorForgot={displayErrorForgot}
+                updateForgotEmail={updateForgotEmail}
                 forgotDisabled={this.props.forgotDisabled}
                 hideForgotModal={this.props.hideForgotModal}
               />

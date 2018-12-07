@@ -1,12 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { CircleMarker, Marker } from 'react-leaflet';
-
-declare const L: any; // Some hack that works for including L & L.draw
+import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
+import { POINT } from '../../../config/constants';
 
 @observer
 export class PointFeatures extends React.Component<any, any> {
@@ -14,7 +13,7 @@ export class PointFeatures extends React.Component<any, any> {
     const { pisteet, setSelectedFeature } = this.props;
 
     return (
-      <div>
+      <>
         {pisteet.length !== 0 && pisteet.map((feature, idx) => {
           for (let j = 0; j < layer.pointLayers.length; j++) {
             for (let i = 0; i < layer.pointLayers[j].features.length; i++) {
@@ -32,7 +31,7 @@ export class PointFeatures extends React.Component<any, any> {
                     fillOpacity={0.8}
                     onClick={(e) => setSelectedFeature(e.target, feature, 'pointFeatures')}
                   >
-                    <FeaturePopup featureInfo={feature} type={'point'} />
+                    <FeaturePopup featureInfo={feature} type={POINT} />
                   </CircleMarker>
                 );
               }
@@ -41,7 +40,7 @@ export class PointFeatures extends React.Component<any, any> {
 
           return null;
         })}
-      </div>
+      </>
     );
   }
 }

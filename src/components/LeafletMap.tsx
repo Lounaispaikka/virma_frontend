@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Map, FeatureGroup } from 'react-leaflet';
+import { Map, FeatureGroup, ScaleControl } from 'react-leaflet';
 import { Projection, CRS } from 'charto-leaflet';
 import { ButtonToolbar, ToggleButtonGroup, ToggleButton, Button } from 'react-bootstrap';
 import 'leaflet-draw';
@@ -9,7 +9,9 @@ import 'whatwg-fetch';
 declare const L: any; // Some hack that works for including L & L.draw
 
 import { data, map, layer, modal, messages, login } from '../model/store';
-import { appUrls, mapUrls } from '../config';
+import { appUrls, mapUrls } from '../config/config';
+import { postOptions } from '../config/fetchConfig';
+import { POINT, LINESTRING, POLYGON, CIRCLE_MARKER, POLYLINE, BACKGROUND_MAP, BASIC_MAP, AERIAL_MAP } from '../config/constants';
 
 import Dummy from './Dummy';
 import { CreateModalContainer } from './modals/CreateModalContainer';
@@ -103,22 +105,6 @@ export class LeafletMap extends React.Component<any, any> {
         }
       }
     };
-
-    this.setSelectedFeature = this.setSelectedFeature.bind(this);
-    this.unsetSelectedFeature = this.unsetSelectedFeature.bind(this);
-
-    this.manageFeature = this.manageFeature.bind(this);
-    this.startEditFeature = this.startEditFeature.bind(this);
-    this.stopAddingFeature = this.stopAddingFeature.bind(this);
-    this.stopEditFeature = this.stopEditFeature.bind(this);
-    this.removeNewTargetFeature = this.removeNewTargetFeature.bind(this);
-    this.removeTargetFeature = this.removeTargetFeature.bind(this);
-    this.removeTargetFeatureFetch = this.removeTargetFeatureFetch.bind(this);
-
-    this.showCreateModal = this.showCreateModal.bind(this);
-    this.hideCreateModal = this.hideCreateModal.bind(this);
-
-    this.switchLayer = this.switchLayer.bind(this);
   }
 
   componentDidMount() {
@@ -129,6 +115,9 @@ export class LeafletMap extends React.Component<any, any> {
     leafletMap.options.maxZoom = 15;
     leafletMap.options.minZoom = 3;
     leafletMap.options.crs = JHS180;
+    
+    leafletMap.zoomControl['_zoomInButton'].title = 'Lähennä';
+    leafletMap.zoomControl['_zoomOutButton'].title = 'Loitonna';
 
     // Disable keyboard interaction, since +, - are used for zooming (inteferes form)
     leafletMap.keyboard.disable();
@@ -175,7 +164,7 @@ export class LeafletMap extends React.Component<any, any> {
     });
 
     // Map click for triggering map.on for the newly created feature
-    leafletMap.on('draw:created', (e) => {
+    leafletMap.on('draw:created', (e: any) => {
       // Toggle off button styling, since new feature has been created
       map.createOffButtonStyling();
 
@@ -183,7 +172,7 @@ export class LeafletMap extends React.Component<any, any> {
       const createType = e.layerType;
 
       // Check linestring editing bug where starting and ending points are the same
-      if (!(createType === 'polyline' && e.layer.editing.latlngs[0].length === 1)) {
+      if (!(createType === POLYLINE && e.layer.editing.latlngs[0].length === 1)) {
         // Set the feature selected
         this.setSelectedFeature(e.layer, null, 'newFeature');
 
@@ -196,11 +185,11 @@ export class LeafletMap extends React.Component<any, any> {
         this.showCreateModal();
 
         // For the different types of features add the recently added feature to the correct layer
-        if (createType === 'circlemarker') {
+        if (createType === CIRCLE_MARKER) {
           this.pointfeatures.leafletElement.addLayer(e.layer);
-        } else if (createType === 'polyline') {
+        } else if (createType === POLYLINE) {
           this.linefeatures.leafletElement.addLayer(e.layer);
-        } else if (createType === 'polygon') {
+        } else if (createType === POLYGON) {
           this.areafeatures.leafletElement.addLayer(e.layer);
         }
 
@@ -228,15 +217,15 @@ export class LeafletMap extends React.Component<any, any> {
     if (map.isCreateOn && !this.state.addingFeature) {
       this.setState({ addingFeature: true }); // addingFeature is true, so that another drawing instance cannot be started
 
-      if (map.createType === 'point') {
+      if (map.createType === POINT) {
         const drawCircle = new L.Draw.CircleMarker(this.leafletMap.leafletElement, this.state.drawOptions.circlemarker);
         this.setState({ creatingFeature: drawCircle });
         drawCircle.enable();
-      } else if (map.createType === 'line') {
+      } else if (map.createType === LINESTRING) {
         const drawPolyline = new L.Draw.Polyline(this.leafletMap.leafletElement, this.state.drawOptions.polyline);
         this.setState({ creatingFeature: drawPolyline });
         drawPolyline.enable();
-      } else if (map.createType === 'polygon') {
+      } else if (map.createType === POLYGON) {
         const drawPolygon = new L.Draw.Polygon(this.leafletMap.leafletElement, this.state.drawOptions.polygon);
         this.setState({ creatingFeature: drawPolygon });
         drawPolygon.enable();
@@ -247,7 +236,7 @@ export class LeafletMap extends React.Component<any, any> {
   }
 
   // This is passed to featurePopup that opens CreateModal
-  manageFeature(e) {
+  manageFeature = (e) => {
     if (e.feature) {
       this.showCreateModal();
       e.feature.editing.disable();
@@ -257,7 +246,7 @@ export class LeafletMap extends React.Component<any, any> {
     this.setState({ manageOn: false });
   }
 
-  removeNewTargetFeature(e) {
+  removeNewTargetFeature = (e) => {
     if (confirm('Haluatko varmasti poistaa keskeneräisen kohteen ehdotuksen?')) {
       e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...
       e.feature.editing.disable();
@@ -268,24 +257,24 @@ export class LeafletMap extends React.Component<any, any> {
     }
   }
 
-  removeTargetFeature(e) {
+  removeTargetFeature = (e) => {
     if (confirm('Oletko varma, että haluat poistaa kohteen?')) {
 
       // This is only called when the feature is already in db
       if (e.feature && e.featureDetails) {
-        const queryOptions: any = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ id: e.featureDetails.gid, type: this.state.selectedLayer, name: e.featureDetails.name_fi, user: login.loggedUser })
-        };
+        postOptions['body'] = JSON.stringify({
+          id: e.featureDetails.gid,
+          type: this.state.selectedLayer,
+          name: e.featureDetails.name_fi,
+          user: login.loggedUser
+        });
 
         if (e.feature instanceof L.CircleMarker) {
-          this.removeTargetFeatureFetch(appUrls.removePoint, queryOptions, messages.mapMessages.removePointSuccess, messages.mapMessages.removePointFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removePoint, postOptions, messages.mapMessages.removePointSuccess, messages.mapMessages.removePointFailure, e.feature);
         } else if ((e.feature instanceof L.Polyline) && !(e.feature instanceof L.Polygon)) {
-          this.removeTargetFeatureFetch(appUrls.removeLine, queryOptions, messages.mapMessages.removeLineSuccess, messages.mapMessages.removeLineFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removeLine, postOptions, messages.mapMessages.removeLineSuccess, messages.mapMessages.removeLineFailure, e.feature);
         } else if ((e.feature instanceof L.Polygon) && !(e.feature instanceof L.Rectangle)) {
-          this.removeTargetFeatureFetch(appUrls.removeArea, queryOptions, messages.mapMessages.removeAreaSuccess, messages.mapMessages.removeAreaFailure, e.feature);
+          this.removeTargetFeatureFetch(appUrls.removeArea, postOptions, messages.mapMessages.removeAreaSuccess, messages.mapMessages.removeAreaFailure, e.feature);
         }
       } else { // Just for case if the feature somehow doesn't have any information...
         e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...
@@ -298,21 +287,18 @@ export class LeafletMap extends React.Component<any, any> {
     this.setSelectedFeature(null, null);
   }
 
-  removeTargetFeatureFetch(url, options, successMessage, failureMessage, feature) {
-    fetch(url, options).then(response => response.json()).then(response => {
+  removeTargetFeatureFetch = (url, options, successMessage, failureMessage, feature) => {
+    fetch(url, options).then(response => response.json()).then(() => {
       feature.options.editing || (feature.options.editing = {}); // Hack that works...
       feature.editing.disable();
       feature.remove();
       this.setState({ selectedFeature: { feature: null, featureDetails: null } });
 
       modal.showSuccessAlert(successMessage);
-    }).catch(error => {
-      console.log(error);
-      modal.showErrorAlert(failureMessage);
-    });
+    }).catch(() => modal.showErrorAlert(failureMessage));
   }
 
-  startEditFeature(e) {
+  startEditFeature = (e) => {
     this.leafletMap.leafletElement.closePopup();
 
     if (!this.state.editOn) {
@@ -352,7 +338,7 @@ export class LeafletMap extends React.Component<any, any> {
     }
   }
 
-  stopAddingFeature(e) {
+  stopAddingFeature = (e) => {
     e.preventDefault();
     this.state.creatingFeature.disable();
     this.setState({ addingFeature: false, creatingFeature: null });
@@ -361,25 +347,25 @@ export class LeafletMap extends React.Component<any, any> {
 
   deleteLastVertex(e) {
     e.preventDefault();
-    if (this.state.createType !== 'point') {
+    if (this.state.createType !== POINT) {
       this.state.creatingFeature.deleteLastVertex();
     }
   }
 
-  stopEditFeature(e) {
+  stopEditFeature = (e) => {
     e.feature.options.editing || (e.feature.options.editing = {}); // Hack that works...
     e.feature.editing.disable();
     map.stopEditFeature();
     this.setState({ editOn: false, editStopOn: false });
   }
 
-  unsetSelectedFeature() {
+  unsetSelectedFeature = () => {
     this.leafletMap.leafletElement.closePopup();
     this.setState({ selectedFeature: { feature: null, featureDetails: null } });
     this.setSelectedFeature(null, null);
   }
 
-  setSelectedFeature(feature, featureDetails, selectedLayer = null) {
+  setSelectedFeature = (feature, featureDetails, selectedLayer = null) => {
     // Set the selectedLayer type -> needed for forms etc.
     this.setState({ selectedLayer: selectedLayer });
 
@@ -393,7 +379,7 @@ export class LeafletMap extends React.Component<any, any> {
                 this.setStylingToDefault();
               } else {
                 if (this.state.selectedFeature.feature.options.children.props.type.indexOf('Point') >= 0 || this.state.selectedFeature.feature.options.children.props.type.indexOf('Area') >= 0) {
-                  this.state.selectedFeature.feature.setStyle({ "fillColor": "black", "weight": 1.5 });
+                  this.state.selectedFeature.feature.setStyle({ "fillColor": "rgba(0, 0, 0, 0.7", "weight": 1.5 });
                 } else {
                   this.state.selectedFeature.feature.setStyle({ "color": "black", "weight": 3 });
                 }
@@ -490,62 +476,62 @@ export class LeafletMap extends React.Component<any, any> {
     if (feature instanceof L.CircleMarker) {
       feature.bringToFront();
       feature.setStyle({ "fillColor": "red", "weight": 2.5 });
-      createType = 'circlemarker';
+      createType = CIRCLE_MARKER;
     } else if ((feature instanceof L.Polyline) && !(feature instanceof L.Polygon)) {
       feature.bringToFront();
       feature.setStyle({ "color": "red", "weight": 4 });
-      createType = 'polyline';
+      createType = POLYLINE;
     } else if ((feature instanceof L.Polygon) && !(feature instanceof L.Rectangle)) {
       feature.bringToFront();
       feature.setStyle({ "fillColor": "red", "weight": 2.5 });
-      createType = 'polygon';
+      createType = POLYGON;
     }
 
     return createType;
   }
 
-  showCreateModal() {
+  showCreateModal = () => {
     this.setState({ showCreateModal: true });
   }
 
-  hideCreateModal() {
+  hideCreateModal = () => {
     this.setState({ showCreateModal: false });
   }
 
-  switchLayer(layer) {
+  switchLayer = (layer) => {
     // First remove the current layer
     this.leafletMap.leafletElement.removeLayer(this.state.layer);
 
     // Then add the layer according to the switchLayer val
-    if (layer === 'taustakartta') {
+    if (layer === BACKGROUND_MAP) {
       const taustakartta = L.tileLayer(mapUrls.taustakartta, {
   			minZoom: 0,
   			maxZoom: Infinity,
   			continuousWorld: true,
   			noWrap: true,
-        subDomain: 'taustakartta'
+        subDomain: BACKGROUND_MAP
       });
 
       this.leafletMap.leafletElement.addLayer(taustakartta);
       this.setState({ layer: taustakartta });
-    } else if (layer === 'peruskartta') {
+    } else if (layer === BASIC_MAP) {
       const peruskartta = L.tileLayer(mapUrls.peruskartta, {
   			minZoom: 0,
   			maxZoom: Infinity,
   			continuousWorld: true,
   			noWrap: true,
-        subDomain: 'peruskartta'
+        subDomain: BASIC_MAP
       });
 
       this.leafletMap.leafletElement.addLayer(peruskartta);
       this.setState({ layer: peruskartta });
-    } else if (layer === 'ortokuva') {
+    } else if (layer === AERIAL_MAP) {
       const ortokuva = L.tileLayer(mapUrls.ortokuva, { // Had to remove tms: true to get it working
   			minZoom: 0,
   			maxZoom: Infinity,
   			continuousWorld: true,
   			noWrap: true,
-        subDomain: 'ortokuva'
+        subDomain: AERIAL_MAP
       });
 
       this.leafletMap.leafletElement.addLayer(ortokuva);
@@ -556,7 +542,7 @@ export class LeafletMap extends React.Component<any, any> {
   render() {
     // Dummy reactComponent is to trigger componentWillReact for mobx-react...
     return (
-      <div className="mapContainer">
+      <React.Fragment>
         <UtilModalContainer />
 
         {this.state.showCreateModal &&
@@ -581,17 +567,17 @@ export class LeafletMap extends React.Component<any, any> {
 
         <div className={"layerSwitcher"}>
           <ButtonToolbar>
-            <ToggleButtonGroup type={"radio"} name={"layers"} defaultValue={'taustakartta'} onChange={e => this.switchLayer(e)}>
-              <ToggleButton value={'taustakartta'}>Taustakartta</ToggleButton>
-              <ToggleButton value={'peruskartta'}>Peruskartta</ToggleButton>
-              <ToggleButton value={'ortokuva'}>Ortokuva</ToggleButton>
+            <ToggleButtonGroup type={"radio"} name={"layers"} defaultValue={BACKGROUND_MAP} onChange={e => this.switchLayer(e)}>
+              <ToggleButton value={BACKGROUND_MAP}>{'Taustakartta'}</ToggleButton>
+              <ToggleButton value={BASIC_MAP}>{'Peruskartta'}</ToggleButton>
+              <ToggleButton value={AERIAL_MAP}>{'Ortokuva'}</ToggleButton>
             </ToggleButtonGroup>
           </ButtonToolbar>
         </div>
 
         {this.state.addingFeature &&
           <div className={"stopAddingButton"}>
-            <Button bsStyle={"warning"} bsSize={"small"} onClick={e => this.deleteLastVertex(e)} disabled={map.buttonCreateType === 'point'}>Poista viimeisin piste</Button>
+            <Button bsStyle={"warning"} bsSize={"small"} onClick={e => this.deleteLastVertex(e)} disabled={map.buttonCreateType === POINT}>Poista viimeisin piste</Button>
           </div>
         }
 
@@ -629,8 +615,9 @@ export class LeafletMap extends React.Component<any, any> {
           <FeatureGroup><AreaUserFeatures alueet={data.areaUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
           <FeatureGroup><LineUserFeatures reitit={data.lineUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
           <FeatureGroup><PointUserFeatures pisteet={data.pointUserUpdate} setSelectedFeature={this.setSelectedFeature} /></FeatureGroup>
+          <ScaleControl />
         </Map>
-      </div>
+      </React.Fragment>
     );
   }
 }
