@@ -2,7 +2,8 @@
   "name": "bundler",
   "scripts": {
     "cbuild": "cbuild",
-    "bundle": "cbuild -d -v -p .. -b builder.json -o ../dist/bundle.js -C ../config-npm.js"
+    "bundle": "cbuild -d -v -p .. -b builder.json -o ../dist/bundle.js -C ../config-npm.js",
+    "bundle-prod": "cbuild -v -p .. -b builder.json -o ../dist/bundle.js -C ../config-npm.js"
   },
   "devDependencies": {
     "cbuild": "~0.1.7"

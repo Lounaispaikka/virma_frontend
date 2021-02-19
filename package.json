@@ -6,7 +6,8 @@
   "scripts": {
     "tsc": "tsc",
     "bundle": "cd bundler && npm run bundle",
-    "build": "tsc -p src > NUL: || echo",
+    "bundle-prod": "cd bundler && npm run bundle-prod",
+    "build": "tsc -p src > /dev/null || true",
     "start": "node bin/start.js"
   },
   "devDependencies": {
