@@ -107,10 +107,11 @@ export class ManageFeaturesModal extends React.Component<any, any> {
 
   customClearButton = (onClick) => {
     return (
-      <ClearSearchButton
-        id={"square-button-table-warning-without-margin"}
-        btnText='Tyhjennä haku'
-      />
+      <Button 
+      id={"square-button-table-warning-without-margin"}>
+      {'Tyhjennä haku (mahd. rikki)'}
+    </Button>
+
     );
   }
 

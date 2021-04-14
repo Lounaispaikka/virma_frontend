@@ -7,13 +7,13 @@
     "tsc": "tsc",
     "bundle": "cd bundler && npm run bundle",
     "bundle-prod": "cd bundler && npm run bundle-prod",
-    "build": "tsc -p src > /dev/null || true",
+    "build": "tsc -p src",
     "start": "node bin/start.js"
   },
   "devDependencies": {
     "@types/node": "^8.5.9",
     "express": "^4.16.2",
-    "typescript": "^2.6.2"
+    "typescript": "^2.8.1"
   },
   "dependencies": {
     "@types/base-64": "^0.1.2",
@@ -32,8 +32,10 @@
     "@types/validator": "^6.3.0",
     "base-64": "^0.1.0",
     "bluebird": "^3.5.1",
+    "cgeo": "0.0.2",
     "charto-leaflet": "file:vendor/charto-leaflet-0.0.2.tgz",
     "charto-model": "file:vendor/charto-model-0.0.1.tgz",
+    "charto-render": "0.0.1",
     "classy-mst": "^0.1.2",
     "core-js": "^2.5.7",
     "dgrid": "^1.2.1",

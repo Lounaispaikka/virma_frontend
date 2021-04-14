@@ -16,7 +16,7 @@ export class ToggleEditor extends React.Component<any, any> {
   render() {
     return (
       <span>
-        <ToggleButtonGroup defaultValue={this.props.defaultValue.toString()} bsSize={"xsmall"} name={"boolean"} type={"radio"} onChange={this.updateData}>
+        <ToggleButtonGroup defaultValue={this.props.defaultValue.toString()} bsSize="xsmall" name={"boolean"} type={"radio"} onChange={this.updateData}>
           <ToggleButton id={"square-button-default"} value={"true"}>True</ToggleButton>
           <ToggleButton id={"square-button-default"} value={"false"}>False</ToggleButton>
         </ToggleButtonGroup>
