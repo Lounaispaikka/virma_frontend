@@ -26,6 +26,7 @@ export const initialFormState = {
   chall_clas: undefined,
   length_m: undefined,
   accessibil: undefined,
+  www_picture: undefined,
   equipment: undefined,
   telephone: undefined,
   email: undefined,

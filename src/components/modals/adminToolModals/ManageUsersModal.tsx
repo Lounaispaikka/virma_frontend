@@ -7,6 +7,8 @@ import { login } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
 
+import { form } from '../../../model/store';
+
 import { ToggleEditor } from './editors/ToggleEditor';
 import { SelectEditor } from './editors/SelectEditor';
 import AddNewUser from '../utilModals/AddNewUser';
@@ -14,6 +16,10 @@ import AddNewUser from '../utilModals/AddNewUser';
 import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
+
+
+const OTHERORG = form.organizations[0].organization;
+const DEFORG = form.organizations[1].organization;
 
 @observer
 export class ManageUsersModal extends React.Component<any, any> {
@@ -153,7 +159,7 @@ export class ManageUsersModal extends React.Component<any, any> {
 
   handleChange = (event) => {
     if (event.target.id === 'organization') {
-      event.target.value === 'Muu organisaatio' ?
+      event.target.value === OTHERORG ?
         this.setState({ showCustomOrganization: true, disableOrganization: true })
         :
         this.setState({ showCustomOrganization: false, disableOrganization: false })

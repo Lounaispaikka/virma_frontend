@@ -44,6 +44,7 @@ export class LoginModalContainer extends React.Component<any, any> {
       displayErrorRegisterPassword,
       displayErrorRegisterPasssword2,
       displayErrorRegisterEmail,
+      displayErrorRegisterPhone,
       displayErrorRegisterOrganization
     } = this.props.displayFormErrors;
 
@@ -56,6 +57,7 @@ export class LoginModalContainer extends React.Component<any, any> {
       updateRegisterPassword,
       updateRegisterPasswordRepeat,
       updateRegisterEmail,
+      updateRegisterPhone,
       updateRegisterOrganization,
       updateForgotEmail
     } = this.props.updaters;
@@ -95,6 +97,7 @@ export class LoginModalContainer extends React.Component<any, any> {
                 displayErrorRegisterPassword={displayErrorRegisterPassword}
                 displayErrorRegisterPassword2={displayErrorRegisterPasssword2}
                 displayErrorRegisterEmail={displayErrorRegisterEmail}
+                displayErrorRegisterPhone={displayErrorRegisterPhone}
                 displayErrorRegisterOrganization={displayErrorRegisterOrganization}
                 updateRegisterName={updateRegisterName}
                 updateRegisterSurname={updateRegisterSurname}
@@ -102,6 +105,7 @@ export class LoginModalContainer extends React.Component<any, any> {
                 updateRegisterPassword={updateRegisterPassword}
                 updateRegisterPasswordRepeat={updateRegisterPasswordRepeat}
                 updateRegisterEmail={updateRegisterEmail}
+                updateRegisterPhone={updateRegisterPhone}
                 updateRegisterOrganization={updateRegisterOrganization}
                 hideRegisterModal={this.props.hideRegisterModal}
               />

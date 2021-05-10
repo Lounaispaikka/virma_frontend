@@ -7,6 +7,9 @@ import '../../../../../css/form.css!';
 import '../../../../../css/modal.css!';
 import '../../../../../css/customBootstrap.css!';
 
+const OTHERORG = form.organizations[0].organization;
+const DEFORG = form.organizations[1].organization;
+
 export class SelectEditor extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
@@ -14,7 +17,7 @@ export class SelectEditor extends React.Component<any, any> {
     this.state = {
       name: props.defaultValue,
       open: true,
-      buttonName: 'Aura',
+      buttonName: DEFORG,
       organizationName: '',
       showNewOrganization: false
     };
@@ -34,7 +37,7 @@ export class SelectEditor extends React.Component<any, any> {
   }
 
   handleSelect = (e) => {
-    if (e.target.value === 'Muu organisaatio') {
+    if (e.target.value === OTHERORG) {
       this.setState({ buttonName: e.target.value, showNewOrganization: true });
     } else {
       this.setState({ buttonName: e.target.value, showNewOrganization: false });

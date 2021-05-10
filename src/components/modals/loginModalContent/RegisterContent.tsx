@@ -9,13 +9,16 @@ import '../../../../css/customBootstrap.css!';
 import '../../../../css/form.css!';
 import '../../../../css/checkbox.css!';
 
+const OTHERORG = form.organizations[0].organization;
+const DEFORG = form.organizations[1].organization;
+
 export class RegisterContent extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
 
     this.state = {
       showCustomOrganization: false,
-      selectedOrganization: 'Aura',
+      selectedOrganization: DEFORG,
       newOrganization: '',
       gdprAccepted: false,
     };
@@ -26,7 +29,7 @@ export class RegisterContent extends React.Component<any, any> {
     const value = e.target.value;
 
     if (id === 'organization') {
-      if (value === 'Muu organisaatio') {
+      if (value === OTHERORG) {
         this.setState({
           showCustomOrganization: true,
           selectedOrganization: value,
@@ -66,6 +69,7 @@ export class RegisterContent extends React.Component<any, any> {
       displayErrorRegisterPassword,
       displayErrorRegisterPassword2,
       displayErrorRegisterEmail,
+      displayErrorRegisterPhone,
       displayErrorRegisterOrganization,
       updateRegisterName,
       updateRegisterSurname,
@@ -73,6 +77,7 @@ export class RegisterContent extends React.Component<any, any> {
       updateRegisterPassword,
       updateRegisterPasswordRepeat,
       updateRegisterEmail,
+      updateRegisterPhone,
       hideRegisterModal
     } = this.props;
 
@@ -84,6 +89,7 @@ export class RegisterContent extends React.Component<any, any> {
       displayErrorRegisterPassword ||
       displayErrorRegisterPassword2 ||
       displayErrorRegisterEmail ||
+      displayErrorRegisterPhone ||
       displayErrorRegisterOrganization ||
       !gdprAccepted
     ) {
@@ -144,10 +150,28 @@ export class RegisterContent extends React.Component<any, any> {
           </TooltipWithContent>
 
           <TooltipWithContent
+            tooltip={form.tooltipsForForm['phoneInfo']}
+          >
+            <FormGroup validationState={displayErrorRegisterPhone ? 'error' : null}>
+              <ControlLabel>{'Puhelinnumero'}</ControlLabel>
+              <FormControl onChange={updateRegisterPhone} 
+                id={"phone"}
+                autoComplete={"new-password"} />
+            </FormGroup>
+          </TooltipWithContent>
+		
+          <TooltipWithContent
             tooltip={form.tooltipsForForm['organizationInfo']}
           >
             <FormGroup controlId={"organization"}>
-              <ControlLabel>{'Organisaatio'}</ControlLabel>
+              <ControlLabel>{'Organisaatio / yhdistys / maanomistaja'}</ControlLabel>
+
+
+	          <p className={'p-text'}>
+	            {'Olet rekisteröitymässä Virman ylläpitotyökaluun, jolla et voi esimerkiksi kommenttoida virheellisiä reittejä. Käyttäjille suunnattu palvelu löytyy '}
+	            {''}<a href="https://m.virma.fi">{'täältä!'}</a>{''}
+	          </p>
+
               <FormControl
                 componentClass={"select"}
                 id={"organization"}

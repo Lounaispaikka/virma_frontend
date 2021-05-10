@@ -85,6 +85,20 @@ const tooltipsForForm = {
       'Beskrivning av hur hinderfritt objektet är. Exempelvis ”Inva-WC”. Mer information i anvisningen.'
     ]
   },
+  www_picture: {
+    'point': [
+      'Kuva kohtesta.',
+      'Photo av objektet.'
+    ],
+    'line': [
+      'Kuva kohtesta.',
+      'Photo av objektet.'
+    ],
+    'polygon': [
+      'Kuva kohtesta.',
+      'Photo av objektet.'
+    ]
+  },
   equipment: {
     'point': [
       'Lyhyt luettelo kohteen varustelusta. Esimerkki kuvausohjeessa.',
@@ -294,6 +308,10 @@ const tooltipsForForm = {
   emailInfo: [
     'Sähköpostiosoite tulee olla käyttäjäkohtaisesti yksilöllinen ja sen tulee olla hyväksytyssä muodossa esim. "sahko@posti.fi"',
     'Ange en personlig e-postadress i giltigt format t.ex. förnamn@efternamn.fi'
+  ],
+  phoneInfo: [
+    'Puhelinnumero tunnuksen ylläpitoa varten',
+    'Telefonnummer för kontohanteringen'
   ],
   organizationInfo: [
     'Valitse organisaatio listasta. Voit lisätä vapaasti määriteltävän organisaation valisemalla "Muu organisaatio".',

@@ -10,10 +10,14 @@ declare const L: any; // Some hack that works for including L & L.draw
 import { login, data, layer, map, messages } from '../model/store';
 import { LoginModalContainer } from './modals/LoginModalContainer';
 import { appUrls } from '../config/config';
+import { form } from '../model/store';
 import { getOptions, postAuthOptions, postOptions } from '../config/fetchConfig';
 import { APPROVAL } from '../config/constants';
 
 import '../../css/customBootstrap.css!';
+
+const OTHERORG = form.organizations[0].organization;
+const DEFORG = form.organizations[1].organization;
 
 @observer
 export class Login extends React.Component<any, any> {
@@ -23,7 +27,7 @@ export class Login extends React.Component<any, any> {
     this.state = {
       // Form value state
       username: '', password: '',
-      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
+      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regPhone: '', regOrganization: OTHERORG,
       forgotEmail: '',
 
       // Form error state
@@ -37,6 +41,7 @@ export class Login extends React.Component<any, any> {
       displayErrorRegisterPassword: false,
       displayErrorRegisterPassword2: false,
       displayErrorRegisterEmail: false,
+      displayErrorRegisterPhone: false,
       displayErrorRegisterOrganization: false,
 
       loginDisabled: false, registerDisabled: false, forgotDisabled: true,
@@ -101,7 +106,7 @@ export class Login extends React.Component<any, any> {
   register = (e) => {
     e.preventDefault();
 
-    const { regName, regSurname, regUsername, regPassword, regPassword2, regEmail, regOrganization } = this.state;
+    const { regName, regSurname, regUsername, regPassword, regPassword2, regEmail, regPhone, regOrganization } = this.state;
 
     let errorMessagesCount = 0;
     if (regName.length === 0) { this.setState({ displayErrorRegisterName: true }); errorMessagesCount++; }
@@ -124,6 +129,7 @@ export class Login extends React.Component<any, any> {
       password: regPassword,
       password2: regPassword2,
       email: regEmail,
+      phone: regPhone,
       organization: regOrganization
     });
 
@@ -352,11 +358,12 @@ export class Login extends React.Component<any, any> {
       displayErrorRegisterPassword: false,
       displayErrorRegisterPassword2: false,
       displayErrorRegisterEmail: false,
+      displayErrorRegisterPhone: false,
       displayErrorRegisterOrganization: false,
       displayErrorForgot: false,
       errorTextLogin: '', errorTextRegister: '', errorTextForgot: '',
       username: '', password: '',
-      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regOrganization: 'Aura',
+      regName: '', regSurname: '', regUsername: '', regPassword: '', regPassword2: '', regEmail: '', regPhone: '', regOrganization: DEFORG,
       forgotEmail: '',
     });
   }
@@ -429,14 +436,28 @@ export class Login extends React.Component<any, any> {
       this.setState({ regPassword2: event.target.value, displayErrorRegisterPassword2: false });
     }
   }
-
+  
+  
   updateRegisterEmail = (event) => {
-    if (event.target.value.length === 0 || !validator.isEmail(event.target.value)) {
+    if (event.target.value.length === 0 
+		|| !validator.isEmail(event.target.value) 
+		|| !(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(event.target.value))
+	) {
       this.setState({ regEmail: event.target.value, displayErrorRegisterEmail: true });
       return;
     }
 
     this.setState({ regEmail: event.target.value, displayErrorRegisterEmail: false });
+  }
+  updateRegisterPhone = (event) => {
+    if (event.target.value.length > 0
+		&& !validator.isMobilePhone(event.target.value,'any')
+	) {
+      this.setState({ regPhone: event.target.value, displayErrorRegisterPhone: true });
+      return;
+    }
+
+    this.setState({ regPhone: event.target.value, displayErrorRegisterPhone: false });
   }
 
   updateRegisterOrganization = (value) => {
@@ -484,6 +505,7 @@ export class Login extends React.Component<any, any> {
       displayErrorRegisterPassword: this.state.displayErrorRegisterPassword,
       displayErrorRegisterPasssword2: this.state.displayErrorRegisterPassword2,
       displayErrorRegisterEmail: this.state.displayErrorRegisterEmail,
+      displayErrorRegisterPhone: this.state.displayErrorRegisterPhone,
       displayErrorRegisterOrganization: this.state.displayErrorRegisterOrganization,
     };
 
@@ -496,6 +518,7 @@ export class Login extends React.Component<any, any> {
       updateRegisterPassword: this.updateRegisterPassword,
       updateRegisterPasswordRepeat: this.updateRegisterPasswordRepeat,
       updateRegisterEmail: this.updateRegisterEmail,
+      updateRegisterPhone: this.updateRegisterPhone,
       updateRegisterOrganization: this.updateRegisterOrganization,
       updateForgotEmail: this.updateForgotEmail,
     };

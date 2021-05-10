@@ -1,16 +1,20 @@
+
+
 const organizations = [
   {
-    organization: 'Muu organisaatio',
+    organization: "Muu organisaatio / yhdistys / maanomistaja", // must match OTHERORG in all the other files (TODO)
     email1: "",
-    email2: ""
+    email2: ""//,
+    //default: true, //TODO
+    //otherorg: true
   },
   {
-    organization: "Aura",
+    organization: "Auran kunta",
     email1: "aura.fi",
     email2: ""
   },
   {
-    organization: "Kaarina",
+    organization: "Kaarinan kaupunki",
     email1: "kaarina.fi",
     email2: ""
   },
@@ -125,7 +129,7 @@ const organizations = [
     email2: ""
   },
   {
-    organization: "Turku",
+    organization: "Turun kaupunki",
     email1: "turku.fi",
     email2: ""
   },
@@ -150,5 +154,9 @@ const organizations = [
     email2: ""
   }
 ];
+
+
+const OTHERORG = organizations[0].organization;
+const DEFORG = organizations[1].organization;
 
 export { organizations };
