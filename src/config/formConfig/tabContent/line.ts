@@ -14,6 +14,7 @@ import {
   INFO_EN,
   LENGTH_M,
   ACCESSIBIL,
+  PICTURE,
   CHALL_CLAS,
   WWW_FI,
   WWW_SE,
@@ -187,6 +188,16 @@ export const lineConfig = [
     formError: false,
     tab: 1,
     order: 15
+  },
+  {
+    attr: PICTURE,
+    desc: 'Kuva',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 20
   },
   {
     attr: CHALL_CLAS,

@@ -17,6 +17,7 @@ import {
   INFO_EN,
   EQUIPMENT,
   ACCESSIBIL,
+  PICTURE,
   WWW_FI,
   WWW_SE,
   WWW_EN,
@@ -223,6 +224,16 @@ export const areaConfig = [
     order: 18
   },
   {
+    attr: PICTURE,
+    desc: 'Kuva',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 22
+  },
+  {
     attr: WWW_FI,
     desc: 'Alueen verkkosivut - Områdets webbsidor',
     type: 'text',
@@ -252,10 +263,6 @@ export const areaConfig = [
     tab: 1,
     order: 21
   },
-
-
-
-
   {
     attr: MUNICIPALI,
     desc: 'Kunta - Kommun',

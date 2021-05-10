@@ -17,6 +17,7 @@ import {
   INFO_EN,
   EQUIPMENT,
   ACCESSIBIL,
+  PICTURE,
   CHALL_CLAS,
   WWW_FI,
   WWW_SE,
@@ -224,6 +225,16 @@ export const pointConfig = [
     formError: false,
     tab: 1,
     order: 18
+  },
+  {
+    attr: PICTURE,
+    desc: 'Kuva',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 23
   },
   {
     attr: CHALL_CLAS,

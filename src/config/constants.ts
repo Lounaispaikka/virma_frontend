@@ -65,6 +65,7 @@ export const INFO_SE = 'info_se';
 export const INFO_EN = 'info_en';
 export const EQUIPMENT = 'equipment';
 export const ACCESSIBIL = 'accessibil';
+export const PICTURE = 'www_picture';
 export const CHALL_CLAS = 'chall_clas';
 export const WWW_FI = 'www_fi';
 export const WWW_SE = 'www_se';

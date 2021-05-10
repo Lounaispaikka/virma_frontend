@@ -26,7 +26,7 @@ export class FeaturePopup extends React.Component<any, any> {
 
     return featureInfo.www_fi ?
       (validator.isURL(featureInfo.www_fi) ? <a href={featureInfo.www_fi} target="_blank">Linkki sivulle</a> : NO_LINK)
-    : NO_LINK;
+      : NO_LINK;
   }
 
   render() {
@@ -34,7 +34,7 @@ export class FeaturePopup extends React.Component<any, any> {
 
     let okToModify = false;
     if (featureInfo.updater_id) {
-      const updaters = featureInfo.updater_id.replace(/ /g,'').split(",");
+      const updaters = featureInfo.updater_id.replace(/ /g, '').split(",");
       updaters.forEach((update) => {
         if (login.updater_id === update) {
           okToModify = true;
@@ -50,6 +50,7 @@ export class FeaturePopup extends React.Component<any, any> {
     const upkeepclas = featureInfo.upkeepclas ? featureInfo.upkeepclas : NON_EXIST;
     const timestamp = featureInfo.timestamp ? featureInfo.timestamp : NON_EXIST;
     const length_m = featureInfo.length_m ? featureInfo.length_m : NON_EXIST;
+    const picture = featureInfo.www_picture ? featureInfo.www_picture : false;
 
     return (
       <Popup
@@ -61,45 +62,22 @@ export class FeaturePopup extends React.Component<any, any> {
         <div className="featurePopup">
           <h4>{featureInfo.class1_fi}{' - '}{featureInfo.class2_fi}</h4>
 
-          {type.toLowerCase().indexOf(POINT) >= 0 &&
-            <ul>
-              <li><b>Nimi: </b>{name_fi}</li>
-              <li><b>Osoite: </b>{address}</li>
-              <li><b>Kunta: </b>{municipali}</li>
-              <li><b>Kuvaus: </b>{info_fi}</li>
-              <li><b>Websivut: </b>{this.getLink()}</li>
-              <li><b>Omistusluokka: </b>{ownerclass}</li>
-              <li><b>Ylläpitoluokka: </b>{upkeepclas}</li>
-              <li><b>Päivitetty: </b>{timestamp}</li>
-            </ul>
-          }
-
-          {type.toLowerCase().indexOf(LINESTRING) >= 0 &&
-            <ul>
-              <li><b>Nimi: </b>{name_fi}</li>
-              <li><b>Osoite: </b>{address}</li>
-              <li><b>Kunta: </b>{municipali}</li>
+          <ul>
+            <li><b>Nimi: </b>{name_fi}</li>
+            <li><b>Osoite: </b>{address}</li>
+            <li><b>Kunta: </b>{municipali}</li>
+            <li><b>Kuvaus: </b>{info_fi}</li>
+            <li><b>Websivut: </b>{this.getLink()}</li>
+            {type.toLowerCase().indexOf(LINESTRING) >= 0 &&
               <li><b>Reitin pituus: </b>{length_m}</li>
-              <li><b>Kuvaus: </b>{info_fi}</li>
-              <li><b>Websivut: </b>{this.getLink()}</li>
-              <li><b>Omistusluokka: </b>{ownerclass}</li>
-              <li><b>Ylläpitoluokka: </b>{upkeepclas}</li>
-              <li><b>Päivitetty: </b>{timestamp}</li>
-            </ul>
-          }
-
-          {type.toLowerCase().indexOf(AREA) >= 0 &&
-            <ul>
-              <li><b>Nimi: </b>{name_fi}</li>
-              <li><b>Osoite: </b>{address}</li>
-              <li><b>Kunta: </b>{municipali}</li>
-              <li><b>Kuvaus: </b>{info_fi}</li>
-              <li><b>Websivut: </b>{this.getLink()}</li>
-              <li><b>Omistusluokka: </b>{ownerclass}</li>
-              <li><b>Ylläpitoluokka: </b>{upkeepclas}</li>
-              <li><b>Päivitetty: </b>{timestamp}</li>
-            </ul>
-          }
+            }
+            <li><b>Omistusluokka: </b>{ownerclass}</li>
+            <li><b>Ylläpitoluokka: </b>{upkeepclas}</li>
+            <li><b>Päivitetty: </b>{timestamp}</li>
+            {picture &&
+              <li><b>Kuva: </b><br/><img src={picture} width="128px"></img></li>
+            }
+          </ul>
 
           {(map.featureSelected && (login.isAdmin || okToModify)) &&
             <div className={"featurePopupButton"}>
