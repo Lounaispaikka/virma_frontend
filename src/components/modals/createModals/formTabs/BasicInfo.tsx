@@ -5,7 +5,7 @@ import ControlSelectClasses from '../formUtils/ControlSelectClasses';
 import ControlText from '../formUtils/ControlText';
 import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 
-import { NO_ADDRESS, ADDRESS } from '../../../../config/constants';
+import { NO_ADDRESS, ADDRESS, PICTURE } from '../../../../config/constants';
 
 @observer
 export class BasicInfo extends React.Component<any, any> {
@@ -90,6 +90,20 @@ export class BasicInfo extends React.Component<any, any> {
                   handleChange={this.handleCheckbox}
                   formType={formType}
                 />
+              );
+            }
+
+            if (info.attr === PICTURE) {
+              return (
+                <>
+                <div>
+                  <label>Kuva
+                  </label><br/>
+                    <span><b>Huom!</b> Lähetä vain kuvia, joihin sinulla on tekijänoikeus tai kirjallinen lupa. Lähettämällä kuvan annat Virmalle oikeudet julkaista kuvan ilman korvausta Virman sivuilla reitin tietojen yhteydessä.</span>
+                    <input name={info.attr} type="file"></input>
+               </div>
+                
+                </>
               );
             }
 

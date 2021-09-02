@@ -152,6 +152,11 @@ const organizations = [
     organization: "Varsinais-Suomen ELY-keskus",
     email1: "ely-keskus.fi",
     email2: ""
+  },
+  {
+    organization: "Metsähallitus",
+    email1: "",
+    email2: ""
   }
 ];
 

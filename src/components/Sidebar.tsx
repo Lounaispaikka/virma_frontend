@@ -38,7 +38,7 @@ export class Sidebar extends React.Component<any, any> {
 		return (
 			<React.Fragment>
 				<div className={"sidebar-logo"}>
-					<img src="./images/virma_logo.jpg"></img>
+					<img src="./images/virma_logo_yllapito.png"></img>
 				</div>
 
 				<div className={"sidebar-login"}>

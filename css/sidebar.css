@@ -25,6 +25,10 @@
   width: 100%;
 }
 
+.sidebar-logo img {
+  max-width: 100%;
+}
+
 .mobile-goto {
   order: 2;
   display: block;

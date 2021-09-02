@@ -168,7 +168,7 @@ export const areaConfig = [
     desc: 'Postinumero - Postnummer',
     type: 'text',
     addedToForm: true,
-    canBeUndefined: false,
+    canBeUndefined: true,
     formError: false,
     tab: 1,
     order: 13
