@@ -1,4 +1,4 @@
-const host = 'http://localhost:8081';
+const host = '';
 
 const taustakartta = `${host}/service?service=wmts&request=GetTile&version=1.0.0&tilematrixset=JHS180&tilematrix={z}&tilerow={y}&tilecol={x}&layer=Taustakartta&format=image/png&style=default`;
 
@@ -45,11 +45,14 @@ const appUrls = {
   users: host + '/api/manage/users',
   addUser: host + '/api/manage/addUser',
   removeUser: host + '/api/manage/removeUser',
-  updateUser: host + '/api/manage/updateUser'
+  updateUser: host + '/api/manage/updateUser',
+
+  
+  featureUploadImage: host + '/api/feature/uploadImage'
 };
 
 const mapUrls = {
-  taustakartta: 'https://tiles.kartat.kapsi.fi/taustakartta_3067/{z}/{x}/{y}.png', // taustakartta,
+  taustakartta: taustakartta,
   peruskartta: 'https://tiles.kartat.kapsi.fi/peruskartta_3067/{z}/{x}/{y}.png',
   ortokuva: 'https://tiles.kartat.kapsi.fi/ortokuva_3067/{z}/{x}/{y}.png'
 };
