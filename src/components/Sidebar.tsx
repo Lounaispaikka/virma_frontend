@@ -12,17 +12,125 @@ import '../../css/sidebar.css!';
 import '../../css/customBootstrap.css!';
 
 @observer
+export class AllLayersHandler extends React.Component<any, any> {
+	constructor(props: any) {
+		super(props);
+
+		this.state = {
+			showAll: false
+		}
+	}
+	setShowAll(s) {
+		this.setState({ showAll: s })
+		
+		layer.pointLayers[0].features.forEach(feature => {
+			feature.selected = s;
+		})
+		layer.pointLayers[1].features.forEach(feature => {
+			feature.selected = s;
+		})
+		layer.lineLayers[0].features.forEach(feature => {
+			feature.selected = s;
+		})
+		layer.areaLayers[0].features.forEach(feature => {
+			feature.selected = s;
+		})
+		layer.areaLayers[1].features.forEach(feature => {
+			feature.selected = s;
+		})
+	}
+	render() {
+		return (
+			<>
+				<Button id={this.props.searchButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showSearchTargetsModal()} block>
+					{'Hae kohteita'}
+				</Button>
+
+				{ false && 
+				<Button id={this.state.showAll ? "square-button-layer-switcher-all-on" : "square-button-layer-switcher-all-off"} bsSize={"small"} bsStyle={"primary"}
+					onClick={(e) => this.setShowAll(!this.state.showAll)} block
+				>
+					{'Näytä kaikki kohteet'}
+				</Button> }
+
+				<div className={"layerselector-wrapper"}>
+					{login.isLoggedIn &&
+						<div className={"layerSelectorAdmin"}>
+							<PanelGroup>
+								<LayerPanel
+									type={ALL}
+									layers={layer.userLayers[0]}
+									layerName={'Omat kohteet'}
+									layerType={ALL_FEATURES}
+								/>
+								<LayerPanel
+									type={APPROVAL}
+									layers={layer.approvalLayers[0]}
+									layerName={'Hyväksytystä odottavat kohteet'}
+									layerType={APPROVAL_FEATURES}
+								/>
+							</PanelGroup>
+						</div>
+					}
+					<div className={"layerSelector"}>
+						<PanelGroup>
+							<LayerPanel
+								type={POINT}
+								layers={layer.pointLayers[0]}
+								showAllMode={this.state.showAll}
+								layerName={'Virkistyskohteet'}
+								layerType={RECREATIONAL_ATTRACTION}
+							/>
+							<LayerPanel
+								type={POINT}
+								layers={layer.pointLayers[1]}
+								showAllMode={this.state.showAll}
+								layerName={'Matkailukohteet'}
+								layerType={TOURIST_ATTRACTION}
+							/>
+							<LayerPanel
+								type={LINESTRING}
+								layers={layer.lineLayers[0]}
+								showAllMode={this.state.showAll}
+								layerName={'Virkistysreitit'}
+								layerType={RECREATIONAL_ROUTE}
+							/>
+							<LayerPanel
+								type={POLYGON}
+								layers={layer.areaLayers[0]}
+								showAllMode={this.state.showAll}
+								layerName={'Virkistysalueet'}
+								layerType={RECREATIONAL_AREA}
+							/>
+							<LayerPanel
+								type={POLYGON}
+								layers={layer.areaLayers[1]}
+								showAllMode={this.state.showAll}
+								layerName={'Matkailupalvelualueet'}
+								layerType={TOURIST_SERVICE_AREA}
+							/>
+						</PanelGroup>
+					</div>
+				</div>
+			</>
+		)
+	}
+}
+
+@observer
 export class Sidebar extends React.Component<any, any> {
 	constructor(props: any) {
 		super(props);
 	}
 
 	render() {
-		let userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
-		userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
+		let searchButtonStyle, userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
+		searchButtonStyle = userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
 
 		if (modal.showUsersModal) {
 			userButtonStyle = "square-button-primary-active";
+		} else if (modal.showSearchModal) {
+			searchButtonStyle = "square-button-primary-active";
 		} else if (modal.showFeaturesModal) {
 			featureButtonStyle = "square-button-primary-active";
 		} else if (modal.showApproveModal) {
@@ -34,7 +142,9 @@ export class Sidebar extends React.Component<any, any> {
 		} else if (map.buttonCreateOn && map.buttonCreateType === POLYGON) {
 			polygonButtonStyle = "square-button-primary-active";
 		}
+		const showEverything = function () {
 
+		}
 		return (
 			<React.Fragment>
 				<div className={"sidebar-logo"}>
@@ -45,19 +155,19 @@ export class Sidebar extends React.Component<any, any> {
 					{!login.isLoggedIn && <Button id={'virmaMobileGoto'} bsSize={"small"} bsStyle={"primary"} onClick={(e) => window.location.href = "https://m.virma.fi"} block>
 						{'Virma Kartta Mobiili »'}
 					</Button>}
-          <div className={"sidebar-header-login"}>
-            {!login.isLoggedIn && <span>{'Kirjaudu sisään'}</span>}
-            {login.isLoggedIn && <span>{`Tervetuloa ${login.loggedUser}!`}</span>}
-            <div className={'sidebar-login-infobutton'}>{'Käyttöohjeet '}
-              <Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showInfoModal(messages.toolInfoContent)}>{'i'}</Button>
-            </div>
-          </div>
-          <div className={"sidebar-login-buttons"}>
-            <Login />
-          </div>
-        </div>
+					<div className={"sidebar-header-login"}>
+						{!login.isLoggedIn && <span>{'Kirjaudu sisään'}</span>}
+						{login.isLoggedIn && <span>{`Tervetuloa ${login.loggedUser}!`}</span>}
+						<div className={'sidebar-login-infobutton'}>{'Käyttöohjeet '}
+							<Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showInfoModal(messages.toolInfoContent)}>{'i'}</Button>
+						</div>
+					</div>
+					<div className={"sidebar-login-buttons"}>
+						<Login />
+					</div>
+				</div>
 
-        {login.isLoggedIn &&
+				{login.isLoggedIn &&
 					<div className={"sidebar-suggestion"}>
 						<div className={"sidebar-header"}>
 							{'Ehdota kohteita'}
@@ -99,62 +209,11 @@ export class Sidebar extends React.Component<any, any> {
 
 				<div className={"sidebar-layerselector"}>
 					<div className={"sidebar-header"}>
-						{'Valitse näkyvät tasot'}
+						{'Kohteet ja tasot'}
 					</div>
-					<div className={"layerselector-wrapper"}>
-						{login.isLoggedIn &&
-							<div className={"layerSelectorAdmin"}>
-								<PanelGroup>
-									<LayerPanel
-										type={ALL}
-										layers={layer.userLayers[0]}
-										layerName={'Omat kohteet'}
-										layerType={ALL_FEATURES}
-									/>
-									<LayerPanel
-										type={APPROVAL}
-										layers={layer.approvalLayers[0]}
-										layerName={'Hyväksytystä odottavat kohteet'}
-										layerType={APPROVAL_FEATURES}
-									/>
-								</PanelGroup>
-							</div>
-						}
-						<div className={"layerSelector"}>
-							<PanelGroup>
-								<LayerPanel
-									type={POINT}
-									layers={layer.pointLayers[0]}
-									layerName={'Virkistyskohteet'}
-									layerType={RECREATIONAL_ATTRACTION}
-								/>
-								<LayerPanel
-									type={POINT}
-									layers={layer.pointLayers[1]}
-									layerName={'Matkailukohteet'}
-									layerType={TOURIST_ATTRACTION}
-								/>
-								<LayerPanel
-									type={LINESTRING}
-									layers={layer.lineLayers[0]}
-									layerName={'Virkistysreitit'}
-									layerType={RECREATIONAL_ROUTE}
-								/>
-								<LayerPanel
-									type={POLYGON}
-									layers={layer.areaLayers[0]}
-									layerName={'Virkistysalueet'}
-									layerType={RECREATIONAL_AREA}
-								/>
-								<LayerPanel
-									type={POLYGON}
-									layers={layer.areaLayers[1]}
-									layerName={'Matkailupalvelualueet'}
-									layerType={TOURIST_SERVICE_AREA}
-								/>
-							</PanelGroup>
-						</div>
-					</div>
+
+					<AllLayersHandler searchButtonStyle={searchButtonStyle}>
+					</AllLayersHandler>
 				</div>
 
 				<div className={"sidebar-footer-images"}>

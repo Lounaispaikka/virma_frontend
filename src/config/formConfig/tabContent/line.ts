@@ -15,6 +15,8 @@ import {
   LENGTH_M,
   ACCESSIBIL,
   PICTURE,
+  PICTURE_INFO,
+  HIDDEN,
   CHALL_CLAS,
   WWW_FI,
   WWW_SE,
@@ -190,6 +192,16 @@ export const lineConfig = [
     order: 15
   },
   {
+    attr: HIDDEN,
+    desc: 'Kohde piilotettu',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 15
+  },
+  {
     attr: PICTURE,
     desc: 'Kuva',
     type: 'text',
@@ -198,6 +210,17 @@ export const lineConfig = [
     formError: false,
     tab: 1,
     order: 20
+  },
+  
+  {
+    attr: PICTURE_INFO,
+    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 25
   },
   {
     attr: CHALL_CLAS,

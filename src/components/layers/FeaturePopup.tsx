@@ -51,6 +51,7 @@ export class FeaturePopup extends React.Component<any, any> {
     const timestamp = featureInfo.timestamp ? featureInfo.timestamp : NON_EXIST;
     const length_m = featureInfo.length_m ? featureInfo.length_m : NON_EXIST;
     const picture = featureInfo.www_picture ? featureInfo.www_picture : false;
+    const picture_info = featureInfo.picture ? featureInfo.picture : false;
 
     return (
       <Popup
@@ -75,7 +76,10 @@ export class FeaturePopup extends React.Component<any, any> {
             <li><b>Ylläpitoluokka: </b>{upkeepclas}</li>
             <li><b>Päivitetty: </b>{timestamp}</li>
             {picture &&
-              <li><b>Kuva: </b><br/><img src={picture} width="128px"></img></li>
+              <>
+                <li><b>Kuva: </b><br/><img src={picture} width="128px"></img></li>
+                <li><b>Kuvan tiedot: </b>{picture_info}</li>
+              </>
             }
           </ul>
 

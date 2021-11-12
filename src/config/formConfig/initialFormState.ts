@@ -27,6 +27,7 @@ export const initialFormState = {
   length_m: undefined,
   accessibil: undefined,
   www_picture: undefined,
+  picture: undefined,
   equipment: undefined,
   telephone: undefined,
   email: undefined,
@@ -43,5 +44,6 @@ export const initialFormState = {
   y_eureffin: undefined,
   special: undefined,
   no_address: undefined,
+  hidden: undefined,
   publicinfo: undefined
 }

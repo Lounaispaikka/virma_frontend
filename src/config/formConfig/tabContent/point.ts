@@ -10,6 +10,7 @@ import {
   NAME_SE,
   NAME_EN,
   NO_ADDRESS,
+  HIDDEN,
   ADDRESS,
   ZIP,
   INFO_FI,
@@ -18,6 +19,7 @@ import {
   EQUIPMENT,
   ACCESSIBIL,
   PICTURE,
+  PICTURE_INFO,
   CHALL_CLAS,
   WWW_FI,
   WWW_SE,
@@ -235,6 +237,26 @@ export const pointConfig = [
     formError: false,
     tab: 1,
     order: 23
+  },
+  {
+    attr: PICTURE_INFO,
+    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 23-1
+  },
+  {
+    attr: HIDDEN,
+    desc: 'Kohde piilotettu',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 24+2
   },
   {
     attr: CHALL_CLAS,

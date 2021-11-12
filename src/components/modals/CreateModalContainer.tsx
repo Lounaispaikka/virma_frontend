@@ -23,6 +23,7 @@ import {
   CLASS1_FI,
   CLASS2_FI,
   NO_ADDRESS,
+  HIDDEN,
   PUBLICINFO,
   CREATE,
   UPDATE,
@@ -138,6 +139,7 @@ export class CreateModalContainer extends React.Component<any, any> {
                 sh_es_date: moment().format(DATE_FORMAT),
                 publicinfo: 'F',
                 no_address: 'F',
+                hidden: false,
                 updater_id: updater_id
               }
             });
@@ -157,6 +159,7 @@ export class CreateModalContainer extends React.Component<any, any> {
               sh_es_date: moment().format(DATE_FORMAT),
               publicinfo: 'F',
               no_address: 'F',
+              hidden: false,
               updater_id: updater_id
             }
           });
@@ -175,6 +178,7 @@ export class CreateModalContainer extends React.Component<any, any> {
               sh_es_date: moment().format(DATE_FORMAT),
               publicinfo: 'F',
               no_address: 'F',
+              hidden: false,
               updater_id: updater_id
             }
           });
@@ -307,6 +311,8 @@ export class CreateModalContainer extends React.Component<any, any> {
         this.setState({ form: { ...this.state.form, [id]: value, address: '' }});
       }
     } else if (id === PUBLICINFO) {
+      this.setState({ form: { ...this.state.form, [id]: value } });
+    } else if (id === HIDDEN) {
       this.setState({ form: { ...this.state.form, [id]: value } });
     } else {
       // If other form values were changed handle them normaly

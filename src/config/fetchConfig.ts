@@ -21,6 +21,7 @@ export const getOptions = {
         'Pragma': 'no-cache'
     },
     credentials: 'include'
+    //,mode: 'cors' 
 }
 
 export const postAuthOptions = {

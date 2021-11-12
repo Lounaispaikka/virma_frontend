@@ -99,6 +99,20 @@ const tooltipsForForm = {
       'Photo av objektet.'
     ]
   },
+  picture: {
+    'point': [
+      'Kuvan tiedot, tekijänoikeus, ottaja.',
+      'Kuvan tiedot, tekijänoikeus, ottaja.'
+    ],
+    'line': [
+      'Kuvan tiedot, tekijänoikeus, ottaja.',
+      'Kuvan tiedot, tekijänoikeus, ottaja.'
+    ],
+    'polygon': [
+      'Kuvan tiedot, tekijänoikeus, ottaja.',
+      'Kuvan tiedot, tekijänoikeus, ottaja.'
+    ]
+  },
   equipment: {
     'point': [
       'Lyhyt luettelo kohteen varustelusta. Esimerkki kuvausohjeessa.',
@@ -265,6 +279,20 @@ const tooltipsForForm = {
     'polygon': [
       'Määritä, onko osoitekenttä julkinen tieto vai ei.',
       'Ange om adressfältet är offentligt eller inte.'
+    ]
+  },
+  hidden: {
+    'point': [
+      'Määritä, onko kohde piilotettu/poissa käytöstä.',
+      'Määritä, onko kohde piilotettu/poissa käytöstä.'
+    ],
+    'line': [
+      'Määritä, onko kohde piilotettu/poissa käytöstä.',
+      'Määritä, onko kohde piilotettu/poissa käytöstä.'
+    ],
+    'polygon': [
+      'Määritä, onko kohde piilotettu/poissa käytöstä.',
+      'Määritä, onko kohde piilotettu/poissa käytöstä.'
     ]
   },
   publicinfo: {

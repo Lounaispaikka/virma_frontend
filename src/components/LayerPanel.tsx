@@ -15,7 +15,8 @@ export class LayerPanel extends React.Component<any, any> {
     super(props);
 
     this.state = {
-      panelCollapsed: false
+      panelCollapsed: false,
+      hasLoadedYet: false
     };
 
     bUtils.addStyle(Panel, 'panel-on');
@@ -29,6 +30,11 @@ export class LayerPanel extends React.Component<any, any> {
     }
   }
 
+  toggleAll(e: Event) {
+    const { type, layers, layerName, layerType } = this.props;
+    layer.layerToggleAll(e, type, layerType);
+  }
+
   render() {
     const { type, layers, layerName, layerType } = this.props;
 
@@ -36,6 +42,12 @@ export class LayerPanel extends React.Component<any, any> {
 
     if (this.state.panelCollapsed) {
       panelHeader = "square-panel-active";
+    }
+    if (!this.state.hasLoadedYet && this.props.showAll) {
+      layer.layerToggleAll(new Event("asd"), type, layerType);
+      this.setState({
+        hasLoadedYet: true
+      })
     }
 
     const header = (
@@ -63,7 +75,9 @@ export class LayerPanel extends React.Component<any, any> {
             id={layers.selected ? "square-button-layer-switcher-all-on" : "square-button-layer-switcher-all-off"}
             bsSize={"xsmall"}
             bsStyle={"primary"}
-            onClick={(e) => layer.layerToggleAll(e, type, layerType)}
+            onClick={(e) => { this.setState({
+              hasLoadedYet: true
+            }); layer.layerToggleAll(e, type, layerType)}}
             block>
               {layers.selected ? "Piilota kaikki tasot" : "Valitse kaikki tasot"}
           </Button>

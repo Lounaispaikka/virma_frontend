@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { modal } from '../../model/store';
 
 import { ManageUsersModal } from './adminToolModals/ManageUsersModal';
+import { SearchTargetsModal } from './SearchTargetsModal';
 import { ManageFeaturesModal } from './adminToolModals/ManageFeaturesModal';
 import { ApproveFeaturesModal } from './adminToolModals/ApproveFeaturesModal';
 
@@ -29,6 +30,15 @@ const UtilModalContainer = observer(() => {
       <ManageUsersModal
         showManageUsersModal={modal.showUsersModal}
         hideManageUsersModal={modal.hideManageUsersModal}
+      />
+    );
+  }
+
+  if (modal.showSearchModal) {
+    return (
+      <SearchTargetsModal
+        showSearchModal={modal.showSearchModal}
+        hideSearchTargetsModal={modal.hideSearchTargetsModal}
       />
     );
   }

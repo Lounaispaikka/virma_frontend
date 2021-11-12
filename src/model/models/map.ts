@@ -15,6 +15,7 @@ export default class Map {
   @observable stopEdit = false;
   @observable checkFormEditOn = false;
   @observable formState = null;
+  @observable bounds = null;
 
   @action.bound
   createOn(e, type) {
@@ -62,5 +63,12 @@ export default class Map {
   toggleFormEdit(bool, formState = null) {
     this.checkFormEditOn = bool;
     this.formState = formState;
+  }
+
+  
+  @action.bound
+  fitBounds(bounds) {
+    console.log("map.fitBounds",bounds);
+    this.bounds=bounds;
   }
 }

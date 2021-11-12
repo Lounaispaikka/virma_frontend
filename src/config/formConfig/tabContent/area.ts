@@ -10,6 +10,7 @@ import {
   NAME_SE,
   NAME_EN,
   NO_ADDRESS,
+  HIDDEN,
   ADDRESS,
   ZIP,
   INFO_FI,
@@ -18,6 +19,7 @@ import {
   EQUIPMENT,
   ACCESSIBIL,
   PICTURE,
+  PICTURE_INFO,
   WWW_FI,
   WWW_SE,
   WWW_EN,
@@ -224,16 +226,6 @@ export const areaConfig = [
     order: 18
   },
   {
-    attr: PICTURE,
-    desc: 'Kuva',
-    type: 'text',
-    addedToForm: true,
-    canBeUndefined: true,
-    formError: false,
-    tab: 1,
-    order: 22
-  },
-  {
     attr: WWW_FI,
     desc: 'Alueen verkkosivut - Områdets webbsidor',
     type: 'text',
@@ -262,6 +254,36 @@ export const areaConfig = [
     formError: false,
     tab: 1,
     order: 21
+  },
+  {
+    attr: PICTURE,
+    desc: 'Kuva',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 22
+  },
+  {
+    attr: PICTURE_INFO,
+    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 25
+  },
+  {
+    attr: HIDDEN,
+    desc: 'Kohde piilotettu',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 15
   },
   {
     attr: MUNICIPALI,

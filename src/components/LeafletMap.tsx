@@ -233,6 +233,15 @@ export class LeafletMap extends React.Component<any, any> {
     }
 
     map.createOff(); // Turn off feature create
+    if (map.bounds) {
+      console.log("fitBounds",map.bounds);
+      var bounds = JSON.parse(JSON.stringify(map.bounds));
+      if(typeof bounds[0] == 'number'){
+        bounds = [bounds];
+      }
+      this.fitBounds(bounds);
+      map.bounds = false;
+    }
   }
 
   // This is passed to featurePopup that opens CreateModal
@@ -343,6 +352,10 @@ export class LeafletMap extends React.Component<any, any> {
     this.state.creatingFeature.disable();
     this.setState({ addingFeature: false, creatingFeature: null });
     map.createOffButtonStyling();
+  }
+
+  fitBounds = (bounds) => {
+    this.leafletMap.leafletElement.fitBounds(bounds);
   }
 
   deleteLastVertex(e) {
@@ -540,7 +553,6 @@ export class LeafletMap extends React.Component<any, any> {
   }
 
   render() {
-    // Dummy reactComponent is to trigger componentWillReact for mobx-react...
     return (
       <React.Fragment>
         <UtilModalContainer />
@@ -559,8 +571,11 @@ export class LeafletMap extends React.Component<any, any> {
           />
         }
 
+        {/*  Dummy reactComponent is to trigger componentWillReact for mobx-react */}
         <Dummy
+          somethingBroke={false}
           isCreateOnDummy={map.isCreateOn}
+          boundsDummy={map.bounds}
           manageFeatureDummy={map.manageFeature}
           stopEditDummy={map.stopEdit}
         />
