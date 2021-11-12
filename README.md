@@ -4,51 +4,65 @@ This repository contains frontend source code for Virma application. Application
 # Getting started
 
 ## Prerequisities
-Frontend is written with TypeScript. However, the full utility of writing proper typed JavaScript is not implemented on this application. Application is built with TypeScript and bundled with cBuild (https://github.com/charto/cbuild) which is built on SystemJs. Built and bundled content is injected to HTML dom by using dojo (https://dojotoolkit.org/). Since were are using Node package management (npm) application requires Node.js to be installed.
+Frontend is written with TypeScript. 
+However, the full utility of writing proper typed JavaScript is not implemented on this application. 
+Application is built with TypeScript and bundled with cBuild (https://github.com/charto/cbuild) which is built on SystemJs. 
+Built and bundled content is injected to HTML dom by using dojo (https://dojotoolkit.org/). 
+Since were are using Node package management (npm) application requires Node.js to be installed.
+
 
 ## Installing and running frontend
-Frontend is made primarily with React framework with mobx state management. Other used frameworks are Leaflet & React-bootstrap.
+Frontend is made primarily with React framework with mobx state management. 
+Other used frameworks are Leaflet & React-bootstrap.
+**As of 2021** several packages are outdated/depreciated and many dependencies are therefore left not updated.
 
-```
-Frontend requires TypeScript. Install it globally by running
+```bash
+# Frontend requires TypeScript. Install it globally by running
+npm install -g typescript@2.8.1
 
-$ npm install -g typescript
+## You MAY also need the following (TODO)
+# react-native-cli@2.0.1
+# sequelize-cli@6.2.0
+# expo-cli@3.15.5
+# node-gyp@8.0.0
+# node-sass@5.0.0
 
-Install bundler
 
-$ cd bundler
-$ npm install
-$ cd ..
+#Install bundler
 
-Install npm packages
+( cd bundler && npm install )
 
-$ npm install
+#Install npm packages
 
-Run build
+npm ci # (or npm install) Know the difference: https://stackoverflow.com/questions/52499617/what-is-the-difference-between-npm-install-and-npm-ci
 
-$ npm run build
+# Run build and then run bundle -> creates bundle file /dist/bundle.js
+# Then runs a test web server
 
-Run bundle -> creates bundle file /dist/bundle.js
+npm run build && npm run bundle && npm start
 
-$ npm run bundle
-
-Run app
-
-$ npm start
-
-By default running at http://localhost:8080
+# By default running at http://localhost:8080
 ```
 
 # Development
-Development can be done locally by first configuring necessary config files to pointing a locally, VM or server run database (PostgreSQL + PostGIS). Config changes are needed for frontend & backend. In frontend by modifying /src/config.ts and in backend /config.js.
+Development can be done locally by first configuring necessary config files to pointing a locally, VM or server run database (PostgreSQL + PostGIS). 
+Config changes are needed for frontend & backend. In frontend by modifying /src/config.ts and in backend /config.js.
+Sending email locally is not possible unless properly configured.
 
-Mapproxy dependency can be avoided by using publicly avaible tileservice (e.g. Kapsi).
+## Mapproxy
+Mapproxy dependency can be avoided by using publicly avaible tileservice (e.g. Kapsi). 
 
-By default sending email locally is not possible and will need some kind of VM to run the backend on.
+**Production should use / uses mapproxy! This needs to be configured manually in production!
 
-During development, it is not necessary to build & bundle the application everytime making to modifications to the application. System.js will automatically build the application when page is refreshed. However, if the application is already built, it is necessary to remove bundle.js file from /dist/bundle.js in order to run the application with the latest built changes.
 
-Adding new npm packages may require manual labor for setting them up for System.js & TypeScript:
+## Autoreload
+During development, it is not necessary to build & bundle the application everytime when making modifications to the application.
+System.js will automatically build the application when page is refreshed. 
+However, **if the application is already built**, it is necessary to remove `bundle.js` file from `/dist/bundle.js` in order to run the application with the latest built changes.
+
+## Adding new npm packages 
+
+This may require manual labor for setting them up for System.js & TypeScript:
 
 ```
 1. Install package normally and add typings:
@@ -60,13 +74,8 @@ $ npm install --save leaflet @types/leaflet
 4. If error messages are shown at console, some other packages may need to be installed manually (error messages are complaining about missing package/s)
 ```
 
-Building application with TypeScript requires different running scripts on Windows than on Linux (Package.json)
-- Windows:
-  - build -> "tsc -p src NUL: || echo"
-- Linux:
-  - build -> "tsc -p src > /dev/null || true"
 
-# Repository structure
+## Repository structure
 
 ```
 .

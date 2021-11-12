@@ -171,7 +171,7 @@ System.config({
 		"whatwg-fetch": "node_modules/whatwg-fetch"
 	},
 	meta: {
-		"node_modules/*": { globals: { process: "bundler/node_modules/cbuild/process-dev.js" } }
+		"node_modules/*": { globals: { process: "bundler/node_modules/cbuild/process.js" } }
 	},
 	packages: {
 		"affine-hull": {
