@@ -173,7 +173,7 @@ export const lineConfig = [
   },
   {
     attr: LENGTH_M,
-    desc: 'Reitin pituus - Ruttens längd',
+    desc: 'Reitin pituus metreinä. HUOM: lasketaan automaattisesti, laita haarautuvan reitin pituustiedot reitin kuvaukseen!',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -193,13 +193,13 @@ export const lineConfig = [
   },
   {
     attr: HIDDEN,
-    desc: 'Kohde piilotettu',
+    desc: 'Kohde poissa käytöstä väliaikaisesti',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 15
+    order: 19
   },
   {
     attr: PICTURE,
@@ -214,13 +214,13 @@ export const lineConfig = [
   
   {
     attr: PICTURE_INFO,
-    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    desc: 'Kuvan tiedot',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 25
+    order: 21
   },
   {
     attr: CHALL_CLAS,

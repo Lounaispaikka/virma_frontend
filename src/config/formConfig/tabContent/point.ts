@@ -240,23 +240,23 @@ export const pointConfig = [
   },
   {
     attr: PICTURE_INFO,
-    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    desc: 'Kuvan tiedot',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 23-1
+    order: 24
   },
   {
     attr: HIDDEN,
-    desc: 'Kohde piilotettu',
+    desc: 'Kohde poissa käytöstä väliaikaisesti',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 24+2
+    order: 22
   },
   {
     attr: CHALL_CLAS,

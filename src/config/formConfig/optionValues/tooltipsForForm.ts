@@ -87,30 +87,30 @@ const tooltipsForForm = {
   },
   www_picture: {
     'point': [
-      'Kuva kohtesta.',
+      'Kuva kohteesta.',
       'Photo av objektet.'
     ],
     'line': [
-      'Kuva kohtesta.',
+      'Kuva kohteesta.',
       'Photo av objektet.'
     ],
     'polygon': [
-      'Kuva kohtesta.',
+      'Kuva kohteesta.',
       'Photo av objektet.'
     ]
   },
   picture: {
     'point': [
-      'Kuvan tiedot, tekijänoikeus, ottaja.',
-      'Kuvan tiedot, tekijänoikeus, ottaja.'
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
     ],
     'line': [
-      'Kuvan tiedot, tekijänoikeus, ottaja.',
-      'Kuvan tiedot, tekijänoikeus, ottaja.'
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
     ],
     'polygon': [
-      'Kuvan tiedot, tekijänoikeus, ottaja.',
-      'Kuvan tiedot, tekijänoikeus, ottaja.'
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
+      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
     ]
   },
   equipment: {

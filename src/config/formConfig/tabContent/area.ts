@@ -256,6 +256,16 @@ export const areaConfig = [
     order: 21
   },
   {
+    attr: HIDDEN,
+    desc: 'Kohde poissa käytöstä väliaikaisesti',
+    type: 'text',
+    addedToForm: true,
+    canBeUndefined: true,
+    formError: false,
+    tab: 1,
+    order: 21
+  },
+  {
     attr: PICTURE,
     desc: 'Kuva',
     type: 'text',
@@ -267,23 +277,13 @@ export const areaConfig = [
   },
   {
     attr: PICTURE_INFO,
-    desc: 'Kuvan tiedot (ottaja, tekijänoikeus)',
+    desc: 'Kuvan tiedot',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
     tab: 1,
-    order: 25
-  },
-  {
-    attr: HIDDEN,
-    desc: 'Kohde piilotettu',
-    type: 'text',
-    addedToForm: true,
-    canBeUndefined: true,
-    formError: false,
-    tab: 1,
-    order: 15
+    order: 23
   },
   {
     attr: MUNICIPALI,
