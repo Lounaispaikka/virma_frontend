@@ -1,5 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import imageReducer from 'image-blob-reduce/dist/image-blob-reduce.min.js'
+
+const reduce = imageReducer();
 
 import ControlSelectClasses from '../formUtils/ControlSelectClasses';
 import ControlText from '../formUtils/ControlText';
@@ -9,14 +12,8 @@ import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 import { NO_ADDRESS, HIDDEN, ADDRESS, PICTURE } from '../../../../config/constants';
 
 import { appUrls } from '../../../../config/config';
+import { handleHttpErrorsGeneric } from '../../../../utils';
 import { postOptions } from '../../../../config/fetchConfig';
-
-function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
-}
 
 @observer
 export class BasicInfo extends React.Component<any, any> {
@@ -63,12 +60,14 @@ export class BasicInfo extends React.Component<any, any> {
     const target = (evt.target as HTMLInputElement);
 
     const file = target.files && target.files[0];
-    
+
     // construct a dummy event...
-    var e = {target: {
-      id: target.id,
-      value: "https://via.placeholder.com/300x200.jpg?text=processing",
-    }};
+    var e = {
+      target: {
+        id: target.id,
+        value: "https://via.placeholder.com/300x200.jpg?text=processing",
+      }
+    };
 
     handleFormChange(e);
 
@@ -77,49 +76,60 @@ export class BasicInfo extends React.Component<any, any> {
       return;
     }
 
-    const url = URL.createObjectURL(file);
+    const url_file = URL.createObjectURL(file);
 
     // verify at least clientside it's an image
-    var img = new Image();
+    //var img = new Image();
 
-    img.src = url;
+    //img.src = url;
 
-    img.onload = (e3) => {
-      
-      let reader = new FileReader();
+    //img.onload = (e3) => {
 
-      reader.onload = () => {
-        this.setState({ www_picture: url });
+    reduce
+      .toBlob(file, { max: 480 })
+      .then(blob => {
+        //const resizedCanvas = document.createElement("canvas")
+        //resizedCanvas.height = 640
+        //resizedCanvas.width = 480
+        const url_blob_resized = URL.createObjectURL(blob);
+        //var p = pica();
 
-        const options: any = postOptions;
-        options.body = JSON.stringify({ featureType: "point", featureId: 123, image: reader.result });
+        //p.resize(img, resizedCanvas, {          })
+        //    .then(result => p.toBlob(result, "image/jpg", 0.7))
 
-        // start uploading image..
-        fetch(appUrls.featureUploadImage, options)
-          .then(handleErrors)
-          .then(response => response.json())
-          .then((response) => {
-            console.log("yay", response,response.url);
-            const url = response.url?response.url:"https://via.placeholder.com/300x200.jpg?text=failure";
-            this.setState({ www_picture: url });
+        let reader = new FileReader();
 
-            e.target.value=url;
-            handleFormChange(e);
-          }).catch((e) => {
-            alert(e);
+        reader.onload = () => {
+          this.setState({ www_picture: url_file });
 
-            this.setState({ www_picture: "https://via.placeholder.com/300x200.jpg?text=failed" });
-            
-            e.target.value="https://via.placeholder.com/300x200.jpg?text=failed";
-            handleFormChange(e);
-            
-            console.log(e);
-          });
-      };
-      reader.readAsDataURL(file);
+          const options: any = postOptions;
+          options.body = JSON.stringify({ featureType: "point", featureId: 123, image: reader.result });
 
-    };
-    img.onerror = alert;
+          // start uploading image..
+          fetch(appUrls.featureUploadImage, options)
+            .then(handleHttpErrorsGeneric)
+            .then(response => response.json())
+            .then((response) => {
+              console.log("success uploading", response, response.url);
+              const url = response.url ? response.url : "https://via.placeholder.com/300x200.jpg?text=uploadfail";
+              this.setState({ www_picture: url });
+
+              e.target.value = url;
+              handleFormChange(e);
+            }).catch((e) => {
+              alert(e);
+
+              this.setState({ www_picture: "https://via.placeholder.com/300x200.jpg?text=uploadfail" });
+
+              e.target.value = "https://via.placeholder.com/300x200.jpg?text=uploadfail";
+              handleFormChange(e);
+
+              console.log(e);
+            });
+        };
+        reader.readAsDataURL(blob);
+
+      });
 
 
   }
@@ -206,6 +216,12 @@ export class BasicInfo extends React.Component<any, any> {
               return (
                 <>
                   <img style={{ maxHeight: "128px", maxWidth: "128px" }} src={parentState[info.attr]} />
+                  <ControlFile
+                    key={idx}
+                    formName={info.attr}
+                    handleChange={this.handleFileUploading}
+                    formType={formType}
+                  />
                   <ControlText
                     key={idx}
                     controlName={info.desc}
@@ -214,16 +230,10 @@ export class BasicInfo extends React.Component<any, any> {
                     stateValue={parentState[info.attr]}
                     handleChange={handleFormChange}
                     displayFormError={info.formError}
-                    placeholder={null}
+                    placeholder={"https://esimerkki.fi/kuva.jpg"}
                     formType={formType}
                   />
 
-                  <ControlFile
-                    key={idx}
-                    formName={info.attr}
-                    handleChange={this.handleFileUploading}
-                    formType={formType}
-                  />
                 </>
               );
             }
