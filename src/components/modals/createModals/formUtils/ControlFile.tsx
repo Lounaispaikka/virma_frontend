@@ -16,16 +16,16 @@ export default class ControlFile extends React.Component<any, any> {
 
     return (
       <>
-    <b>Lisäämällä kuvan sitoudut seuraavaan:</b>
-    <ul>
+    <b style={{marginLeft: "3em"}}>Lisäämällä kuvan sitoudut seuraavaan:</b>
+    <ul style={{marginLeft: "3em"}}>
     <li>Lisään vain kuvan, johon omaan oikeudet</li>
     <li>Noudatan kuvan lisenssiehtoja</li>
     <li>En saa kuvasta korvausta</li>
     <li>Hyväksyn, että julkaisen Virman kautta kuvan <a href="https://creativecommons.org/licenses/by/4.0/deed.fi">CC BY 4.0</a> -lisenssillä
     </li>
     </ul>
-        Voit lähettää kuvan tästä (kuvan linkin voi myös lisätä alla):
-        <br />
+        Voit lähettää kuvan tästä tai lisätä linkin kuvaan alempaa:
+        
         <FormControl
           componentClass={"input"}
           type="file"

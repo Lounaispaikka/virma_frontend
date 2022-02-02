@@ -1,11 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import imageReducer from 'image-blob-reduce/dist/image-blob-reduce.min.js'
+import imageReducer from 'image-blob-reduce';
 
 const reduce = imageReducer();
 
 import ControlSelectClasses from '../formUtils/ControlSelectClasses';
 import ControlText from '../formUtils/ControlText';
+import { ControlLabel } from 'react-bootstrap';
 import ControlFile from '../formUtils/ControlFile';
 import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 
@@ -215,7 +216,10 @@ export class BasicInfo extends React.Component<any, any> {
             if (info.attr === PICTURE) {
               return (
                 <>
+                  <ControlLabel>{"Kohteen kuva"}</ControlLabel>
+                  <br/>
                   <img style={{ maxHeight: "128px", maxWidth: "128px" }} src={parentState[info.attr]} />
+                  <br/>
                   <ControlFile
                     key={idx}
                     formName={info.attr}
@@ -224,7 +228,7 @@ export class BasicInfo extends React.Component<any, any> {
                   />
                   <ControlText
                     key={idx}
-                    controlName={info.desc}
+                    controlName={"Kuvan URL"}
                     formName={info.attr}
                     readOnly={false}
                     stateValue={parentState[info.attr]}
