@@ -66,7 +66,7 @@ export class AllLayersHandler extends React.Component<any, any> {
 								<LayerPanel
 									type={APPROVAL}
 									layers={layer.approvalLayers[0]}
-									layerName={'Hyväksytystä odottavat kohteet'}
+									layerName={'Hyväksymistä odottavat kohteet'}
 									layerType={APPROVAL_FEATURES}
 								/>
 							</PanelGroup>

@@ -8,6 +8,7 @@ import { layer, data, form, modal, login, map } from '../../model/store';
 import { CreateModalForm } from './createModals/CreateModalForm';
 import validateBorders from './validateBorders';
 
+import { handleHttpErrorsGeneric } from '../../utils';
 import { appUrls } from '../../config/config';
 import { postOptions } from '../../config/fetchConfig';
 import {
@@ -423,7 +424,10 @@ export class CreateModalContainer extends React.Component<any, any> {
     const options: any = postOptions;
     options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent });
 
-    fetch(url, options).then(response => response.json()).then(() => {
+    fetch(url, options)
+    .then(handleHttpErrorsGeneric)
+    .then(response => response.json())
+    .then(() => {
       if (selectedLayer.indexOf('newFeature') >= 0) feature.remove();
       this.props.unsetFeature();
       this.updateFeaturesToMap(type, selectedLayer, featureDetails);
@@ -439,7 +443,7 @@ export class CreateModalContainer extends React.Component<any, any> {
       }
 
       modal.showSuccessAlert(message);
-    }).catch(() => {
+    }).catch((e) => {
       feature.remove();
       this.props.unsetFeature();
       this.props.hideModal();
@@ -453,7 +457,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         message = operation === CREATE ? 'Alueen lisäys epäonnistui.' : 'Alueen päivitys epäonnistui.';
       }
 
-      modal.showErrorAlert(message);
+      modal.showErrorAlert(message + "\n" +e.message);
     });
   }
 

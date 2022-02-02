@@ -87,15 +87,15 @@ const tooltipsForForm = {
   },
   www_picture: {
     'point': [
-      'Kuva kohteesta.',
+      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ],
     'line': [
-      'Kuva kohteesta.',
+      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ],
     'polygon': [
-      'Kuva kohteesta.',
+      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ]
   },

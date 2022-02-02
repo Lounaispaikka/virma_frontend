@@ -6,6 +6,7 @@ import { login, form } from '../../../model/store';
 import { appUrls } from '../../../config/config';
 import { postOptions } from '../../../config/fetchConfig';
 
+import { handleHttpErrorsGeneric } from '../../../utils';
 import {
   POINT_APPROVAL_FEATURES,
   LINE_APPROVAL_FEATURES,
@@ -19,12 +20,6 @@ import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-tabl
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
 
-function handleErrors(response) {
-  if (!response.ok) {
-      throw Error(response.statusText);
-  }
-  return response;
-}
 
 export class ApproveFeaturesModal extends React.Component<any, any> {
   private pointTable: any;
@@ -49,19 +44,19 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
     options['body'] = JSON.stringify({ loggedUser: 'admin', isAdmin: login.isAdmin });
 
     fetch(appUrls.pointApprovals, options)
-      .then(handleErrors)
+      .then(handleHttpErrorsGeneric)
       .then(response => response.json())
       .then((response) => this.setState({ approvePoints: response, loading: false }))
       .catch(e => console.log(e));
 
     fetch(appUrls.lineApprovals, options)
-      .then(handleErrors)
+      .then(handleHttpErrorsGeneric)
       .then(response => response.json())
       .then((response) => this.setState({ approveLines: response, loading: false }))
       .catch(e => console.log(e));
 
     fetch(appUrls.areaApprovals, options)
-      .then(handleErrors)
+      .then(handleHttpErrorsGeneric)
       .then(response => response.json())
       .then((response) => this.setState({ approveAreas: response, loading: false }))
       .catch(e => console.log(e));
@@ -96,14 +91,14 @@ export class ApproveFeaturesModal extends React.Component<any, any> {
       options.body = JSON.stringify({ user: login.loggedUser, body: bodyContent }); 
 
       fetch(addUrl, options)
-      .then(handleErrors)
+      .then(handleHttpErrorsGeneric)
       .then(response => response.json())
       .then(() => {
           // 2. Remove the feature from the approval table
           options.body = JSON.stringify({ id: feature.gid, type: layerType, name: feature.name_fi, user: login.loggedUser });
 
           fetch(removeUrl, options).then(response => response.json())
-           .then(handleErrors)
+           .then(handleHttpErrorsGeneric)
             .then(() => this.removeFeatureFromState(type, feature))
             .catch(e => console.log(e));
         }).catch(e => console.log(e));

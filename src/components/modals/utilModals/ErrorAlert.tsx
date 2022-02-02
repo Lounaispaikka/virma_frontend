@@ -17,13 +17,14 @@ export class ErrorAlert extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    /*setTimeout(() => {
       this.setState({ fadeOut: true }, () => {
         setTimeout(() => {
           modal.hideErrorAlert();
         }, 500);
       });
-    }, 1500);
+    }, 1500);*/
+    // errors should not fade out!!!!
   }
 
   render() {
