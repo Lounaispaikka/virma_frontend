@@ -79,7 +79,7 @@ export class SearchTargetsModal extends React.Component<any, any> {
     return (
       <Button 
       id={"square-button-table-warning-without-margin"}>
-      {'Tyhjennä haku (mahd. rikki)'}
+      {'Tyhjennä haku'}
     </Button>
 
     );

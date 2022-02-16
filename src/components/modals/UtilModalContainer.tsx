@@ -5,6 +5,7 @@ import { modal } from '../../model/store';
 
 import { ManageUsersModal } from './adminToolModals/ManageUsersModal';
 import { SearchTargetsModal } from './SearchTargetsModal';
+import { OwnSearchTargetsModal } from './OwnSearchTargetsModal';
 import { ManageFeaturesModal } from './adminToolModals/ManageFeaturesModal';
 import { ApproveFeaturesModal } from './adminToolModals/ApproveFeaturesModal';
 
@@ -39,6 +40,14 @@ const UtilModalContainer = observer(() => {
       <SearchTargetsModal
         showSearchModal={modal.showSearchModal}
         hideSearchTargetsModal={modal.hideSearchTargetsModal}
+      />
+    );
+  }
+  if (modal.showOwnSearchModal) {
+    return (
+      <OwnSearchTargetsModal
+        showOwnSearchModal={modal.showOwnSearchModal}
+        hideOwnSearchTargetsModal={modal.hideOwnSearchTargetsModal}
       />
     );
   }

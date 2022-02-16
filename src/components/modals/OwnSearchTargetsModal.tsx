@@ -1,16 +1,21 @@
 import React from 'react';
 import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { BootstrapTable, TableHeaderColumn,SelectRow , SelectRowMode, Options as TableOptions } from 'react-bootstrap-table';
 
-import { login } from '../../../model/store';
-import { appUrls } from '../../../config/config';
-import { postOptions } from '../../../config/fetchConfig';
+import moment from 'moment';
+import {
+    TIMESTAMP, DATE_FORMAT
+} from '../../config/constants';
+import { layer, login, map, modal } from '../../model/store';
+import { appUrls } from '../../config/config';
+import { postOptions } from '../../config/fetchConfig';
 
-import '../../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
-import '../../../../css/modal.css!';
-import '../../../../css/customBootstrap.css!';
+import { handleHttpErrorsGeneric } from '../../utils';
+import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
+import '../../../css/modal.css!';
+import '../../../css/customBootstrap.css!';
 
-export class ManageFeaturesModal extends React.Component<any, any> {
+export class OwnSearchTargetsModal extends React.Component<any, any> {
   private pointTable: any;
   private lineTable: any;
   private areaTable: any;
@@ -31,15 +36,15 @@ export class ManageFeaturesModal extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    this.sendApiCall('POST', null, appUrls.pointsAll).then(response => response.json())
+    this.sendApiCall('POST', true, appUrls.pointsUser).then(handleHttpErrorsGeneric).then(response => response.json())
       .then((response) => this.setState({ points: response, loading: false }))
       .catch(e => console.log(e));
 
-    this.sendApiCall('POST', null, appUrls.linesAll).then(response => response.json())
+    this.sendApiCall('POST', true, appUrls.linesUser).then(handleHttpErrorsGeneric).then(response => response.json())
       .then((response) => this.setState({ lines: response, loading: false }))
       .catch(e => console.log(e));
 
-    this.sendApiCall('POST', null, appUrls.areasAll).then(response => response.json())
+    this.sendApiCall('POST', true, appUrls.areasUser).then(handleHttpErrorsGeneric).then(response => response.json())
       .then((response) => this.setState({ areas: response, loading: false }))
       .catch(e => console.log(e));
   }
@@ -49,7 +54,7 @@ export class ManageFeaturesModal extends React.Component<any, any> {
     queryOptions.method = method;
 
     if (body) {
-      queryOptions.body = JSON.stringify({ body: body, user: login.loggedUser });
+      queryOptions.body = JSON.stringify({ body: body, user: login.loggedUser, updater_id: login.updater_id, isAdmin: login.isAdmin });
     } else {
       delete queryOptions.body;
     }
@@ -64,36 +69,6 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       this.setState({ modifiedLines: this.state.modifiedLines.concat(row) });
     } else if (row.geom.type === 'MultiPolygon') {
       this.setState({ modifiedAreas: this.state.modifiedAreas.concat(row) });
-    }
-  }
-
-  updateChanges = () => {
-    const featureLength = this.state.modifiedPoints.length + this.state.modifiedLines.length + this.state.modifiedAreas.length;
-
-    if (confirm(`Haluatko päivittää päivittäjätunnukset ${featureLength} kohteelle?`)) {
-      if (this.state.modifiedPoints.length !== 0) {
-        this.state.modifiedPoints.forEach(point => {
-          this.sendApiCall('POST', point, appUrls.alterUpdaterPoint).then(response => response.json())
-            .then(() => this.setState({ modifiedPoints: [] }))
-            .catch(e => console.log(e));
-        });
-      }
-
-      if (this.state.modifiedLines.length !== 0) {
-        this.state.modifiedLines.forEach(line => {
-          this.sendApiCall('POST', line, appUrls.alterUpdaterLine).then(response => response.json())
-            .then(() => this.setState({ modifiedLines: [] }))
-            .catch(e => console.log(e));
-        });
-      }
-
-      if (this.state.modifiedAreas.length !== 0) {
-        this.state.modifiedAreas.forEach(area => {
-          this.sendApiCall('POST', area, appUrls.alterUpdaterArea).then(response => response.json())
-            .then(() => this.setState({ modifiedAreas: [] }))
-            .catch(e => console.log(e));
-        });
-      }
     }
   }
 
@@ -127,12 +102,28 @@ export class ManageFeaturesModal extends React.Component<any, any> {
 
     return 100;
   }
+    markRowsUpdated = async (endpoint, rows) => {
+        var virhekohde = -1;
+        try {
+            for (let gid of rows[0]) {
+                console.log(gid);
+                virhekohde = gid;
+                const resp = await this.sendApiCall('POST', { "gid": gid, "timestamp": moment().format(DATE_FORMAT) }, endpoint)
+                    .then(handleHttpErrorsGeneric)
+                    .then(response => response.json());
+                console.log("update resp", resp);
+            }
+            modal.showSuccessAlert("Kohteet päivitetty onnistuneesti");
+        } catch (e) {
+            modal.showErrorAlert("Massahyväksyntä epäonnistui kohteessa: " + endpoint + "@" + virhekohde + ": " + e);
+        }
+    }
 
   render() {
     const { tabKey, loading, points, lines, areas } = this.state;
     const {
-      showManageFeaturesModal,
-      hideManageFeaturesModal,
+      showOwnSearchModal,
+      hideOwnSearchTargetsModal,
     } = this.props;
 
     const cellEditProp: any = {
@@ -141,8 +132,19 @@ export class ManageFeaturesModal extends React.Component<any, any> {
       afterSaveCell: this.onAfterSaveCell
     };
 
-    const options: any = {
-      defaultSortName: "gid",
+    const selectRowProp: any = {
+        mode: "checkbox",
+        bgColor: "lightBlue"
+      };
+  
+    const onRowClick = function(row: any,colid,rowid,e) {
+  
+      //hideOwnSearchTargetsModal();
+      map.fitBounds(row.geom.coordinates);
+    }
+
+    const options: TableOptions = {
+      defaultSortName: "name_fi",
       defaultSortOrder: "asc",
       noDataText: loading ? "Kohteita ladataan" : "Kohteita ei pystytty hakemaan",
 
@@ -152,8 +154,8 @@ export class ManageFeaturesModal extends React.Component<any, any> {
         {text: '100', value: 100},
         {text: 'Kaikki', value: this.getTabListLength()}
       ],
-
       clearSearch: true,
+      onRowClick: onRowClick,
       clearSearchBtn: this.customClearButton
     };
 
@@ -163,41 +165,43 @@ export class ManageFeaturesModal extends React.Component<any, any> {
     const NAME = 'Kohteen nimi';
     const TIMESTAMP = 'Aikaleima';
     const UPDATER = 'Päivittäjätunnus';
-
+    const selectRow: SelectRow = {
+      mode: "radio",
+      bgColor: '#faa'
+    }
     return (
       <div>
-        <Modal backdrop={"static"} bsSize={"large"} show={showManageFeaturesModal} onHide={hideManageFeaturesModal}>
+        <Modal backdrop={"static"} bsSize={"large"} show={showOwnSearchModal} onHide={hideOwnSearchTargetsModal}>
           <Modal.Header>
             <Modal.Title>
-              <b>{'Hallitse kohteiden muokkausoikeuksia'}</b>
+              <b>{'Kuittaa useita kohteita ajantasaisiksi'}</b>
             </Modal.Title>
+            <span>Tällä työkalulla voit kuitata yhden tai useamman kohteen tiedot ajantasaisiksi.  <br/>Valitse tarkastamasi kohteet valintaruuduista ja klikkaa "merkitse kohteet tarkastetuiksi", jonka jälkeen kohteiden aikaleimat muuttuvat tälle päivälle.
+            <br/><br/>
+Jos haluat päivittää yksittäisen kohteen muita tietoja, klikkaa kohteen nimeä ja palaa kartalle painamalla sulje-painiketta. Tämän jälkeen voit muokata kyseistä kohdetta.</span>
           </Modal.Header>
-          <Modal.Body className={"manageFeaturesModalBody"}>
-            <p>
-              Kunkin kohteen kohdalla on mahdollista muokata "Päivittäjätunnus" -kentän tietoa. Jos haluat lisätä useamman päivittäjätunnuksen voit erottaa ne pilkulla esim. "admin, testi".
-              Tietoja voi muokata valitsemalla "Päivittäjätunnus" -sarakkeen kohdalla solun ja kirjoittamalla halutun arvon. Muutokset tallentuvat valitsemalla "Päivitä kohteet" -painikkeella.
-            </p>
-
+          <Modal.Body className={"searchFeaturesModalBody"}>
+            
             <Tabs activeKey={tabKey} onSelect={this.handleTabSelect} id={'approveTabs'} bsStyle={"tabs"}>
               <Tab eventKey={1} title={"Pisteet"}>
                 <br />
                 <BootstrapTable
                   ref={(pointTable) => { this.pointTable = pointTable; }}
                   data={points}
-                  cellEdit={cellEditProp}
+                  selectRow={selectRowProp}
                   options={options}
                   pagination
                   search
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
+                <Button id={"square-button-table-primary"} onClick={() => { this.markRowsUpdated(appUrls.updatePoint,[this.pointTable.state.selectedRowKeys]);}}>Merkitse kohteet tarkastetuiksi</Button>
+              
               </Tab>
 
               <Tab eventKey={2} title={"Reitit"}>
@@ -205,50 +209,46 @@ export class ManageFeaturesModal extends React.Component<any, any> {
                 <BootstrapTable
                   ref={(lineTable) => { this.lineTable = lineTable; }}
                   data={lines}
-                  cellEdit={cellEditProp}
                   options={options}
+                  selectRow={selectRowProp}
                   pagination
                   search
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
-              </Tab>
+                <Button id={"square-button-table-primary"} onClick={() => { this.markRowsUpdated(appUrls.updateLine,[this.lineTable.state.selectedRowKeys]);}}>Merkkaa kohteet tarkastetuiksi</Button>
+               </Tab>
 
               <Tab eventKey={3} title={"Alueet"}>
                 <br />
                 <BootstrapTable
                   ref={(areaTable) => { this.areaTable = areaTable; }}
                   data={areas}
-                  cellEdit={cellEditProp}
                   options={options}
+                  selectRow={selectRowProp}
                   pagination
                   search
                   searchPlaceholder={"Anna hakusana..."}
                   keyField={"gid"}
                 >
-                  <TableHeaderColumn dataField={"gid"} width={"50"} dataSort>{ID}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class1_fi"} dataSort editable={false}>{CLASS1}</TableHeaderColumn>
                   <TableHeaderColumn dataField={"class2_fi"} dataSort editable={false}>{CLASS2}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name_fi"} dataSort editable={false}>{NAME}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"timestamp"} width={"100"} dataSort editable={false}>{TIMESTAMP}</TableHeaderColumn>
-                  <TableHeaderColumn dataField={"updater_id"} width={"130"} dataSort>{UPDATER}</TableHeaderColumn>
                 </BootstrapTable>
+                <Button id={"square-button-table-primary"} onClick={() => { this.markRowsUpdated(appUrls.updateArea,[this.areaTable.state.selectedRowKeys]);}}>Merkkaa kohteet tarkastetuiksi</Button>
               </Tab>
             </Tabs>
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={(e) => this.updateChanges()}>
-                {'Päivitä kohteet'}
-              </Button>
-              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideManageFeaturesModal(e)}>
+
+              <Button id={"square-button-warning"} bsStyle={"warning"} onClick={(e) => hideOwnSearchTargetsModal(e)}>
                 {'Sulje'}
               </Button>
             </ButtonToolbar>

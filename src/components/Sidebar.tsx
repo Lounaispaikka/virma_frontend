@@ -57,6 +57,9 @@ export class AllLayersHandler extends React.Component<any, any> {
 					{login.isLoggedIn &&
 						<div className={"layerSelectorAdmin"}>
 							<PanelGroup>
+								<Button id={this.props.ownSearchButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showOwnSearchTargetsModal()} block>
+									{'Omien kohteiden haku ja joukkohallinta'}
+								</Button>
 								<LayerPanel
 									type={ALL}
 									layers={layer.userLayers[0]}
@@ -124,13 +127,15 @@ export class Sidebar extends React.Component<any, any> {
 	}
 
 	render() {
-		let searchButtonStyle, userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
-		searchButtonStyle = userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
+		let ownSearchButtonStyle,searchButtonStyle, userButtonStyle, featureButtonStyle, approveButtonStyle, pointButtonStyle, lineButtonStyle, polygonButtonStyle;
+		ownSearchButtonStyle = searchButtonStyle = userButtonStyle = featureButtonStyle = approveButtonStyle = pointButtonStyle = lineButtonStyle = polygonButtonStyle = "square-button-primary";
 
 		if (modal.showUsersModal) {
 			userButtonStyle = "square-button-primary-active";
 		} else if (modal.showSearchModal) {
 			searchButtonStyle = "square-button-primary-active";
+		} else if (modal.showOwnSearchModal) {
+			ownSearchButtonStyle = "square-button-primary-active";
 		} else if (modal.showFeaturesModal) {
 			featureButtonStyle = "square-button-primary-active";
 		} else if (modal.showApproveModal) {

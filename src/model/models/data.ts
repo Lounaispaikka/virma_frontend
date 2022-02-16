@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 
 import { login, modal } from '../store';
 import { appUrls } from '../../config/config';
+import { handleHttpErrorsGeneric } from '../../utils';
 import { postOptions } from '../../config/fetchConfig';
 
 import {
@@ -42,7 +43,10 @@ export default class Data {
   @computed get areaUserUpdate() { return this.areasUser }
 
   fetchRequest(url, options, resultArray) {
-    return fetch(url, options).then(response => response.json())
+    return fetch(url, options)
+      
+      .then(handleHttpErrorsGeneric)
+      .then(response => response.json())
       .then((response) => resultArray.replace(resultArray.concat(response)))
       .catch(() => modal.showErrorAlert('Tasoja ei pystytty hakemaan.'));
   }
