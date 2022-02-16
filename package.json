@@ -39,7 +39,7 @@
     "classy-mst": "^0.1.2",
     "core-js": "^2.5.7",
     "dgrid": "^1.2.1",
-    "dojo": "^1.13.0",
+    "dojo": "^1.16.4",
     "dojo-dstore": "^1.1.2",
     "dojo-typings": "github:dojo/typings#master",
     "events": "^1.1.1",
