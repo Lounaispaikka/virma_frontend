@@ -163,7 +163,7 @@ export class OwnSearchTargetsModal extends React.Component<any, any> {
     const CLASS1 = 'Pääluokitus';
     const CLASS2 = 'Aliluokitus';
     const NAME = 'Kohteen nimi';
-    const TIMESTAMP = 'Aikaleima';
+    const TIMESTAMP = 'Päivitetty';
     const UPDATER = 'Päivittäjätunnus';
     const selectRow: SelectRow = {
       mode: "radio",

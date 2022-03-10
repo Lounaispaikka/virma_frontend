@@ -93,10 +93,15 @@ export class CreateModalForm extends React.Component<any, any> {
   }
 
   validateForm() {
-    let errorCount = 0;
-    this.state.formConfig.map((info) => { if (info.formError) { errorCount++; } });
+    let errors = [];
+    this.state.formConfig.map((info) => { if (info.formError) { 
+      console.log("Alerting due to:",info.attr,info);
+      errors.push(info.desc || info.attr);
+    } });
 
-    errorCount > 0 ? this.setState({ showAlert: true }) :
+    errors.length > 0 ? this.setState({ showAlert: 
+      "Virhekentät: "+errors.join(", ")
+    }) :
       this.props.sendPost(this.props.createType, this.props.feature.feature);
   }
 
@@ -140,7 +145,7 @@ export class CreateModalForm extends React.Component<any, any> {
     return (
      <Alert className={"formErrorAlert"} bsStyle={"danger"} onDismiss={() => { this.setState({ showAlert: false }); }}>
        <div className={"formErrorMsg"}>
-          {'Lomakkeessa on vielä kohtia, jotka pitää täyttää tai niiden sisällössä on jotain vialla.'}
+          {'Lomakkeessa on vielä kohtia, jotka pitää täyttää tai niiden sisällössä on jotain vialla.\nViesti: '+this.state.showAlert}
        </div>
      </Alert>
     );

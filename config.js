@@ -9,6 +9,7 @@ System.config({
 		dojoRequire: 'bundler/require.js',
 		vert: 'node_modules/systemjs-plugin-text/text.js',
 		frag: 'node_modules/systemjs-plugin-text/text.js',
+		'image-blob-reduce': 'image-blob-reduce/dist/image-blob-reduce.min.js',
 		css: 'node_modules/systemjs-plugin-css/css.js',
 		json: 'node_modules/systemjs-plugin-json/json.js'
 	},
