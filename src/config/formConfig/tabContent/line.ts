@@ -145,6 +145,8 @@ export const lineConfig = [
     attr: INFO_FI,
     desc: 'Reitin kuvaus - Beskrivning av rutten',
     type: 'text',
+    multiline: true,
+
     addedToForm: true,
     canBeUndefined: false,
     formError: false,
@@ -390,7 +392,7 @@ export const lineConfig = [
   },
   {
     attr: PUBLICINFO,
-    desc: 'Yhteystiedot julkisia – Kontaktuppgifter offentliga',
+    desc: 'Suostun, että yhteystiedot ovat julkisia',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,

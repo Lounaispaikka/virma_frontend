@@ -185,6 +185,8 @@ export const pointConfig = [
     addedToForm: true,
     canBeUndefined: false,
     formError: false,
+    multiline: true,
+
     tab: 1,
     order: 14
   },
@@ -466,7 +468,7 @@ export const pointConfig = [
   },
   {
     attr: PUBLICINFO,
-    desc: 'Yhteystiedot julkisia – Kontaktuppgifter offentliga',
+    desc: 'Suostun, että yhteystiedot ovat julkisia',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,

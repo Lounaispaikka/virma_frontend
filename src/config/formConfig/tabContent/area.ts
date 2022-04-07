@@ -180,6 +180,7 @@ export const areaConfig = [
     desc: 'Alueen kuvaus - Beskrivning av området',
     type: 'text',
     addedToForm: true,
+    multiline: true,
     canBeUndefined: false,
     formError: false,
     tab: 1,
@@ -430,7 +431,7 @@ export const areaConfig = [
   },
   {
     attr: PUBLICINFO,
-    desc: 'Yhteystiedot julkisia – Kontaktuppgifter offentliga',
+    desc: 'Suostun, että yhteystiedot ovat julkisia - Offentlig kontaktinformation',
     type: 'text',
     addedToForm: true,
     canBeUndefined: false,

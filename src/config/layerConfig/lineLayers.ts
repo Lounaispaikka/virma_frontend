@@ -70,7 +70,7 @@ const lineLayers = [
         color: 'rgb(106, 61, 154)'
       },
       {
-        name_fi: 'Retkilatu',
+        name_fi: 'Latu',
         name_se: 'vandringsskidspår',
         name_en: 'trekking ski track',
         selected: false,
