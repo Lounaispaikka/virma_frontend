@@ -4,6 +4,7 @@ import { Polyline } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 import { LINE_APPROVAL_FEATURES } from '../../../config/constants';
+import L from 'leaflet';
 
 @observer
 export class LineApprovalFeatures extends React.Component<any, any> {
@@ -16,7 +17,7 @@ export class LineApprovalFeatures extends React.Component<any, any> {
           return (
             <Polyline
               key={idx}
-              positions={feature.geom.coordinates}
+              positions={L.GeoJSON.coordsToLatLngs(feature.geom.coordinates,1)}
               color={"rgba(0, 0, 0, 0.7"}
               weight={3}
               onClick={(e) => setSelectedFeature(e.target, feature, LINE_APPROVAL_FEATURES)}

@@ -6,6 +6,7 @@ import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
 import { AREA } from '../../../config/constants';
+import L from 'leaflet';
 
 @observer
 export class AreaFeatures extends React.Component<any, any> {
@@ -23,7 +24,7 @@ export class AreaFeatures extends React.Component<any, any> {
                 return (
                   <Polygon
                     key={idx}
-                    positions={feature.geom.coordinates}
+                    positions={L.GeoJSON.coordsToLatLngs(feature.geom.coordinates,2)}
                     color={'black'}
                     weight={1.5}
                     fillColor={color}

@@ -6,6 +6,7 @@ import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
 import { LINE_USER_FEATURES } from '../../../config/constants';
+import L from 'leaflet';
 
 @observer
 export class LineUserFeatures extends React.Component<any, any> {
@@ -23,7 +24,7 @@ export class LineUserFeatures extends React.Component<any, any> {
                 return (
                   <Polyline
                     key={idx}
-                    positions={feature.geom.coordinates}
+                    positions={L.GeoJSON.coordsToLatLngs(feature.geom.coordinates,1)}
                     weight={3}
                     color={color}
                     onClick={(e) => setSelectedFeature(e.target, feature, LINE_USER_FEATURES)}

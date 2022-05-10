@@ -4,6 +4,7 @@ import { CircleMarker } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 import { POINT_APPROVAL_FEATURES } from '../../../config/constants';
+import { fixSimpleCoords } from '../../../utils';
 
 @observer
 export class PointApprovalFeatures extends React.Component<any, any> {
@@ -16,7 +17,7 @@ export class PointApprovalFeatures extends React.Component<any, any> {
           return (
             <CircleMarker
               key={idx}
-              center={[feature.geom.coordinates[0], feature.geom.coordinates[1]]}
+              center={fixSimpleCoords([feature.geom.coordinates[0], feature.geom.coordinates[1]])}
               radius={8}
               color={"black"}
               fillColor={"rgba(0, 0, 0, 0.7"}

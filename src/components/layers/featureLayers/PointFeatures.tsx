@@ -6,6 +6,7 @@ import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
 import { POINT } from '../../../config/constants';
+import { fixSimpleCoords } from '../../../utils';
 
 @observer
 export class PointFeatures extends React.Component<any, any> {
@@ -23,7 +24,7 @@ export class PointFeatures extends React.Component<any, any> {
                 return (
                   <CircleMarker
                     key={idx}
-                    center={[feature.geom.coordinates[0], feature.geom.coordinates[1]]}
+                    center={fixSimpleCoords([feature.geom.coordinates[0], feature.geom.coordinates[1]])}
                     radius={8}
                     color={"black"}
                     fillColor={color}

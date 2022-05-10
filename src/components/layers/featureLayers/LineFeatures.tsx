@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Polyline } from 'react-leaflet';
-
+import L from "leaflet";
 import { FeaturePopup } from '../FeaturePopup';
 
 import { layer } from '../../../model/store';
@@ -23,7 +23,7 @@ export class LineFeatures extends React.Component<any, any> {
                 return (
                   <Polyline
                     key={idx}
-                    positions={feature.geom.coordinates}
+                    positions={L.GeoJSON.coordsToLatLngs(feature.geom.coordinates,1)}
                     weight={3}
                     color={color}
                     onClick={(e) => setSelectedFeature(e.target, feature, 'lineFeatures')}

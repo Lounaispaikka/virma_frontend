@@ -331,7 +331,7 @@ export class CreateModalContainer extends React.Component<any, any> {
     let geomFeature: any = null;
 
     if (type === CIRCLE_MARKER) {
-      const coords = [feature._latlng.lat, feature._latlng.lng];
+      const coords = [feature._latlng.lng, feature._latlng.lat];
       url = featureInfoExists ? appUrls.updatePoint : appUrls.createPoint;
 
       geomFeature = {
@@ -345,7 +345,7 @@ export class CreateModalContainer extends React.Component<any, any> {
 
         array.push([]);
         feature._latlngs.forEach((coord) => {
-          const coords = { lat: coord.lat, lng: coord.lng };
+          const coords = { lng: coord.lng, lat: coord.lat };
           array[0].push(Object.keys(coords).map(item => coords[item]));
         });
       } else {
@@ -354,7 +354,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         feature._latlngs.forEach((coord, idx) => {
           array.push([]);
           coord.forEach((coord2) => {
-            const coords = { lat: coord2.lat, lng: coord2.lng };
+            const coords = {  lng: coord2.lng, lat: coord2.lat };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           })
         });
@@ -372,7 +372,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         feature._latlngs.forEach((coord, idx) => {
           array.push([]);
           coord.forEach((coord2) => {
-            const coords = { lat: coord2.lat, lng: coord2.lng };
+            const coords = { lng: coord2.lng, lat: coord2.lat };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           });
         });
@@ -382,7 +382,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         feature._latlngs[0].forEach((coord, idx) => {
           array.push([]);
           coord.forEach((coord2) => {
-            const coords = { lat: coord2.lat, lng: coord2.lng };
+            const coords = { lng: coord2.lng, lat: coord2.lat };
             array[idx].push(Object.keys(coords).map(item => coords[item]));
           });
         });

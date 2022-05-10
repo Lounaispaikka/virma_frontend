@@ -4,6 +4,7 @@ import { Polygon } from 'react-leaflet';
 
 import { FeaturePopup } from '../FeaturePopup';
 import { AREA_APPROVAL_FEATURES } from '../../../config/constants';
+import L from 'leaflet';
 
 @observer
 export class AreaApprovalFeatures extends React.Component<any, any> {
@@ -16,7 +17,7 @@ export class AreaApprovalFeatures extends React.Component<any, any> {
           return (
             <Polygon
               key={idx}
-              positions={feature.geom.coordinates}
+              positions={L.GeoJSON.coordsToLatLngs(feature.geom.coordinates,2)}
               color={"black"}
               fillColor={"rgba(0, 0, 0, 0.7"}
               weight={1.5}
