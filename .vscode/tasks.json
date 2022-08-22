@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build",
+			"label": "npm: build",
+			"detail": "tsc -p src"
+		},
+		{
+			"type": "npm",
+			"script": "bundle-prod",
+			"problemMatcher": [
+				"$eslint-compact"
+			],
+			"label": "npm: bundle-prod",
+			"detail": "cd bundler && npm run bundle-prod"
+		}
+	]
+}

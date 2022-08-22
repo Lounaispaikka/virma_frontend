@@ -11,6 +11,7 @@ import { AREA, LINESTRING, POINT } from '../../config/constants';
 
 import '../../../css/mapFeature.css!';
 import '../../../css/customBootstrap.css!';
+import { RequestFeatureEdit } from './../../components/RequestFeatureEdit';
 
 const NO_LINK = 'Linkkiä ei saatavilla';
 const NON_EXIST = 'Tietoa ei saatavilla';
@@ -82,7 +83,9 @@ export class FeaturePopup extends React.Component<any, any> {
               </>
             }
           </ul>
-
+          {(login.isLoggedIn && !okToModify) &&
+              <RequestFeatureEdit featureInfo={featureInfo} type={type}></RequestFeatureEdit>
+            }
           {(map.featureSelected && (login.isAdmin || okToModify)) &&
             <div className={"featurePopupButton"}>
               {!map.toggleEditState && <Button id={"square-button-primary"} bsSize={"small"} bsStyle={"primary"} onClick={map.manageTargetFeature} block>Avaa kohteen hallinta</Button>}

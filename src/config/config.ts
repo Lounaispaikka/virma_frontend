@@ -47,8 +47,8 @@ const appUrls = {
   removeUser: host + '/api/manage/removeUser',
   updateUser: host + '/api/manage/updateUser',
 
-  
-  featureUploadImage: host + '/api/feature/uploadImage'
+  featureUploadImage: host + '/api/feature/uploadImage',
+  requestFeatureAccess: host + '/api/feature/requestFeatureAccess'
 };
 
 const mapUrls = {
