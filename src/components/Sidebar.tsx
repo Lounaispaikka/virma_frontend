@@ -164,7 +164,7 @@ export class Sidebar extends React.Component<any, any> {
 						{!login.isLoggedIn && <span>{'Kirjaudu sisään'}</span>}
 						{login.isLoggedIn && <span>{`Tervetuloa ${login.loggedUser}!`}</span>}
 						<div className={'sidebar-login-infobutton'}>{'Käyttöohjeet '}
-							<Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showInfoModal(messages.toolInfoContent)}>{'i'}</Button>
+							<Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} href="https://www.lounaistieto.fi/virma-yllapidon-kayttoohjeet/" target="_blank">{'i'}</Button>
 						</div>
 					</div>
 					<div className={"sidebar-login-buttons"}>
