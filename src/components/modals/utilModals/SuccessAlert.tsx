@@ -17,13 +17,14 @@ export class SuccessAlert extends React.Component<any, any> {
   }
 
   componentDidMount() {
+    // TODO: remove timeout on hide
     setTimeout(() => {
       this.setState({ fadeOut: true }, () => {
         setTimeout(() => {
           modal.hideSuccessAlert();
         }, 500);
       });
-    }, 1500);
+    }, 19*1000);
   }
 
   render() {
