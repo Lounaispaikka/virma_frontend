@@ -11,7 +11,7 @@ import '../../../../../css/form.css!';
 
 export default class ControlText extends React.Component<any, any> {
   returnFormControl() {
-    const { displayFormError, formName, controlName, stateValue, handleChange, readOnly, placeholder } = this.props;
+    const { displayFormError, formName, controlName, stateValue, handleChange, readOnly, placeholder, multiline } = this.props;
 
     return (
       <FormGroup
@@ -22,9 +22,10 @@ export default class ControlText extends React.Component<any, any> {
       >
         <ControlLabel>{controlName}</ControlLabel>
         <FormControl
-          componentClass={"input"}
-          type={"text"}
+          componentClass={multiline?"textarea":"input"}
+          type={multiline?"textarea":"text"}
           id={formName}
+          rows={3}
           placeholder={placeholder}
           value={stateValue === undefined ? '' : stateValue}
           onChange={handleChange}

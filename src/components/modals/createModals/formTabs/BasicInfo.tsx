@@ -66,7 +66,7 @@ export class BasicInfo extends React.Component<any, any> {
     var e = {
       target: {
         id: target.id,
-        value: "https://via.placeholder.com/300x200.jpg?text=processing",
+        value: "https://virma.lounaistieto.fi/images/sending_fi.png",
       }
     };
 
@@ -112,7 +112,7 @@ export class BasicInfo extends React.Component<any, any> {
             .then(response => response.json())
             .then((response) => {
               console.log("success uploading", response, response.url);
-              const url = response.url ? response.url : "https://via.placeholder.com/300x200.jpg?text=uploadfail";
+              const url = response.url ? response.url : "https://virma.lounaistieto.fi/images/sending_fi.png";
               this.setState({ www_picture: url });
 
               e.target.value = url;
@@ -120,9 +120,9 @@ export class BasicInfo extends React.Component<any, any> {
             }).catch((e) => {
               alert(e);
 
-              this.setState({ www_picture: "https://via.placeholder.com/300x200.jpg?text=uploadfail" });
+              this.setState({ www_picture: "https://virma.lounaistieto.fi/images/sending_fail_fi.png" });
 
-              e.target.value = "https://via.placeholder.com/300x200.jpg?text=uploadfail";
+              e.target.value = "https://virma.lounaistieto.fi/images/sending_fail_fi.png";
               handleFormChange(e);
 
               console.log(e);
@@ -248,6 +248,7 @@ export class BasicInfo extends React.Component<any, any> {
                 controlName={info.desc}
                 formName={info.attr}
                 readOnly={false}
+                multiline={info.multiline}
                 stateValue={parentState[info.attr]}
                 handleChange={handleFormChange}
                 displayFormError={info.formError}
