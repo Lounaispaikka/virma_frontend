@@ -78,8 +78,7 @@ export class FeaturePopup extends React.Component<any, any> {
             <li><b>Päivitetty: </b>{timestamp}</li>
             {picture &&
               <>
-                <li><b>Kuva: </b><br/><img src={picture} width="128px"></img></li>
-                <li><b>Kuvan tiedot: </b>{picture_info}</li>
+                <li><b>Kuva: </b><br/><img src={picture} width="256px"></img><br/>{picture_info}</li>
               </>
             }
           </ul>

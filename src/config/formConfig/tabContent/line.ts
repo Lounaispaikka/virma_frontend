@@ -190,7 +190,9 @@ export const lineConfig = [
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
+    multiline: true,
     tab: 1,
+    maxLength: 4096,
     order: 15
   },
   {
@@ -232,6 +234,8 @@ export const lineConfig = [
     canBeUndefined: true,
     formError: false,
     tab: 1,
+    maxLength: 4096,
+    multiline: true,
     order: 16
   },
   {

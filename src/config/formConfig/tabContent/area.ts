@@ -219,8 +219,10 @@ export const areaConfig = [
   {
     attr: ACCESSIBIL,
     desc: 'Esteettömyys - Tillgänglighet',
+    multiline: true,
     type: 'text',
     addedToForm: true,
+    maxLength: 4096,
     canBeUndefined: true,
     formError: false,
     tab: 1,

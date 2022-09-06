@@ -14,7 +14,7 @@ const HelpBlockContent = ({ formName, value }) => {
     if (value) {
       if (value.length > 253) {
         return (
-          <HelpBlock>Kentän maksimipituus on 254 merkkiä - Fältets maximala längd är 254 tecken</HelpBlock>
+          <HelpBlock>Kentän maksimipituus on täynnä - Fältets maximala längd</HelpBlock>
         );
       }
     }

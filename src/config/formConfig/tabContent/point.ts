@@ -225,6 +225,8 @@ export const pointConfig = [
     desc: 'Esteettömyys - Hinderfritt',
     type: 'text',
     addedToForm: true,
+    multiline: true,
+    maxLength: 4096,
     canBeUndefined: true,
     formError: false,
     tab: 1,
@@ -268,6 +270,8 @@ export const pointConfig = [
     canBeUndefined: true,
     formError: false,
     tab: 1,
+    maxLength: 4096,
+    multiline: true,
     order: 19
   },
   {

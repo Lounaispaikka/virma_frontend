@@ -40,8 +40,9 @@ export class CreateModalForm extends React.Component<any, any> {
     this.setState({ formConfig: prevProps.formConfig, showAlert: false });
     prevProps.formConfig.map((info) => {
       let content = prevProps.parentState[info.attr] + '';
-
-      if (content.length > 253) {
+      let ml = info["maxLength"];
+      if (content.length > ((ml && ml>1)?ml:253)) {
+        console.log("MAx",ml,content.length);
         info.formError = true;
         return;
       }
@@ -196,7 +197,7 @@ export class CreateModalForm extends React.Component<any, any> {
                   />
                 </Tab>
 
-                <Tab eventKey={2} title={"Muut tiedot"}>
+                <Tab eventKey={2} title={"Lisätiedot"}>
                   <OtherInfo
                     formType={type}
                     formConfig={formConfig}

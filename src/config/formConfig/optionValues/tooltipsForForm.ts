@@ -54,11 +54,11 @@ const tooltipsForForm = {
   },
   chall_clas: {
     'point': [
-      'Kerro riittävät tiedot, jotta kävijä osaa varustautua kohteella vierailuun. Mikäli kohteella on valmis luokitus, mainitse käytetty luokitusjärjestelmä. Esimerkki kuvausohjeessa.',
+      'Vapaamuotoinen kuvaus kohteen, reitin tai reittiosuuden vaativuuteen vaikuttavista tekijöistä: maapohjan pinta ja tasaisuus, korkeuserot, hankalakulkuiset kohdat, viitoituksen taso, suunnistustaidon tarve.',
       'Ge tillräcklig information, så att besökaren kan utrusta sig för att färdas i terrängen. Ifall rutten har en färdig klassificering, ange det använda klassificeringssystemet. Exempel i beskrivningsanvisningen.'
     ],
     'line': [
-      'Kerro riittävät tiedot, jotta kävijä osaa varustautua reitillä vierailuun. Mikäli reitillä on valmis luokitus, mainitse käytetty luokitusjärjestelmä. Esimerkki kuvausohjeessa.',
+      'Vapaamuotoinen kuvaus kohteen, reitin tai reittiosuuden vaativuuteen vaikuttavista tekijöistä: maapohjan pinta ja tasaisuus, korkeuserot, hankalakulkuiset kohdat, viitoituksen taso, suunnistustaidon tarve.',
       'Ge tillräcklig information, så att besökaren kan utrusta sig för att färdas i terrängen. Ifall rutten har en färdig klassificering, ange det använda klassificeringssystemet. Exempel i beskrivningsanvisningen.'
     ],
     'polygon': null

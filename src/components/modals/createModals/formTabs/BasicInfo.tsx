@@ -118,7 +118,7 @@ export class BasicInfo extends React.Component<any, any> {
               e.target.value = url;
               handleFormChange(e);
             }).catch((e) => {
-              alert(e);
+             
 
               this.setState({ www_picture: "https://virma.lounaistieto.fi/images/sending_fail_fi.png" });
 
