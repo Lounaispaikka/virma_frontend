@@ -2,13 +2,15 @@ import React from 'react';
 import { Modal, Tabs, Tab, ButtonToolbar, Button } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn,SelectRow , SelectRowMode, Options as TableOptions } from 'react-bootstrap-table';
 
-import { layer, login, map } from '../../model/store';
+import { layer, login, map, modal } from '../../model/store';
 import { appUrls } from '../../config/config';
 import { postOptions } from '../../config/fetchConfig';
 
 import '../../../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css!';
 import '../../../css/modal.css!';
 import '../../../css/customBootstrap.css!';
+import L from 'leaflet';
+import { fixSimpleCoords } from '../../utils';
 
 export class SearchTargetsModal extends React.Component<any, any> {
   private pointTable: any;
@@ -113,8 +115,15 @@ export class SearchTargetsModal extends React.Component<any, any> {
     const onRowClick = function(row: any,colid,rowid,e) {
       console.log(row);
       hideSearchTargetsModal();
-      const bounds = "?";
-      map.fitBounds(row.geom.coordinates);
+      try {
+        const bounds = L.geoJSON(row.geom).getBounds();        
+        console.log("clickbounds",bounds);
+
+        map.fitBounds(bounds);
+      } catch (e) {
+        modal.showErrorAlert("Tuntematon virhe: "+e);
+        console.error(e);
+      }
     }
 
     const options: TableOptions = {

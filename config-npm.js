@@ -82,6 +82,7 @@ System.config({
 		"monotone-convex-hull-2d": "node_modules/monotone-convex-hull-2d",
 		"object-assign": "node_modules/object-assign",
 		"popper.js": "node_modules/popper.js",
+		"proj4": "node_modules/proj4",
 		"prop-types": "node_modules/prop-types",
 		"prop-types-extra/lib/all": "node_modules/prop-types-extra/lib/all.js",
 		"prop-types-extra/lib/componentOrElement": "node_modules/prop-types-extra/lib/componentOrElement.js",
@@ -106,6 +107,7 @@ System.config({
 		"react-overlays/lib/utils/isOverflowing": "node_modules/react-overlays/lib/utils/isOverflowing.js",
 		"react-popper": "node_modules/react-popper",
 		"react-s-alert": "node_modules/react-s-alert",
+		"reproject": "node_modules/reproject",
 		"robust-orientation": "node_modules/robust-orientation",
 		"robust-scale": "node_modules/robust-scale",
 		"robust-subtract": "node_modules/robust-subtract",
@@ -265,6 +267,9 @@ System.config({
 		"popper.js": {
 			main: "dist/umd/popper.js"
 		},
+		"proj4": {
+			main: "dist/proj4-src.js"
+		},
 		"prop-types": {
 			main: "index.js"
 		},
@@ -299,6 +304,9 @@ System.config({
 			main: "lib/react-popper.js"
 		},
 		"react-s-alert": {
+			main: "index.js"
+		},
+		"reproject": {
 			main: "index.js"
 		},
 		"robust-orientation": {

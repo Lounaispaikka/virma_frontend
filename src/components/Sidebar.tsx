@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { PanelGroup, Button } from 'react-bootstrap';
+import { PanelGroup, Button, FormControl, Form, FormGroup } from 'react-bootstrap';
 
 import { login, layer, map, modal, messages } from '../model/store';
 import { POINT, LINESTRING, POLYGON, APPROVAL, ALL, RECREATIONAL_AREA, TOURIST_SERVICE_AREA, RECREATIONAL_ROUTE, TOURIST_ATTRACTION, RECREATIONAL_ATTRACTION, APPROVAL_FEATURES, ALL_FEATURES } from '../config/constants';
@@ -10,14 +10,27 @@ import { LayerPanel } from './LayerPanel';
 
 import '../../css/sidebar.css!';
 import '../../css/customBootstrap.css!';
+import { handleHttpErrorsGeneric } from '../utils';
+import L from 'leaflet';
+import reproject from 'reproject';
+import { TooltipWithContent } from './modals/createModals/formUtils/Tooltip';
+//import { defs } from 'proj4';
+const EPSG3067 = '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
 
 @observer
 export class AllLayersHandler extends React.Component<any, any> {
+	updateSearchTarget(e) {
+		const val = e.target.value;
+		console.log(val);
+		this.setState({ freeSearchText: val })
+	}
+	
 	constructor(props: any) {
 		super(props);
 
 		this.state = {
-			showAll: false
+			showAll: false,
+			freeSearchText: ""
 		}
 	}
 	setShowAll(s) {
@@ -39,20 +52,64 @@ export class AllLayersHandler extends React.Component<any, any> {
 			feature.selected = s;
 		})
 	}
+	searchAnyHandler(e) {
+		e.preventDefault();
+		const txt = this.state.freeSearchText;
+		if (!txt || !txt.trim()) {
+			console.log("empty");
+			return;
+		}
+
+		// https://operations.osmfoundation.org/policies/nominatim/
+		const url = "https://nominatim.openstreetmap.org/search?q=QUERY&accept-language=fi&countrycodes=fi&email=virma@lounaistieto.fi&limit=1&polygon_geojson=1&format=json";
+		fetch(url.replace("QUERY",encodeURIComponent(txt)))
+		.then(handleHttpErrorsGeneric)
+		.then(response => response.json())
+		.then((data) => {
+			const res = (data && data.length>0)?data[0]:false;
+			if (!res) {
+				modal.showSuccessAlert("Kohdetta ei löytynyt");
+				return;
+			}
+			console.log(data);
+			
+			
+			const geojson = reproject.reproject(res.geojson,"WGS84",EPSG3067);
+			var layer = L.geoJSON(geojson);
+			const bounds = layer.getBounds();
+			
+			if (!bounds.isValid()) {
+				throw new Error('Koordinaatit ovat väärin.');
+			}
+
+			console.log("Fitting to",bounds);
+			map.fitBounds(bounds);
+			modal.showSuccessAlert(res.display_name);
+		}).catch((e)=> {
+			console.log(e);
+			modal.showErrorAlert("Hakua epäonnistui: "+e);
+		});
+	}
 	render() {
+		/** { 
+		<Button id={this.state.showAll ? "square-button-layer-switcher-all-on" : "square-button-layer-switcher-all-off"} bsSize={"small"} bsStyle={"primary"}
+			onClick={(e) => this.setShowAll(!this.state.showAll)} block
+		>
+			{'Näytä kaikki kohteet'}
+		</Button> } -->*/
 		return (
 			<>
 				<Button id={this.props.searchButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => modal.showSearchTargetsModal()} block>
 					{'Hae kohteita'}
 				</Button>
 
-				{ false && 
-				<Button id={this.state.showAll ? "square-button-layer-switcher-all-on" : "square-button-layer-switcher-all-off"} bsSize={"small"} bsStyle={"primary"}
-					onClick={(e) => this.setShowAll(!this.state.showAll)} block
-				>
-					{'Näytä kaikki kohteet'}
-				</Button> }
-
+				<Form onSubmit={(e) => this.searchAnyHandler(e)}>
+					<FormGroup>
+							<FormControl onChange={(e) => this.updateSearchTarget(e)} type={"text"} placeholder="Vapaahaku (OpenStreetMap)" />
+						
+					</FormGroup>
+				</Form>
+				
 				<div className={"layerselector-wrapper"}>
 					{login.isLoggedIn &&
 						<div className={"layerSelectorAdmin"}>

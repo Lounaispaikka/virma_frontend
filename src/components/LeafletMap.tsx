@@ -233,14 +233,30 @@ export class LeafletMap extends React.Component<any, any> {
     }
 
     map.createOff(); // Turn off feature create
+
+
     if (map.bounds) {
-      console.log("fitBounds",map.bounds);
-      var bounds = JSON.parse(JSON.stringify(map.bounds));
+      console.log("Leaflet fitBounds adapter",map.bounds);
+      //var bounds = JSON.parse(JSON.stringify(map.bounds));
+      var bounds = map.bounds;
+      map.bounds = false;
+
       if(typeof bounds[0] == 'number'){
+        console.log("Strange bounds input, converting",bounds);
         bounds = [bounds];
       }
-      this.fitBounds(bounds);
-      map.bounds = false;
+
+      if (!(bounds instanceof L.LatLngBounds)) {
+        console.log("converting to LatLngBounds:",bounds);
+        bounds = new L.LatLngBounds(bounds);
+      }
+      
+      if (bounds.isValid()) {
+        this.fitBounds(bounds);
+      } else {
+        console.log("Bounds were not valid??",bounds);
+        modal.showErrorAlert("Järjestelmävirhe: Ei voitu siirtää kartan sijaintia");
+      }
     }
   }
 
