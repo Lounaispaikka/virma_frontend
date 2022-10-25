@@ -3,6 +3,12 @@ import { observer } from 'mobx-react';
 import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-bootstrap';
 import validator from 'validator';
 
+import reproject from 'reproject';
+const crss = {
+  "EPSG:3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+  "urn:ogc:def:crs:EPSG::3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+}
+
 import { map } from '../../../model/store';
 import {
   EMAIL,
@@ -23,6 +29,7 @@ import { ContactInfo } from './formTabs/ContactInfo';
 
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
+import L from 'leaflet';
 
 @observer
 export class CreateModalForm extends React.Component<any, any> {
@@ -221,6 +228,13 @@ export class CreateModalForm extends React.Component<any, any> {
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
+              {false && <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.importFeature(feature) }}>
+                {'Tuo geo'}
+              </Button> }
+              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.exportFeature(feature) }}>
+                {'Vie geo'}
+              </Button>
+              <div style={{width: "24px", float: "left", margin: "1px"}}></div>
               <Button id={"square-button-success"} bsStyle={"success"} onClick={() => this.validateForm()}>
                 {this.getConfirmText()}
               </Button>
@@ -250,5 +264,60 @@ export class CreateModalForm extends React.Component<any, any> {
         </Modal>
       </div>
     );
+  }
+  exportFeature(feature: any) {
+    var geom = feature.featureDetails.geom;
+    geom["properties"] = Object.assign({}, feature.featureDetails);
+    geom["properties"]["geom"]=undefined;
+    const data = JSON.stringify(geom,null,'\t');
+    
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', (feature.featureDetails?feature.featureDetails.gid?feature.featureDetails.gid:"geom":"geom")+".json");
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+
+  }
+  importFeature(feature: any) {
+    var input = document.createElement('input');
+    input.type = 'file';
+    
+    input.onchange = e => { 
+      const target = e.target as HTMLInputElement;
+
+       var file = target.files[0]; 
+    
+       var reader = new FileReader();
+       reader.readAsText(file,'UTF-8');
+    
+       reader.onload = readerEvent => {
+          try {
+            var content = reader.result as any;
+            var json = JSON.parse(content);
+            let geojson = reproject.reproject(json,undefined,"EPSG:3067",crss);
+            var geo = L.geoJSON(json);
+            if (geojson["type"]=="FeatureCollection") {
+              const crs = geojson["crs"];
+              geojson = geojson["features"][0]
+              geojson["crs"] =crs;
+            }
+            console.log(geojson);
+            feature.featureDetails.geom = geojson;
+            feature.feature = geojson;
+          }catch (e) {
+            alert(e);
+            throw e;
+          }
+       }
+    
+    }
+    
+    input.click();
   }
 }

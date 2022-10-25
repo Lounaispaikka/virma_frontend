@@ -244,7 +244,7 @@ export const pointConfig = [
   },
   {
     attr: PICTURE_INFO,
-    desc: 'Kuvan tiedot',
+    desc: 'Kuvaajan nimi',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,
@@ -259,7 +259,7 @@ export const pointConfig = [
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
-    tab: 1,
+    tab: 2,
     order: 22
   },
   {

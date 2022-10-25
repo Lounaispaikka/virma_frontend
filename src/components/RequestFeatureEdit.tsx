@@ -72,7 +72,7 @@ export class RequestFeatureEdit extends React.Component<any, any> {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="secondary" onClick={handleClose}>
+            <Button bsStyle="success" onClick={handleClose}>
               Sulje
             </Button>
             <Button bsStyle="primary" onClick={handleSend}>

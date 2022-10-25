@@ -11,13 +11,33 @@ import {
   TIMESTAMP,
   MUNICIPALI,
   SUBREGION,
+  HIDDEN,
   REGION,
   X_EUREFFIN,
   Y_EUREFFIN,
   UPDATER_ID,
 } from '../../../../config/constants';
+import { ControlCheckbox } from '../formUtils/ControlCheckbox';
 
 export class OtherInfo extends React.Component<any, any> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      hidden: this.props.parentState[HIDDEN],
+    };
+  }
+  
+  handleHiddenCheckbox = (e) => {
+    const { hidden } = this.state;
+    const { handleFormChange, formConfig } = this.props;
+
+    this.setState({ hidden: !hidden });
+    e.target.value = !hidden;
+
+    handleFormChange(e);
+  }
+  
   render() {
     const { formConfig, formType, parentState, handleFormChange, sortTabContent } = this.props;
     const tabContent = formConfig.sort(sortTabContent);
@@ -118,6 +138,21 @@ export class OtherInfo extends React.Component<any, any> {
                   handleChange={handleFormChange}
                   displayFormError={info.formError}
                   placeholder={null}
+                  formType={formType}
+                />
+              );
+            }
+
+            if (info.attr === HIDDEN) {
+              return (
+                <ControlCheckbox
+                  key={idx}
+                  controlName={info.desc}
+                  formName={info.attr}
+                  stateValue={parentState[info.attr]}
+                  checkboxValue={this.state.hidden ? true : false}
+                  displayFormError={info.formError}
+                  handleChange={this.handleHiddenCheckbox}
                   formType={formType}
                 />
               );

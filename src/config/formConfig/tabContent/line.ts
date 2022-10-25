@@ -202,7 +202,7 @@ export const lineConfig = [
     addedToForm: true,
     canBeUndefined: true,
     formError: false,
-    tab: 1,
+    tab: 2,
     order: 19
   },
   {
@@ -218,7 +218,7 @@ export const lineConfig = [
   
   {
     attr: PICTURE_INFO,
-    desc: 'Kuvan tiedot',
+    desc: 'Kuvaajan nimi',
     type: 'text',
     addedToForm: true,
     canBeUndefined: true,

@@ -1,3 +1,4 @@
+import { FEATURE_ENABLED_AREA } from '../../config/config';
 import { POINT_FEATURES, LINE_FEATURES, AREA_FEATURES } from '../constants';
 
 const approvalLayers = [
@@ -23,14 +24,14 @@ const approvalLayers = [
         description: '',
         color: 'grey'
       },
-      {
+      ... !FEATURE_ENABLED_AREA ? [] : [{
         name_fi: AREA_FEATURES,
         name_se: '',
         name_en: '',
         selected: false,
         description: '',
         color: 'grey'
-      }
+      }]
     ]
   }
 ];

@@ -87,30 +87,30 @@ const tooltipsForForm = {
   },
   www_picture: {
     'point': [
-      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
+      'URL-osoite kuvan kohteeseen. Luodaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ],
     'line': [
-      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
+      'URL-osoite kuvan kohteeseen. Luodaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ],
     'polygon': [
-      'URL-osoite kuvan kohteeseen. Generoidaan automaattisesti, jos lähetät kuvan.',
+      'URL-osoite kuvan kohteeseen. Luodaan automaattisesti, jos lähetät kuvan.',
       'Photo av objektet.'
     ]
   },
   picture: {
     'point': [
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
+      'Kuvaajan julkiset tiedot',
+      'Kuvaajan julkiset tiedot'
     ],
     'line': [
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
+      'Kuvaajan julkiset tiedot',
+      'Kuvaajan julkiset tiedot'
     ],
     'polygon': [
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)',
-      'Lisää tähän ainakin kuvan ottaja (tulee näkyviin verkkosivuille)'
+      'Kuvaajan julkiset tiedot',
+      'Kuvaajan julkiset tiedot'
     ]
   },
   equipment: {

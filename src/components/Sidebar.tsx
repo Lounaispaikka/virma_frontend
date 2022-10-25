@@ -17,6 +17,8 @@ import { TooltipWithContent } from './modals/createModals/formUtils/Tooltip';
 //import { defs } from 'proj4';
 const EPSG3067 = '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
 
+import { FEATURE_ENABLED_AREA, URL_GUIDE } from '../config/config';
+
 @observer
 export class AllLayersHandler extends React.Component<any, any> {
 	updateSearchTarget(e) {
@@ -46,10 +48,10 @@ export class AllLayersHandler extends React.Component<any, any> {
 			feature.selected = s;
 		})
 		layer.areaLayers[0].features.forEach(feature => {
-			feature.selected = s;
+			feature.selected = FEATURE_ENABLED_AREA && s;
 		})
 		layer.areaLayers[1].features.forEach(feature => {
-			feature.selected = s;
+			feature.selected = FEATURE_ENABLED_AREA && s;
 		})
 	}
 	searchAnyHandler(e) {
@@ -155,20 +157,22 @@ export class AllLayersHandler extends React.Component<any, any> {
 								layerName={'Virkistysreitit'}
 								layerType={RECREATIONAL_ROUTE}
 							/>
+							{FEATURE_ENABLED_AREA &&
 							<LayerPanel
 								type={POLYGON}
 								layers={layer.areaLayers[0]}
 								showAllMode={this.state.showAll}
 								layerName={'Virkistysalueet'}
 								layerType={RECREATIONAL_AREA}
-							/>
+							/>}
+							{FEATURE_ENABLED_AREA &&
 							<LayerPanel
 								type={POLYGON}
 								layers={layer.areaLayers[1]}
 								showAllMode={this.state.showAll}
 								layerName={'Matkailupalvelualueet'}
 								layerType={TOURIST_SERVICE_AREA}
-							/>
+							/>}
 						</PanelGroup>
 					</div>
 				</div>
@@ -221,7 +225,7 @@ export class Sidebar extends React.Component<any, any> {
 						{!login.isLoggedIn && <span>{'Kirjaudu sisään'}</span>}
 						{login.isLoggedIn && <span>{`Tervetuloa ${login.loggedUser}!`}</span>}
 						<div className={'sidebar-login-infobutton'}>{'Käyttöohjeet '}
-							<Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} href="https://www.lounaistieto.fi/virma-yllapidon-kayttoohjeet/" target="_blank">{'i'}</Button>
+							<Button id={"info-button"} bsSize={"small"} bsStyle={"primary"} onClick={(e)=> this.openHelp()}>{'i'}</Button>
 						</div>
 					</div>
 					<div className={"sidebar-login-buttons"}>
@@ -243,9 +247,10 @@ export class Sidebar extends React.Component<any, any> {
 								{'Viivakohde'}
 							</Button>
 							{' '}
-							<Button id={polygonButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, POLYGON)} disabled={map.toggleEditState || map.buttonCreateOn}>
+							{FEATURE_ENABLED_AREA && <Button id={polygonButtonStyle} bsSize={"small"} bsStyle={"primary"} onClick={(e) => map.createOn(e, POLYGON)} disabled={map.toggleEditState || map.buttonCreateOn}>
 								{'Aluekohde'}
 							</Button>
+							}
 						</div>
 					</div>
 				}
@@ -285,4 +290,12 @@ export class Sidebar extends React.Component<any, any> {
 			</React.Fragment>
 		);
 	}
+	openHelp(): void {
+		const w = window.open(URL_GUIDE, '_blank', 'location=yes,height=700,width=800,scrollbars=yes,status=yes');
+		if(!w || w.closed || typeof w.closed=='undefined') 
+		{ 
+			window.location.href = URL_GUIDE;
+		}
+	}
 }
+

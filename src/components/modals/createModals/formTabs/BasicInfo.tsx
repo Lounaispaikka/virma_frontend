@@ -215,19 +215,17 @@ export class BasicInfo extends React.Component<any, any> {
 
             if (info.attr === PICTURE) {
               return (
-                <>
+                <div key={idx}>
                   <ControlLabel>{"Kohteen kuva"}</ControlLabel>
                   <br/>
-                  <img style={{ maxHeight: "128px", maxWidth: "128px" }} src={parentState[info.attr]} />
+                  <img style={{ maxHeight: "300px", maxWidth: "300px" }} src={parentState[info.attr]} />
                   <br/>
                   <ControlFile
-                    key={idx}
                     formName={info.attr}
                     handleChange={this.handleFileUploading}
                     formType={formType}
                   />
                   <ControlText
-                    key={idx}
                     controlName={"Kuvan URL"}
                     formName={info.attr}
                     readOnly={false}
@@ -238,7 +236,7 @@ export class BasicInfo extends React.Component<any, any> {
                     formType={formType}
                   />
 
-                </>
+                </div>
               );
             }
 

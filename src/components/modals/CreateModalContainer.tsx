@@ -333,7 +333,6 @@ export class CreateModalContainer extends React.Component<any, any> {
     if (type === CIRCLE_MARKER) {
       const coords = [feature._latlng.lng, feature._latlng.lat];
       url = featureInfoExists ? appUrls.updatePoint : appUrls.createPoint;
-
       geomFeature = {
         type: POINT,
         coordinates: coords,

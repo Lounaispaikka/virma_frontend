@@ -57,4 +57,7 @@ const mapUrls = {
   ortokuva: 'https://tiles.kartat.kapsi.fi/ortokuva_3067/{z}/{x}/{y}.png'
 };
 
-export { appUrls, mapUrls };
+const FEATURE_ENABLED_AREA = false;
+const URL_GUIDE = "https://www.lounaistieto.fi/virma-yllapidon-kayttoohjeet/";
+
+export { appUrls, mapUrls, FEATURE_ENABLED_AREA, URL_GUIDE };
