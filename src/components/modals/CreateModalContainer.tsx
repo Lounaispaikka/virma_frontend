@@ -415,6 +415,8 @@ export class CreateModalContainer extends React.Component<any, any> {
       form.lineFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
     } else if (type === POLYGON) {
       form.areaFormConfig.map(item => { bodyContent[item.attr] = this.state.form[item.attr]; });
+    } else {
+      throw("unknown type: " + type );
     }
 
     bodyContent['geom'] = featureGeom;

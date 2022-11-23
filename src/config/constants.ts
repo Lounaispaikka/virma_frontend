@@ -1,6 +1,14 @@
 export const POINT = 'point';
 export const LINESTRING = 'line';
 export const POLYGON = 'polygon';
+
+
+export enum MapFeatureTypes {
+    point = "point",
+    line = "line",
+    polygon = "polygon"
+}
+
 export const APPROVAL = 'approval';
 export const AREA = 'area';
 export const ALL = 'all';

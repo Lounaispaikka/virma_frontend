@@ -66,6 +66,8 @@ export default class Data {
       if (approval) this.sendUpdateRequest(appUrls.areaIndividual, this.areasApproval, featureDetails, postOptions)
       else if (user) this.sendUpdateRequest(appUrls.areaIndividual, this.areasUser, featureDetails, postOptions)
       else this.sendUpdateRequest(appUrls.areaIndividual, this.areas, featureDetails, postOptions);
+    } else {
+      throw "invalid type";
     }
   }
 

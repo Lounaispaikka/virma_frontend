@@ -1,4 +1,5 @@
 import React from 'react';
+import geojsonBounds from 'geojson-bounds';
 import { observer } from 'mobx-react';
 import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-bootstrap';
 import validator from 'validator';
@@ -9,7 +10,7 @@ const crss = {
   "urn:ogc:def:crs:EPSG::3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
 }
 
-import { map } from '../../../model/store';
+import { map, modal } from '../../../model/store';
 import {
   EMAIL,
   TELEPHONE,
@@ -20,7 +21,8 @@ import {
   POLYLINE,
   POLYGON,
   POINT,
-  LINESTRING
+  LINESTRING,
+  MapFeatureTypes
 } from '../../../config/constants';
 
 import { BasicInfo } from './formTabs/BasicInfo';
@@ -30,6 +32,7 @@ import { ContactInfo } from './formTabs/ContactInfo';
 import '../../../../css/modal.css!';
 import '../../../../css/customBootstrap.css!';
 import L from 'leaflet';
+import { UpdateGeomPost } from '../../../utils';
 
 @observer
 export class CreateModalForm extends React.Component<any, any> {
@@ -48,8 +51,8 @@ export class CreateModalForm extends React.Component<any, any> {
     prevProps.formConfig.map((info) => {
       let content = prevProps.parentState[info.attr] + '';
       let ml = info["maxLength"];
-      if (content.length > ((ml && ml>1)?ml:253)) {
-        console.log("MAx",ml,content.length);
+      if (content.length > ((ml && ml > 1) ? ml : 253)) {
+        console.log("MAx", ml, content.length);
         info.formError = true;
         return;
       }
@@ -102,13 +105,16 @@ export class CreateModalForm extends React.Component<any, any> {
 
   validateForm() {
     let errors = [];
-    this.state.formConfig.map((info) => { if (info.formError) { 
-      console.log("Alerting due to:",info.attr,info);
-      errors.push(info.desc || info.attr);
-    } });
+    this.state.formConfig.map((info) => {
+      if (info.formError) {
+        console.log("Alerting due to:", info.attr, info);
+        errors.push(info.desc || info.attr);
+      }
+    });
 
-    errors.length > 0 ? this.setState({ showAlert: 
-      "Virhekentät: "+errors.join(", ")
+    errors.length > 0 ? this.setState({
+      showAlert:
+        "Virhekentät: " + errors.join(", ")
     }) :
       this.props.sendPost(this.props.createType, this.props.feature.feature);
   }
@@ -151,11 +157,11 @@ export class CreateModalForm extends React.Component<any, any> {
 
   getAlert = () => {
     return (
-     <Alert className={"formErrorAlert"} bsStyle={"danger"} onDismiss={() => { this.setState({ showAlert: false }); }}>
-       <div className={"formErrorMsg"}>
-          {'Lomakkeessa on vielä kohtia, jotka pitää täyttää tai niiden sisällössä on jotain vialla.\nViesti: '+this.state.showAlert}
-       </div>
-     </Alert>
+      <Alert className={"formErrorAlert"} bsStyle={"danger"} onDismiss={() => { this.setState({ showAlert: false }); }}>
+        <div className={"formErrorMsg"}>
+          {'Lomakkeessa on vielä kohtia, jotka pitää täyttää tai niiden sisällössä on jotain vialla.\nViesti: ' + this.state.showAlert}
+        </div>
+      </Alert>
     );
   }
 
@@ -176,10 +182,11 @@ export class CreateModalForm extends React.Component<any, any> {
       resetFeatureCoords
     } = this.props;
 
-    let type = null;
-    if (createType === CIRCLE_MARKER) type = POINT;
-    if (createType === POLYLINE) type = LINESTRING;
-    if (createType === POLYGON) type = POLYGON;
+    let type: MapFeatureTypes = null;
+    if (createType === CIRCLE_MARKER) type = MapFeatureTypes.point;
+    else if (createType === POLYLINE) type = MapFeatureTypes.line;
+    else if (createType === POLYGON) type = MapFeatureTypes.polygon;
+    else throw ("unknown type:" + createType);
 
     return (
       <div>
@@ -228,13 +235,13 @@ export class CreateModalForm extends React.Component<any, any> {
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              {false && <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.importFeature(feature) }}>
-                {'Tuo geo'}
-              </Button> }
-              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.exportFeature(feature) }}>
-                {'Vie geo'}
+              {<Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.importFeature(feature, type) }}>
+                {'Korvaa Geometria'}
+              </Button>}
+              <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.exportFeature(feature, type) }}>
+                {'Lataa geometria'}
               </Button>
-              <div style={{width: "24px", float: "left", margin: "1px"}}></div>
+              <div style={{ width: "24px", float: "left", margin: "1px" }}></div>
               <Button id={"square-button-success"} bsStyle={"success"} onClick={() => this.validateForm()}>
                 {this.getConfirmText()}
               </Button>
@@ -265,59 +272,101 @@ export class CreateModalForm extends React.Component<any, any> {
       </div>
     );
   }
-  exportFeature(feature: any) {
+  exportFeature(feature: any, type: string) {
     var geom = feature.featureDetails.geom;
     geom["properties"] = Object.assign({}, feature.featureDetails);
-    geom["properties"]["geom"]=undefined;
-    const data = JSON.stringify(geom,null,'\t');
-    
+    geom["properties"]["geom"] = undefined;
+    const data = JSON.stringify(geom, null, '\t');
+
 
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-    element.setAttribute('download', (feature.featureDetails?feature.featureDetails.gid?feature.featureDetails.gid:"geom":"geom")+".json");
-  
+    element.setAttribute('download', (feature.featureDetails ? feature.featureDetails.gid ? feature.featureDetails.gid : "geom" : "geom") + ".json");
+
     element.style.display = 'none';
     document.body.appendChild(element);
-  
+
     element.click();
-  
+
     document.body.removeChild(element);
 
   }
-  importFeature(feature: any) {
+  importFeature(feature: any, type: MapFeatureTypes) {
     var input = document.createElement('input');
     input.type = 'file';
-    
-    input.onchange = e => { 
+
+    input.onchange = e => {
       const target = e.target as HTMLInputElement;
 
-       var file = target.files[0]; 
-    
-       var reader = new FileReader();
-       reader.readAsText(file,'UTF-8');
-    
-       reader.onload = readerEvent => {
-          try {
-            var content = reader.result as any;
-            var json = JSON.parse(content);
-            let geojson = reproject.reproject(json,undefined,"EPSG:3067",crss);
-            var geo = L.geoJSON(json);
-            if (geojson["type"]=="FeatureCollection") {
-              const crs = geojson["crs"];
-              geojson = geojson["features"][0]
-              geojson["crs"] =crs;
-            }
-            console.log(geojson);
-            feature.featureDetails.geom = geojson;
-            feature.feature = geojson;
-          }catch (e) {
-            alert(e);
-            throw e;
+      var file = target.files[0];
+
+      var reader = new FileReader();
+      reader.readAsText(file, 'UTF-8');
+
+      reader.onload = readerEvent => {
+        try {
+          let content = reader.result as any;
+          let json = JSON.parse(content);
+          let geojson_standard = reproject.reproject(json, undefined, "WGS84", crss);
+          let geojson_nonstandard = reproject.reproject(json, undefined, "EPSG:3067", crss);
+
+          let geo = L.geoJSON(json);
+          let crs = geojson_nonstandard["crs"];
+          if (geojson_nonstandard["type"] == "FeatureCollection") {
+            let features = geojson_nonstandard["features"];
+
+            if (features.length != 1) {
+              throw "Features count must be exactly 1, not " + features.length;
+            };
+
+            // Flatten
+            geojson_nonstandard = features[0];
+
+            // We need to dig CRS from somewhere, though it should be EPSG:3067 now
+            crs = geojson_nonstandard["crs"] || crs;
+
           }
-       }
-    
+          crs = crs || { type: 'name', properties: { name: 'EPSG:3067' } };
+
+          geojson_nonstandard.geometry["crs"] = geojson_nonstandard.geometry["crs"] || crs;
+
+          //console.log(geojson_nonstandard);
+          //feature.featureDetails.geom = geojson;
+          //feature.feature = geojson;
+          let extents = geojsonBounds.extent(geojson_standard);
+
+          //console.log(extents);
+          if (extents[0] < 20.5 || extents[1] < 59 || extents[2] > 31.6 || extents[3] > 70.1) {
+            throw ("GeoJSON out of bounds? " + extents);
+          }
+          let bodyContent = {};
+          bodyContent["geom"] = geojson_nonstandard.geometry;
+          bodyContent["gid"] = feature.featureDetails.gid;
+
+
+          this.hideCreateModal();
+          this.props.hideModal();
+
+          UpdateGeomPost(type, bodyContent).then((updated) => {
+            if (!updated) return;
+            //TODO: updateFeaturesToMap(type, selectedLayer, featureDetails);
+            //feature.feature.setLatLngs();
+            //window.location.reload();
+            feature.feature.remove();
+          }).catch((e) => {
+
+            modal.showErrorAlert("Tuntematon virhe: \n" + e.message);
+
+          });
+
+        } catch (e) {
+          alert(e);
+          throw e;
+        }
+      }
+
     }
-    
+
     input.click();
   }
 }
