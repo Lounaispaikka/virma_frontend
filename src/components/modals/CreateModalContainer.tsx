@@ -502,12 +502,13 @@ export class CreateModalContainer extends React.Component<any, any> {
   }
 
   render() {
-    const { showCreateModal, createType, hideModal, feature, unsetFeature, startEdit, removeNewTarget, removeTarget } = this.props;
+    const { showCreateModal, createType, hideModal, feature, unsetFeature, startEdit, removeNewTarget, removeTarget, selectedLayer } = this.props;
 
     if (createType === CIRCLE_MARKER) {
       return (
         <CreateModalForm
           createType={createType}
+          selectedLayer={selectedLayer}
           formConfig={form.pointFormConfig}
           layers={layer.pointLayers}
 
@@ -530,6 +531,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         <CreateModalForm
           createType={createType}
           formConfig={form.lineFormConfig}
+          selectedLayer={selectedLayer}
           layers={layer.lineLayers}
 
           showCreateModal={showCreateModal}
@@ -551,6 +553,7 @@ export class CreateModalContainer extends React.Component<any, any> {
         <CreateModalForm
           createType={createType}
           formConfig={form.areaFormConfig}
+          selectedLayer={selectedLayer}
           layers={layer.areaLayers}
 
           showCreateModal={showCreateModal}

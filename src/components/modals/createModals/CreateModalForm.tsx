@@ -3,11 +3,16 @@ import geojsonBounds from 'geojson-bounds';
 import { observer } from 'mobx-react';
 import { Modal, Tabs, Tab, Button, Form, ButtonToolbar, Alert } from 'react-bootstrap';
 import validator from 'validator';
+//import { kml, gpx } from "@tmcw/togeojson"; // has no exported member 'Geometry'.
+
+
+import proj4 from 'proj4';
 
 import reproject from 'reproject';
 const crss = {
   "EPSG:3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-  "urn:ogc:def:crs:EPSG::3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs'
+  "urn:ogc:def:crs:EPSG::3067": '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+  "urn:ogc:def:crs:OGC:1.3:CRS84": proj4.defs("EPSG:4326"),
 }
 
 import { map, modal } from '../../../model/store';
@@ -22,7 +27,14 @@ import {
   POLYGON,
   POINT,
   LINESTRING,
-  MapFeatureTypes
+  MapFeatureTypes,
+  LINE_USER_FEATURES,
+  POINT_APPROVAL_FEATURES,
+  POINT_USER_FEATURES,
+  LINE_APPROVAL_FEATURES,
+  AREA_APPROVAL_FEATURES,
+  AREA_USER_FEATURES,
+  APPROVAL
 } from '../../../config/constants';
 
 import { BasicInfo } from './formTabs/BasicInfo';
@@ -179,14 +191,35 @@ export class CreateModalForm extends React.Component<any, any> {
       removeNewTarget,
       removeTarget,
       unsetFeature,
+      selectedLayer,
       resetFeatureCoords
     } = this.props;
 
     let type: MapFeatureTypes = null;
-    if (createType === CIRCLE_MARKER) type = MapFeatureTypes.point;
-    else if (createType === POLYLINE) type = MapFeatureTypes.line;
-    else if (createType === POLYGON) type = MapFeatureTypes.polygon;
+    let approvalFeature = selectedLayer? (selectedLayer.toLowerCase().indexOf(APPROVAL) >= 0) : false;
+    let layerType = null;
+
+    if (createType === CIRCLE_MARKER) {
+      layerType = approvalFeature ? POINT_APPROVAL_FEATURES : POINT_USER_FEATURES;
+      type = MapFeatureTypes.point;
+    }
+    else if (createType === POLYLINE) {
+      layerType = approvalFeature ? LINE_APPROVAL_FEATURES : LINE_USER_FEATURES;
+      type = MapFeatureTypes.line;
+    }
+    else if (createType === POLYGON) {
+      layerType = approvalFeature ? AREA_APPROVAL_FEATURES : AREA_USER_FEATURES;
+      type = MapFeatureTypes.polygon;
+    }
     else throw ("unknown type:" + createType);
+
+    
+    
+    
+    
+    
+    
+    
 
     return (
       <div>
@@ -235,12 +268,15 @@ export class CreateModalForm extends React.Component<any, any> {
           </Modal.Body>
           <Modal.Footer>
             <ButtonToolbar className={"pull-right"}>
-              {<Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.importFeature(feature, type) }}>
+              
+            {feature.featureDetails &&
+            <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.importFeature(feature, type, layerType) }}>
                 {'Korvaa Geometria'}
               </Button>}
+            {feature.featureDetails &&
               <Button id={"square-button-primary"} bsStyle={"primary"} onClick={() => { this.exportFeature(feature, type) }}>
                 {'Lataa geometria'}
-              </Button>
+              </Button>}
               <div style={{ width: "24px", float: "left", margin: "1px" }}></div>
               <Button id={"square-button-success"} bsStyle={"success"} onClick={() => this.validateForm()}>
                 {this.getConfirmText()}
@@ -272,6 +308,7 @@ export class CreateModalForm extends React.Component<any, any> {
       </div>
     );
   }
+
   exportFeature(feature: any, type: string) {
     var geom = feature.featureDetails.geom;
     geom["properties"] = Object.assign({}, feature.featureDetails);
@@ -291,10 +328,11 @@ export class CreateModalForm extends React.Component<any, any> {
     document.body.removeChild(element);
 
   }
-  importFeature(feature: any, type: MapFeatureTypes) {
+
+  importFeature(feature: any, type: MapFeatureTypes, layerType) {
     var input = document.createElement('input');
     input.type = 'file';
-
+    input.accept = '.json,.geojson';
     input.onchange = e => {
       const target = e.target as HTMLInputElement;
 
@@ -306,7 +344,13 @@ export class CreateModalForm extends React.Component<any, any> {
       reader.onload = readerEvent => {
         try {
           let content = reader.result as any;
-          let json = JSON.parse(content);
+          var json = JSON.parse(content);
+          
+        } catch (e) {
+          alert("Invalid GeoJSON document: "+e);
+          throw e;
+        }
+        try {          
           let geojson_standard = reproject.reproject(json, undefined, "WGS84", crss);
           let geojson_nonstandard = reproject.reproject(json, undefined, "EPSG:3067", crss);
 
@@ -329,6 +373,14 @@ export class CreateModalForm extends React.Component<any, any> {
           crs = crs || { type: 'name', properties: { name: 'EPSG:3067' } };
 
           geojson_nonstandard.geometry["crs"] = geojson_nonstandard.geometry["crs"] || crs;
+          
+          // Convert line to muliline
+          // TODO: point, area
+          // TODO: st_multi in database side makes more sense
+          if (geojson_nonstandard.geometry.type == "LineString") {
+            geojson_nonstandard.geometry.type = "MultiLineString";
+            geojson_nonstandard.geometry.coordinates = [geojson_nonstandard.geometry.coordinates];
+          }
 
           //console.log(geojson_nonstandard);
           //feature.featureDetails.geom = geojson;
@@ -342,7 +394,7 @@ export class CreateModalForm extends React.Component<any, any> {
           let bodyContent = {};
           bodyContent["geom"] = geojson_nonstandard.geometry;
           bodyContent["gid"] = feature.featureDetails.gid;
-
+          bodyContent["type"] = layerType;
 
           this.hideCreateModal();
           this.props.hideModal();

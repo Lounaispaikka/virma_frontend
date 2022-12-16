@@ -29,6 +29,7 @@ export default class ControlFile extends React.Component<any, any> {
         <FormControl
           componentClass={"input"}
           type="file"
+          accept=".jpg,.jpeg"
           id={formName}
           onChange={handleChange}>
         </FormControl>

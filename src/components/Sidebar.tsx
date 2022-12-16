@@ -12,10 +12,14 @@ import '../../css/sidebar.css!';
 import '../../css/customBootstrap.css!';
 import { handleHttpErrorsGeneric } from '../utils';
 import L from 'leaflet';
-import reproject from 'reproject';
 import { TooltipWithContent } from './modals/createModals/formUtils/Tooltip';
-//import { defs } from 'proj4';
+
+import proj4 from 'proj4';
+proj4.defs("urn:ogc:def:crs:OGC:1.3:CRS84","+title=WGS 84 (long/lat) +proj=longlat +ellps=WGS84 +datum=WGS84 +units=degrees");
 const EPSG3067 = '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs';
+proj4.defs("EPSG:3067",EPSG3067);
+import reproject from 'reproject';
+
 
 import { FEATURE_ENABLED_AREA, URL_GUIDE } from '../config/config';
 
