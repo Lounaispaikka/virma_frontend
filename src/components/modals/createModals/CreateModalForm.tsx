@@ -371,9 +371,11 @@ export class CreateModalForm extends React.Component<any, any> {
 
           }
           crs = crs || { type: 'name', properties: { name: 'EPSG:3067' } };
-
-          geojson_nonstandard.geometry.crs = (geojson_nonstandard.geometry?geojson_nonstandard.geometry.crs:geojson_nonstandard.crs) || crs;
-          
+          if (geojson_nonstandard.geometry) {
+            geojson_nonstandard.geometry.crs = geojson_nonstandard.geometry.crs || geojson_nonstandard.crs || crs;
+          } else {
+            geojson_nonstandard.crs = geojson_nonstandard.crs || crs;  
+          }
           // Convert line to muliline
           // TODO: point, area
           // TODO: st_multi in database side makes more sense
