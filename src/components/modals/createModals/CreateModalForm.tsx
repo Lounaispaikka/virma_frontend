@@ -367,12 +367,12 @@ export class CreateModalForm extends React.Component<any, any> {
             geojson_nonstandard = features[0];
 
             // We need to dig CRS from somewhere, though it should be EPSG:3067 now
-            crs = geojson_nonstandard["crs"] || crs;
+            crs = geojson_nonstandard.crs || crs;
 
           }
           crs = crs || { type: 'name', properties: { name: 'EPSG:3067' } };
 
-          geojson_nonstandard.geometry["crs"] = geojson_nonstandard.geometry["crs"] || crs;
+          geojson_nonstandard.geometry.crs = (geojson_nonstandard.geometry?geojson_nonstandard.geometry.crs:geojson_nonstandard.crs) || crs;
           
           // Convert line to muliline
           // TODO: point, area
