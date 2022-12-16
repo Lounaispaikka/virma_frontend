@@ -370,18 +370,17 @@ export class CreateModalForm extends React.Component<any, any> {
             crs = geojson_nonstandard.crs || crs;
 
           }
+          let geometry = (geojson_nonstandard.geometry || geojson_nonstandard);
+
           crs = crs || { type: 'name', properties: { name: 'EPSG:3067' } };
-          if (geojson_nonstandard.geometry) {
-            geojson_nonstandard.geometry.crs = geojson_nonstandard.geometry.crs || geojson_nonstandard.crs || crs;
-          } else {
-            geojson_nonstandard.crs = geojson_nonstandard.crs || crs;  
-          }
+          geometry.crs = geometry.crs || geojson_nonstandard.crs || crs;  
+          
           // Convert line to muliline
           // TODO: point, area
           // TODO: st_multi in database side makes more sense
-          if (geojson_nonstandard.geometry.type == "LineString") {
-            geojson_nonstandard.geometry.type = "MultiLineString";
-            geojson_nonstandard.geometry.coordinates = [geojson_nonstandard.geometry.coordinates];
+          if (geometry.type == "LineString") {
+            geometry.type = "MultiLineString";
+            geometry.coordinates = [geometry.coordinates];
           }
 
           //console.log(geojson_nonstandard);
@@ -394,7 +393,7 @@ export class CreateModalForm extends React.Component<any, any> {
             throw ("GeoJSON out of bounds? " + extents);
           }
           let bodyContent = {};
-          bodyContent["geom"] = geojson_nonstandard.geometry;
+          bodyContent["geom"] = geometry;
           bodyContent["gid"] = feature.featureDetails.gid;
           bodyContent["type"] = layerType;
 
